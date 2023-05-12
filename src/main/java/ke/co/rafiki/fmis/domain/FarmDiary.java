@@ -15,6 +15,7 @@ import java.util.List;
 @Table(name = "farm_diaries")
 public class FarmDiary extends BaseEntityAudit {
     @OneToOne(mappedBy = "farmDiary")
+    @JoinColumn(name = "farm_id", nullable = false)
     private Farm farm;
 
     @OneToMany(mappedBy = "farmDiary", cascade = CascadeType.ALL, orphanRemoval = true)

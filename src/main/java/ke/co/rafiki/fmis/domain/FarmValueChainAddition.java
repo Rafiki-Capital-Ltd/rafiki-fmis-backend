@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "value_chain_additions")
+@Table(name = "farm_value_chain_additions")
 public class FarmValueChainAddition extends BaseEntityAudit {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false)

@@ -8,13 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RoleEntityListener {
-
-    @PrePersist
-    private Role prePersist(Role role) {
-        role.setName(role.getName().toUpperCase());
-        return role;
-    }
-
     @PostPersist
     private void postPersist(Role role) {
         log.info("Persisted role " + role);

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sales_records")
+@Table(name = "farm_sales_records")
 public class FarmSalesRecord extends BaseEntityAudit {
 
     @ManyToOne(optional = false)

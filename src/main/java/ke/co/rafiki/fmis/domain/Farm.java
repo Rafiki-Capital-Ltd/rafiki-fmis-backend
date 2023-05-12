@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "farms")
 public class Farm extends BaseEntityAudit {
-    @OneToMany(mappedBy = "farms")
+    @ManyToOne(optional = false)
     @JoinColumn(name = "owner", nullable = false)
     private User owner;
 
@@ -31,10 +31,11 @@ public class Farm extends BaseEntityAudit {
     @Column(name = "nearest_shopping_center")
     private String nearestShoppingCenter;
 
-    @OneToOne(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private FarmLocation location;
 
-    @OneToOne(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private FarmDiary farmDiary;
 

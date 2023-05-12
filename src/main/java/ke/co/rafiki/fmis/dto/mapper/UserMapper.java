@@ -10,14 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface UserMapper {
     GetUserDto userToGetUserDto(User user);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
+    
     User createUserDtoToUser(CreateUserDto createUserDto);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
     User updateUserDtoToUser(UpdateUserDto updateUserDto);
 }
