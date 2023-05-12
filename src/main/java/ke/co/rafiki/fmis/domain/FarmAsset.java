@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name = "farm_assets")
 public class FarmAsset extends BaseEntityAudit {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_id", nullable = false)
+    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     private Farm farm;
 
     @Column(name = "type")

@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name = "farm_value_chain_additions")
 public class FarmValueChainAddition extends BaseEntityAudit {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_id", nullable = false)
+    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude
     private Farm farm;
 

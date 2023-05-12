@@ -14,7 +14,7 @@ public interface FarmValueChainAdditionService {
     FarmValueChainAddition update(UUID id, FarmValueChainAddition farmValueChainAddition) throws Exception;
     void delete(UUID id);
     void deleteAll();
-    void deleteMany(List<FarmValueChainAddition> farmActivities);
+    void deleteMany(List<FarmValueChainAddition> farmValueChainAdditions);
     Page<FarmValueChainAddition> findByFarm(
             Farm farm, int page, int size,
             String sort, String sortDirection

@@ -7,6 +7,7 @@ import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.FarmActivityRepository;
 import ke.co.rafiki.fmis.service.FarmActivityLogService;
 import ke.co.rafiki.fmis.service.FarmActivityService;
+import ke.co.rafiki.fmis.service.FarmService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,13 +23,16 @@ public class FarmActivityServiceImpl implements FarmActivityService {
 
     private final FarmActivityRepository farmActivityRepository;
     private final FarmActivityLogService farmActivityLogService;
+    private final FarmService farmService;
 
     public FarmActivityServiceImpl(
             FarmActivityRepository farmActivityRepository,
-            FarmActivityLogService farmActivityLogService
+            FarmActivityLogService farmActivityLogService,
+            FarmService farmService
     ) {
         this.farmActivityRepository = farmActivityRepository;
         this.farmActivityLogService = farmActivityLogService;
+        this.farmService = farmService;
     }
 
     @Override
@@ -78,8 +82,12 @@ public class FarmActivityServiceImpl implements FarmActivityService {
     }
 
     @Override
-    public Page<FarmActivity> findByFarm(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmActivity> findByFarm(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
+        Farm _farm = farmService.findOne(farm.getId());
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
-        return farmActivityRepository.findByFarm(farm, pageRequest);
+        return farmActivityRepository.findByFarm(_farm, pageRequest);
     }
 }

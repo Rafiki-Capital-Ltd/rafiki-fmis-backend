@@ -27,6 +27,9 @@ public class FarmSale extends BaseEntityAudit {
     @Column(name = "type", nullable = false)
     private SaleType type;
 
+    @Column(name = "quantity", nullable = false)
+    private BigDecimal quantity;
+
     @Column(name = "amount", scale = 2)
     private BigDecimal amount;
 

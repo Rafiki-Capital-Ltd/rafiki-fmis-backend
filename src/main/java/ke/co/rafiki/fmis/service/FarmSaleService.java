@@ -14,7 +14,7 @@ public interface FarmSaleService {
     FarmSale update(UUID id, FarmSale farmSale) throws Exception;
     void delete(UUID id);
     void deleteAll();
-    void deleteMany(List<FarmSale> farmActivities);
+    void deleteMany(List<FarmSale> farmSales);
     Page<FarmSale> findByFarm(
             Farm farm, int page, int size,
             String sort, String sortDirection
