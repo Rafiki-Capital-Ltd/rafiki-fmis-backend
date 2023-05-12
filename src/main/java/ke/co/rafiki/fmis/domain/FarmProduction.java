@@ -13,15 +13,16 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "farm_consumption_records")
-public class FarmConsumptionRecord extends BaseEntityAudit {
+@Table(name = "farm_production_records")
+public class FarmProduction extends BaseEntityAudit {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false)
     private Farm farm;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private LocalDate date;
 
     @Column(name = "quantity", scale = 2)
     private BigDecimal quantity;
+
 }

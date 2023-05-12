@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_sales_records")
-public class FarmSalesRecord extends BaseEntityAudit {
+public class FarmSale extends BaseEntityAudit {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
@@ -25,7 +25,7 @@ public class FarmSalesRecord extends BaseEntityAudit {
     private LocalDate date;
 
     @Column(name = "type", nullable = false)
-    private SalesType type;
+    private SaleType type;
 
     @Column(name = "amount", scale = 2)
     private BigDecimal amount;

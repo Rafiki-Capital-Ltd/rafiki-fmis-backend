@@ -10,8 +10,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "farm_asset_register")
-public class FarmAssetRegister extends BaseEntityAudit {
+@Table(name = "farm_assets")
+public class FarmAsset extends BaseEntityAudit {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false)
     private Farm farm;
@@ -21,6 +21,9 @@ public class FarmAssetRegister extends BaseEntityAudit {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "storage_location")
+    private String storageLocation;
 
     @Column(name = "status", nullable = false)
     private AssetStatus status = AssetStatus.FUNCTIONAL;

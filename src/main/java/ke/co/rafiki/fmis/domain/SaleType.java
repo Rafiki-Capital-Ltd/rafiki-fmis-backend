@@ -1,6 +1,6 @@
 package ke.co.rafiki.fmis.domain;
 
-public enum SalesType {
+public enum SaleType {
     CASH,
     CREDIT
 }

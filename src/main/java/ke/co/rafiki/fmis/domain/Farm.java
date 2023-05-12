@@ -15,6 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "farms")
 public class Farm extends BaseEntityAudit {
+
+    @Column(name = "name")
+    private String name;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner", nullable = false)
     private User owner;
@@ -45,17 +49,17 @@ public class Farm extends BaseEntityAudit {
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmAssetRegister> farmAssetRegisters;
+    private List<FarmAsset> farmAssets;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmProductionRecord> farmProductionRecords;
+    private List<FarmProduction> farmProductions;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmConsumptionRecord> farmConsumptionRecords;
+    private List<FarmConsumption> farmConsumptions;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmSalesRecord> farmSalesRecords;
+    private List<FarmSale> farmSales;
 }
