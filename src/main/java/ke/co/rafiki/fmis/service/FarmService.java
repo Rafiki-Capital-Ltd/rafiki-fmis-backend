@@ -15,33 +15,8 @@ public interface FarmService {
     void delete(UUID id);
     void deleteMany(List<Farm> farms);
     void deleteAll();
-    FarmActivityLog findFarmDiary(Farm farm) throws Exception;
     Page<Farm> findByFarmer(
             Principal farmer, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
-    Page<FarmActivity> findActivities(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
-    Page<FarmAsset> findAssets(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
-    Page<FarmConsumption> findConsumptions(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
-    Page<FarmProduction> findProductions(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
-    Page<FarmSale> findSales(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
-    Page<FarmVca> findValueChainAdditions(
-            Farm farm, int page, int size,
             String sort, String sortDirection
     ) throws Exception;
 }

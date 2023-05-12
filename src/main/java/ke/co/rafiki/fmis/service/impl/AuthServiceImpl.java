@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User profile(Principal principal) throws NotFoundException {
+    public User profile(Principal principal) throws Exception {
         return userService.findOne(principal.getName());
     }
 }

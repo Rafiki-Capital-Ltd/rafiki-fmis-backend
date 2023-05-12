@@ -90,14 +90,4 @@ public class FarmActivityServiceImpl implements FarmActivityService {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
         return farmActivityRepository.findByFarmActivityLog(_farmActivityLog, pageRequest);
     }
-
-    @Override
-    public Page<FarmActivity> findByFarm(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception {
-        Farm _farm = farmService.findOne(farm.getId());
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
-        return farmActivityRepository.findByFarm(_farm, pageRequest);
-    }
 }

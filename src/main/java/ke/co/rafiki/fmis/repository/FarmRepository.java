@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface FarmRepository extends JpaRepository<Farm, UUID> {
-    Page<Farm> findByFarmer(User farmer, Pageable pageable);
+    Page<Farm> findByOwner(User farmer, Pageable pageable);
 
-    List<Farm> findByFarmer(User farmer);
+    List<Farm> findByOwner(User farmer);
 }

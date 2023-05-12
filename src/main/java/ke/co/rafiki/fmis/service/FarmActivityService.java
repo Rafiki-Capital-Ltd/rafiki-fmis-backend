@@ -20,8 +20,4 @@ public interface FarmActivityService {
             FarmActivityLog farmActivityLog, int page, int size,
             String sort, String sortDirection
     ) throws Exception;
-    Page<FarmActivity> findByFarm(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
 }

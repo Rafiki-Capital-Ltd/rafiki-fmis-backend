@@ -1,6 +1,5 @@
 package ke.co.rafiki.fmis.repository;
 
-import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmActivity;
 import ke.co.rafiki.fmis.domain.FarmActivityLog;
 import org.springframework.data.domain.Page;
@@ -16,8 +15,4 @@ public interface FarmActivityRepository extends JpaRepository<FarmActivity, UUID
     Page<FarmActivity> findByFarmActivityLog(FarmActivityLog farmActivityLog, Pageable pageable);
 
     List<FarmActivity> findByFarmActivityLog(FarmActivityLog farmActivityLog);
-
-    Page<FarmActivity> findByFarm(Farm farm, Pageable pageable);
-
-    List<FarmActivity> findByFarm(Farm farm);
 }
