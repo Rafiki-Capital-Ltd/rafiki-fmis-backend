@@ -1,7 +1,7 @@
 package ke.co.rafiki.fmis.repository;
 
 import ke.co.rafiki.fmis.domain.Farm;
-import ke.co.rafiki.fmis.domain.FarmValueChainAddition;
+import ke.co.rafiki.fmis.domain.FarmVca;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface FarmValueChainAdditionRepository extends JpaRepository<FarmValueChainAddition, UUID> {
-    Page<FarmValueChainAddition> findByFarm(Farm farm, Pageable pageable);
+public interface FarmVcaRepository extends JpaRepository<FarmVca, UUID> {
+    Page<FarmVca> findByFarm(Farm farm, Pageable pageable);
 
-    List<FarmValueChainAddition> findByFarm(Farm farm);
+    List<FarmVca> findByFarm(Farm farm);
 }

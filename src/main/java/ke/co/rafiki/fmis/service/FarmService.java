@@ -40,7 +40,7 @@ public interface FarmService {
             Farm farm, int page, int size,
             String sort, String sortDirection
     ) throws Exception;
-    Page<FarmValueChainAddition> findValueChainAdditions(
+    Page<FarmVca> findValueChainAdditions(
             Farm farm, int page, int size,
             String sort, String sortDirection
     ) throws Exception;

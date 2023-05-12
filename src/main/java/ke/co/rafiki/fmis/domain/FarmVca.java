@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_value_chain_additions")
-public class FarmValueChainAddition extends BaseEntityAudit {
+public class FarmVca extends BaseEntityAudit {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude

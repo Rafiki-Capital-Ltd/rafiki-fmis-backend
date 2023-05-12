@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface UserMapper {
-    GetUserDto userToGetUserDto(User user);
+    GetUserDto toGetUserDto(User user);
     
-    User createUserDtoToUser(CreateUserDto createUserDto);
+    User toUser(CreateUserDto createUserDto);
 
-    User updateUserDtoToUser(UpdateUserDto updateUserDto);
+    User toUser(UpdateUserDto updateUserDto);
 }

@@ -45,7 +45,7 @@ public class Farm extends BaseEntityAudit {
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmValueChainAddition> farmValueChainAdditions;
+    private List<FarmVca> farmVcas;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

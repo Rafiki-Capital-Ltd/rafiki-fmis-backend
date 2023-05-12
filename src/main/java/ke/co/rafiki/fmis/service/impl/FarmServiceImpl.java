@@ -11,9 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.Year;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +27,7 @@ public class FarmServiceImpl implements FarmService {
     private final FarmConsumptionService farmConsumptionService;
     private final FarmProductionService farmProductionService;
     private final FarmSaleService farmSaleService;
-    private final FarmValueChainAdditionService farmValueChainAdditionService;
+    private final FarmVcaService farmVcaService;
     private final FarmLocationService farmLocationService;
 
     public FarmServiceImpl(
@@ -37,7 +35,7 @@ public class FarmServiceImpl implements FarmService {
             FarmActivityLogService farmActivityLogService, FarmActivityService farmActivityService,
             FarmAssetService farmAssetService, FarmConsumptionService farmConsumptionService,
             FarmProductionService farmProductionService, FarmSaleService farmSaleService,
-            FarmValueChainAdditionService farmValueChainAdditionService, FarmLocationService farmLocationService
+            FarmVcaService farmVcaService, FarmLocationService farmLocationService
     ) {
         this.farmRepository = farmRepository;
         this.userService = userService;
@@ -47,7 +45,7 @@ public class FarmServiceImpl implements FarmService {
         this.farmConsumptionService = farmConsumptionService;
         this.farmProductionService = farmProductionService;
         this.farmSaleService = farmSaleService;
-        this.farmValueChainAdditionService = farmValueChainAdditionService;
+        this.farmVcaService = farmVcaService;
         this.farmLocationService = farmLocationService;
     }
 
@@ -167,10 +165,10 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public Page<FarmValueChainAddition> findValueChainAdditions(
+    public Page<FarmVca> findValueChainAdditions(
             Farm farm, int page, int size,
             String sort, String sortDirection
     ) throws Exception {
-        return farmValueChainAdditionService.findByFarm(farm, page, size, sort, sortDirection);
+        return farmVcaService.findByFarm(farm, page, size, sort, sortDirection);
     }
 }
