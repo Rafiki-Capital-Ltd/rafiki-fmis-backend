@@ -1,4 +1,4 @@
 package ke.co.rafiki.fmis.domain;
 
-public class Inventory {
+public class Inventory extends BaseEntityAudit{
 }

@@ -1,10 +1,8 @@
 package ke.co.rafiki.fmis.domain;
 
 import java.util.List;
-import java.util.UUID;
 
-public class FarmProfile {
-    private UUID id;
+public class Farm extends BaseEntityAudit {
     private User owner;
     private Double size;
     private String location;
@@ -12,4 +10,5 @@ public class FarmProfile {
     private String ward;
     private String nearestShoppingCenter;
     private List<ValueChainAddition> valueChainAdditions;
+    private FarmDiary farmDiary;
 }

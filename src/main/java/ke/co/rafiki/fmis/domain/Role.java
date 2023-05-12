@@ -19,23 +19,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "roles")
-@EntityListeners({AuditingEntityListener.class, RoleEntityListener.class})
-public class Role {
-    @Id @GeneratedValue
-    private UUID id;
-
+@EntityListeners({RoleEntityListener.class})
+public class Role extends BaseEntityAudit {
     @Column(name = "type", unique = true, nullable = false)
     private RoleType type;
 
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
     private List<User> users;
-
-    @CreatedDate
-    @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 }

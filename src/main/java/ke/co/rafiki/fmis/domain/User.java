@@ -3,13 +3,7 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.UserEntityListener;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -19,11 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-@EntityListeners({AuditingEntityListener.class, UserEntityListener.class})
-public class User {
-    @Id @GeneratedValue
-    private UUID id;
-
+@EntityListeners(UserEntityListener.class)
+public class User extends BaseEntityAudit {
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -54,12 +45,4 @@ public class User {
     )
     @ToString.Exclude
     private Set<Role> roles;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 }

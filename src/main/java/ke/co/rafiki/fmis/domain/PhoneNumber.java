@@ -3,12 +3,6 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.PhoneNumberEntityListener;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -18,11 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "phone_numbers")
-@EntityListeners({AuditingEntityListener.class, PhoneNumberEntityListener.class})
-public class PhoneNumber {
-    @Id @GeneratedValue
-    private UUID id;
-
+@EntityListeners({PhoneNumberEntityListener.class})
+public class PhoneNumber extends BaseEntityAudit {
     @Column(name = "number", nullable = false, unique = true)
     private String number;
 
@@ -30,12 +21,4 @@ public class PhoneNumber {
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 }

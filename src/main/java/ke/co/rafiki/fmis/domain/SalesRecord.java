@@ -1,4 +1,10 @@
 package ke.co.rafiki.fmis.domain;
 
-public class SalesRecord {
+import java.time.LocalDate;
+
+public class SalesRecord extends BaseEntityAudit {
+    private LocalDate date;
+    private SalesType type;
+    private Double amount;
+    private String description;
 }

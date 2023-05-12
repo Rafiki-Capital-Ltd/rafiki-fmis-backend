@@ -1,4 +1,8 @@
 package ke.co.rafiki.fmis.domain;
 
-public class FarmDiary {
+import java.util.List;
+
+public class FarmDiary extends BaseEntityAudit {
+    private Farm farm;
+    private List<FarmActivity> farmActivities;
 }

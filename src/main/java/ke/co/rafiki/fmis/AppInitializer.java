@@ -6,19 +6,17 @@ import ke.co.rafiki.fmis.domain.User;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.RoleRepository;
 import ke.co.rafiki.fmis.repository.UserRepository;
-import ke.co.rafiki.fmis.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class SeedDbData implements CommandLineRunner {
+public class AppInitializer implements CommandLineRunner {
 
     @Autowired
     private RoleRepository roleRepository;
