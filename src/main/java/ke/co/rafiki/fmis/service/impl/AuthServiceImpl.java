@@ -8,10 +8,14 @@ import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.service.AuthService;
 import ke.co.rafiki.fmis.service.RoleService;
 import ke.co.rafiki.fmis.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.Set;
 
+@Slf4j
+@Service
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;

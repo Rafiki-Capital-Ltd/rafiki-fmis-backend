@@ -2,6 +2,7 @@ package ke.co.rafiki.fmis.repository;
 
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmActivity;
+import ke.co.rafiki.fmis.domain.FarmActivityLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,10 @@ import java.util.UUID;
 
 @Repository
 public interface FarmActivityRepository extends JpaRepository<FarmActivity, UUID> {
+    Page<FarmActivity> findByFarmActivityLog(FarmActivityLog farmActivityLog, Pageable pageable);
+
+    List<FarmActivity> findByFarmActivityLog(FarmActivityLog farmActivityLog);
+
     Page<FarmActivity> findByFarm(Farm farm, Pageable pageable);
 
     List<FarmActivity> findByFarm(Farm farm);

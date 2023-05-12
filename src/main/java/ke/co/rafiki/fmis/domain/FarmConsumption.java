@@ -22,6 +22,9 @@ public class FarmConsumption extends BaseEntityAudit {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "quantity", scale = 2)
+    @Column(name = "quantity", scale = 2, nullable = false)
     private BigDecimal quantity;
+
+    @Column(name = "description")
+    private String description;
 }

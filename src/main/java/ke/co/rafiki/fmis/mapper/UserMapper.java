@@ -1,4 +1,4 @@
-package ke.co.rafiki.fmis.dto.mapper;
+package ke.co.rafiki.fmis.mapper;
 
 import ke.co.rafiki.fmis.domain.User;
 import ke.co.rafiki.fmis.dto.user.CreateUserDto;

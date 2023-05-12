@@ -58,6 +58,7 @@ public class FarmProductionServiceImpl implements FarmProductionService {
         FarmProduction _farmProduction = this.findOne(id);
         _farmProduction.setDate(farmProduction.getDate());
         _farmProduction.setQuantity(farmProduction.getQuantity());
+        _farmProduction.setDescription(farmProduction.getDescription());
         return farmProductionRepository.save(_farmProduction);
     }
 

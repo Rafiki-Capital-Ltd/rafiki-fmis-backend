@@ -58,6 +58,7 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
         FarmConsumption _farmConsumption = this.findOne(id);
         _farmConsumption.setDate(farmConsumption.getDate());
         _farmConsumption.setQuantity(farmConsumption.getQuantity());
+        _farmConsumption.setDescription(farmConsumption.getDescription());
         return farmConsumptionRepository.save(_farmConsumption);
     }
 

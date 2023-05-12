@@ -1,0 +1,24 @@
+package ke.co.rafiki.fmis.dto.farm;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Data
+public class CreateFarmDto {
+    @NotNull
+    private BigDecimal size;
+
+    @NotBlank
+    private String county;
+
+    @NotBlank
+    private String ward;
+
+    private String nearestShoppingCenter;
+
+    @NotNull
+    private LocationDto location;
+}

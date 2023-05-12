@@ -2,7 +2,6 @@ package ke.co.rafiki.fmis.service;
 
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmActivityLog;
-import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -13,6 +12,7 @@ public interface FarmActivityLogService {
     Page<FarmActivityLog> findAll(int page, int size, String sort, String sortDirection);
     FarmActivityLog findOne(UUID id) throws Exception;
     FarmActivityLog findOne(Farm farm) throws Exception;
+    FarmActivityLog update(UUID id, FarmActivityLog farmActivityLog) throws Exception;
     void delete(UUID id);
     void deleteMany(List<FarmActivityLog> farmActivities);
     void deleteAll();

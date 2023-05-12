@@ -61,6 +61,14 @@ public class FarmActivityLogServiceImpl implements FarmActivityLogService {
     }
 
     @Override
+    public FarmActivityLog update(UUID id, FarmActivityLog farmActivityLog) throws Exception {
+        FarmActivityLog _farmActivityLog = this.findOne(id);
+        _farmActivityLog.setYear(farmActivityLog.getYear());
+        _farmActivityLog.setName(farmActivityLog.getName());
+        return farmActivityLogRepository.save(_farmActivityLog);
+    }
+
+    @Override
     public void delete(UUID id) {
         farmActivityLogRepository.deleteById(id);
     }

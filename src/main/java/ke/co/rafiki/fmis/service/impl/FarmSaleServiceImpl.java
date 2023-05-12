@@ -54,13 +54,14 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
-    public FarmSale update(UUID id, FarmSale farmSales) throws Exception {
-        FarmSale _farmSales = this.findOne(id);
-        _farmSales.setDate(farmSales.getDate());
-        _farmSales.setType(farmSales.getType());
-        _farmSales.setQuantity(farmSales.getQuantity());
-        _farmSales.setAmount(farmSales.getAmount());
-        return farmSaleRepository.save(_farmSales);
+    public FarmSale update(UUID id, FarmSale farmSale) throws Exception {
+        FarmSale _farmSale = this.findOne(id);
+        _farmSale.setDate(farmSale.getDate());
+        _farmSale.setType(farmSale.getType());
+        _farmSale.setQuantity(farmSale.getQuantity());
+        _farmSale.setAmount(farmSale.getAmount());
+        _farmSale.setDescription(farmSale.getDescription());
+        return farmSaleRepository.save(_farmSale);
     }
 
     @Override

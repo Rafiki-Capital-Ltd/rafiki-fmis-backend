@@ -11,6 +11,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.Year;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,13 +30,14 @@ public class FarmServiceImpl implements FarmService {
     private final FarmProductionService farmProductionService;
     private final FarmSaleService farmSaleService;
     private final FarmValueChainAdditionService farmValueChainAdditionService;
+    private final FarmLocationService farmLocationService;
 
     public FarmServiceImpl(
             FarmRepository farmRepository, UserService userService,
             FarmActivityLogService farmActivityLogService, FarmActivityService farmActivityService,
             FarmAssetService farmAssetService, FarmConsumptionService farmConsumptionService,
             FarmProductionService farmProductionService, FarmSaleService farmSaleService,
-            FarmValueChainAdditionService farmValueChainAdditionService
+            FarmValueChainAdditionService farmValueChainAdditionService, FarmLocationService farmLocationService
     ) {
         this.farmRepository = farmRepository;
         this.userService = userService;
@@ -44,11 +48,25 @@ public class FarmServiceImpl implements FarmService {
         this.farmProductionService = farmProductionService;
         this.farmSaleService = farmSaleService;
         this.farmValueChainAdditionService = farmValueChainAdditionService;
+        this.farmLocationService = farmLocationService;
     }
 
     @Override
-    public Farm create(Farm farm) {
-        return farmRepository.save(farm);
+    public Farm create(Farm farm) throws Exception {
+        Farm _farm = farmRepository.save(farm);
+        FarmActivityLog farmActivityLog = FarmActivityLog.builder()
+                .farm(_farm)
+                .name(Year.now() + " Farm Activity Log " + _farm.getName())
+                .year(Year.now())
+                .build();
+        FarmLocation farmLocation = FarmLocation.builder()
+                .latitude(farm.getLocation().getLatitude())
+                .longitude(farm.getLocation().getLongitude())
+                .farm(_farm)
+                .build();
+        farmActivityLogService.create(farmActivityLog);
+        farmLocationService.create(farmLocation);
+        return _farm;
     }
 
     @Override
@@ -99,39 +117,60 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public Page<Farm> findByFarmer(Principal farmer, int page, int size, String sort, String sortDirection) throws Exception {
+    public Page<Farm> findByFarmer(
+            Principal farmer, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         User _farmer = userService.findOne(farmer.getName());
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
         return farmRepository.findByFarmer(_farmer, pageRequest);
     }
 
     @Override
-    public Page<FarmActivity> findActivities(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmActivity> findActivities(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         return farmActivityService.findByFarm(farm, page, size, sort, sortDirection);
     }
 
     @Override
-    public Page<FarmAsset> findAssets(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmAsset> findAssets(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         return farmAssetService.findByFarm(farm, page, size, sort, sortDirection);
     }
 
     @Override
-    public Page<FarmConsumption> findConsumptions(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmConsumption> findConsumptions(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         return farmConsumptionService.findByFarm(farm, page, size, sort, sortDirection);
     }
 
     @Override
-    public Page<FarmProduction> findProductions(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmProduction> findProductions(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         return farmProductionService.findByFarm(farm, page, size, sort, sortDirection);
     }
 
     @Override
-    public Page<FarmSale> findSales(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmSale> findSales(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         return farmSaleService.findByFarm(farm, page, size, sort, sortDirection);
     }
 
     @Override
-    public Page<FarmValueChainAddition> findValueChainAdditions(Farm farm, int page, int size, String sort, String sortDirection) {
+    public Page<FarmValueChainAddition> findValueChainAdditions(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         return farmValueChainAdditionService.findByFarm(farm, page, size, sort, sortDirection);
     }
 }

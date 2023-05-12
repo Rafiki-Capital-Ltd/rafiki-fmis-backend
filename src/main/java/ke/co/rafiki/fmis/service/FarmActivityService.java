@@ -2,6 +2,7 @@ package ke.co.rafiki.fmis.service;
 
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmActivity;
+import ke.co.rafiki.fmis.domain.FarmActivityLog;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public interface FarmActivityService {
     void delete(UUID id);
     void deleteAll();
     void deleteMany(List<FarmActivity> farmActivities);
+    Page<FarmActivity> findByFarmActivityLog(
+            FarmActivityLog farmActivityLog, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception;
     Page<FarmActivity> findByFarm(
             Farm farm, int page, int size,
             String sort, String sortDirection
