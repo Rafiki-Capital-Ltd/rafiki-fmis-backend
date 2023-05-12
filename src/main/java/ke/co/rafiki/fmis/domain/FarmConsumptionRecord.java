@@ -3,6 +3,7 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -12,15 +13,15 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "farm_activities")
-public class FarmActivity extends BaseEntityAudit {
+@Table(name = "consumption_records")
+public class FarmConsumptionRecord extends BaseEntityAudit {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_diary_id", nullable = false)
-    private FarmDiary farmDiary;
+    @JoinColumn(name = "farm_id", nullable = false)
+    private Farm farm;
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "activities")
-    private String activities;
+    @Column(name = "quantity", scale = 2)
+    private BigDecimal quantity;
 }

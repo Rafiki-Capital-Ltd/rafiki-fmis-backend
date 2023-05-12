@@ -17,8 +17,8 @@ public class PhoneNumber extends BaseEntityAudit {
     @Column(name = "number", nullable = false, unique = true)
     private String number;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
     private User user;
 }

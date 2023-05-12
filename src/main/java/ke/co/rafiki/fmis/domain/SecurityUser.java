@@ -19,7 +19,7 @@ public class SecurityUser implements UserDetails {
         return user
                 .getRoles()
                 .stream()
-                .map(Role::getName)
+                .map(role -> role.getType().toString())
                 .map(SimpleGrantedAuthority::new)
                 .toList();
     }
@@ -53,4 +53,5 @@ public class SecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
