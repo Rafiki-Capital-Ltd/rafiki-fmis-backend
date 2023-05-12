@@ -1,6 +1,6 @@
 package ke.co.rafiki.fmis.dto.farmsale;
 
-import ke.co.rafiki.fmis.domain.SaleType;
+import ke.co.rafiki.fmis.domain.enums.SaleType;
 import lombok.Data;
 
 import java.math.BigDecimal;

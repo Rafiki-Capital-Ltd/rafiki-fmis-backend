@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.enums.SaleType;
 import lombok.*;
 
 import java.math.BigDecimal;

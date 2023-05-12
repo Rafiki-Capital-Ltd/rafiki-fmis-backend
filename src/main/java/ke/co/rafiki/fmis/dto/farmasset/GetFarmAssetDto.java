@@ -1,5 +1,6 @@
 package ke.co.rafiki.fmis.dto.farmasset;
 
+import ke.co.rafiki.fmis.domain.enums.AssetStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public class GetFarmAssetDto {
     private String type;
     private String description;
     private String storageLocation;
+    private AssetStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -59,6 +59,7 @@ public class FarmAssetServiceImpl implements FarmAssetService {
         _farmAsset.setType(farmAsset.getType());
         _farmAsset.setDescription(farmAsset.getDescription());
         _farmAsset.setStorageLocation(farmAsset.getStorageLocation());
+        _farmAsset.setStatus(farmAsset.getStatus());
         return farmAssetRepository.save(_farmAsset);
     }
 

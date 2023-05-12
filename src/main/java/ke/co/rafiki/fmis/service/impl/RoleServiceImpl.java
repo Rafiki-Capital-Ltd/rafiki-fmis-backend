@@ -1,7 +1,7 @@
 package ke.co.rafiki.fmis.service.impl;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.RoleType;
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.RoleRepository;

@@ -1,7 +1,7 @@
 package ke.co.rafiki.fmis.service;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.RoleType;
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import org.springframework.data.domain.Page;
 
 import java.util.UUID;

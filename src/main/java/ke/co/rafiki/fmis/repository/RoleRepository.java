@@ -1,7 +1,7 @@
 package ke.co.rafiki.fmis.repository;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.RoleType;
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
