@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FarmValueChainAdditionService {
-    FarmValueChainAddition create(FarmValueChainAddition farmValueChainAddition);
+    FarmValueChainAddition create(FarmValueChainAddition farmValueChainAddition) throws Exception;
     Page<FarmValueChainAddition> findAll(int page, int size, String sort, String sortDirection);
-    FarmValueChainAddition update(UUID id, FarmValueChainAddition farmValueChainAddition);
+    FarmValueChainAddition findOne(UUID id) throws Exception;
+    FarmValueChainAddition update(UUID id, FarmValueChainAddition farmValueChainAddition) throws Exception;
     void delete(UUID id);
     void deleteAll();
     void deleteMany(List<FarmValueChainAddition> farmActivities);
-    Page<FarmValueChainAddition> findByFarm(Farm farm, int page, int size, String sort, String sortDirection);
+    Page<FarmValueChainAddition> findByFarm(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception;
 }

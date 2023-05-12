@@ -15,8 +15,8 @@ import java.time.LocalDate;
 @Table(name = "farm_activities")
 public class FarmActivity extends BaseEntityAudit {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_diary_id", nullable = false)
-    private FarmDiary farmDiary;
+    @JoinColumn(name = "farm_diary_id", nullable = false, updatable = false)
+    private FarmActivityLog farmActivityLog;
 
     @Column(name = "date", nullable = false)
     private LocalDate date;

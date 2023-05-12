@@ -7,7 +7,7 @@ import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import java.security.Principal;
 
 public interface AuthService {
-    User registerUser(User user) throws BadRequestException, NotFoundException;
+    User registerUser(User user) throws Exception;
 
-    User profile(Principal principal) throws NotFoundException;
+    User profile(Principal principal) throws Exception;
 }

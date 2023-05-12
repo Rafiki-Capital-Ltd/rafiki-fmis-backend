@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User registerUser(User user) throws BadRequestException, NotFoundException {
+    public User registerUser(User user) throws Exception {
         Role role = roleService.findOne(RoleType.FARMER);
         user.setRoles(Set.of(role));
         return userService.save(user);

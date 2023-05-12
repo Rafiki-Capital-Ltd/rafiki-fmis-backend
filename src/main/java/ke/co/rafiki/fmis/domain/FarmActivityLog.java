@@ -12,13 +12,13 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "farm_diaries")
-public class FarmDiary extends BaseEntityAudit {
-    @OneToOne(mappedBy = "farmDiary")
+@Table(name = "farm_activity_logs")
+public class FarmActivityLog extends BaseEntityAudit {
+    @OneToOne(mappedBy = "farmActivityLog")
     @JoinColumn(name = "farm_id", nullable = false)
     private Farm farm;
 
-    @OneToMany(mappedBy = "farmDiary", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "farmActivityLog", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<FarmActivity> farmActivities;
 }

@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FarmAssetService {
-    FarmAsset create(FarmAsset farmAsset);
+    FarmAsset create(FarmAsset farmAsset) throws Exception;
     Page<FarmAsset> findAll(int page, int size, String sort, String sortDirection);
-    FarmAsset update(UUID id, FarmAsset farmAsset);
+    FarmAsset findOne(UUID id) throws Exception;
+    FarmAsset update(UUID id, FarmAsset farmAsset) throws Exception;
     void delete(UUID id);
     void deleteAll();
     void deleteMany(List<FarmAsset> farmActivities);
-    Page<FarmAsset> findByFarm(Farm farm, int page, int size, String sort, String sortDirection);
+    Page<FarmAsset> findByFarm(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception;
 }

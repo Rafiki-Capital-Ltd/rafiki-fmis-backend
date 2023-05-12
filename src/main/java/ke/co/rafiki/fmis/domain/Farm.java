@@ -20,7 +20,7 @@ public class Farm extends BaseEntityAudit {
     private String name;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "owner", nullable = false)
+    @JoinColumn(name = "owner", nullable = false, updatable = false)
     private User owner;
 
     @Column(name = "size", scale = 2)
@@ -41,7 +41,7 @@ public class Farm extends BaseEntityAudit {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private FarmDiary farmDiary;
+    private FarmActivityLog farmActivityLog;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

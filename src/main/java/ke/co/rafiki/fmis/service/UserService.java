@@ -14,4 +14,5 @@ public interface UserService {
     User save(User user) throws BadRequestException;
     User update(UUID id, User user) throws NotFoundException;
     void delete(UUID id);
+
 }
