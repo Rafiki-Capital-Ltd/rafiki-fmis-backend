@@ -1,7 +1,7 @@
-package ke.co.rafiki.rafikifmis.domain;
+package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
-import ke.co.rafiki.rafikifmis.domain.entitylisteners.UserEntityListener;
+import ke.co.rafiki.fmis.domain.entitylisteners.UserEntityListener;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -42,6 +42,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Set<PhoneNumber> phoneNumbers;
+
+    @Column(name = "display_picture")
+    private String displayPicture;
 
     @ManyToMany(mappedBy = "users")
     @JoinTable(

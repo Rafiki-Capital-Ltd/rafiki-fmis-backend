@@ -1,6 +1,6 @@
-package ke.co.rafiki.rafikifmis.repository;
+package ke.co.rafiki.fmis.repository;
 
-import ke.co.rafiki.rafikifmis.domain.PhoneNumber;
+import ke.co.rafiki.fmis.domain.PhoneNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

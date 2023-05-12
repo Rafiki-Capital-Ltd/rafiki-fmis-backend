@@ -1,7 +1,7 @@
-package ke.co.rafiki.rafikifmis.domain;
+package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
-import ke.co.rafiki.rafikifmis.domain.entitylisteners.RoleEntityListener;
+import ke.co.rafiki.fmis.domain.entitylisteners.RoleEntityListener;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -24,8 +24,8 @@ public class Role {
     @Id @GeneratedValue
     private UUID id;
 
-    @Column(name = "name", unique = true, nullable = false)
-    private String name;
+    @Column(name = "type", unique = true, nullable = false)
+    private RoleType type;
 
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude

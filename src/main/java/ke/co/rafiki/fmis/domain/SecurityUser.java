@@ -1,4 +1,4 @@
-package ke.co.rafiki.rafikifmis.domain;
+package ke.co.rafiki.fmis.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

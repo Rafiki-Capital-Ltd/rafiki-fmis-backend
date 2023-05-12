@@ -1,4 +1,4 @@
-package ke.co.rafiki.rafikifmis;
+package ke.co.rafiki.fmis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

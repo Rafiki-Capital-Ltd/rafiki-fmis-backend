@@ -1,7 +1,7 @@
-package ke.co.rafiki.rafikifmis.domain;
+package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
-import ke.co.rafiki.rafikifmis.domain.entitylisteners.PhoneNumberEntityListener;
+import ke.co.rafiki.fmis.domain.entitylisteners.PhoneNumberEntityListener;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

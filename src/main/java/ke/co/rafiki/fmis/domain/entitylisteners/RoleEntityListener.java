@@ -1,9 +1,9 @@
-package ke.co.rafiki.rafikifmis.domain.entitylisteners;
+package ke.co.rafiki.fmis.domain.entitylisteners;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
 import jakarta.persistence.PrePersist;
-import ke.co.rafiki.rafikifmis.domain.Role;
+import ke.co.rafiki.fmis.domain.Role;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

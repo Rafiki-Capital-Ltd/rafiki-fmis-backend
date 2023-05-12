@@ -1,0 +1,36 @@
+package ke.co.rafiki.fmis.service.impl;
+
+import ke.co.rafiki.fmis.domain.Role;
+import ke.co.rafiki.fmis.domain.RoleType;
+import ke.co.rafiki.fmis.domain.User;
+import ke.co.rafiki.fmis.exceptions.BadRequestException;
+import ke.co.rafiki.fmis.exceptions.NotFoundException;
+import ke.co.rafiki.fmis.service.AuthService;
+import ke.co.rafiki.fmis.service.RoleService;
+import ke.co.rafiki.fmis.service.UserService;
+
+import java.security.Principal;
+import java.util.Set;
+
+public class AuthServiceImpl implements AuthService {
+
+    private final UserService userService;
+    private final RoleService roleService;
+
+    public AuthServiceImpl(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
+
+    @Override
+    public User registerUser(User user) throws BadRequestException, NotFoundException {
+        Role role = roleService.findOne(RoleType.FARMER);
+        user.setRoles(Set.of(role));
+        return userService.save(user);
+    }
+
+    @Override
+    public User profile(Principal principal) throws NotFoundException {
+        return userService.findOne(principal.getName());
+    }
+}
