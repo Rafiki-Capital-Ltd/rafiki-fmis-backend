@@ -32,7 +32,7 @@ public class FarmVcaServiceImpl implements FarmVcaService {
 
 
     @Override
-    public FarmVca create(FarmVca farmVca) throws Exception {
+    public FarmVca save(FarmVca farmVca) throws Exception {
         Farm farm = farmService.findOne(farmVca.getFarm().getId());
         farmVca.setFarm(farm);
         return farmVcaRepository.save(farmVca);

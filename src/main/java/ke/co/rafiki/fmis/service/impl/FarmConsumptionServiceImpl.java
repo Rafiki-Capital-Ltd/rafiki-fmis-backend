@@ -32,7 +32,7 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
 
 
     @Override
-    public FarmConsumption create(FarmConsumption farmConsumption) throws Exception {
+    public FarmConsumption save(FarmConsumption farmConsumption) throws Exception {
         Farm farm = farmService.findOne(farmConsumption.getFarm().getId());
         farmConsumption.setFarm(farm);
         return farmConsumptionRepository.save(farmConsumption);

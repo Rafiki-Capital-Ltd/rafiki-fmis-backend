@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PhoneNumberService {
-    PhoneNumber create(PhoneNumber phoneNumber) throws Exception;
-    List<PhoneNumber> create(List<PhoneNumber> phoneNumbers) throws Exception;
+    PhoneNumber save(PhoneNumber phoneNumber) throws Exception;
+    List<PhoneNumber> save(List<PhoneNumber> phoneNumbers) throws Exception;
     PhoneNumber findOne(UUID id) throws Exception;
     Page<PhoneNumber> findAll(int page, int size, String sort, String sortDirection);
     PhoneNumber update(UUID id, PhoneNumber phoneNumber) throws Exception;

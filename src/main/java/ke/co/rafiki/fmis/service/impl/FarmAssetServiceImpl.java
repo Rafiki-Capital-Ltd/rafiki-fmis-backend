@@ -32,7 +32,7 @@ public class FarmAssetServiceImpl implements FarmAssetService {
 
 
     @Override
-    public FarmAsset create(FarmAsset farmAsset) throws Exception {
+    public FarmAsset save(FarmAsset farmAsset) throws Exception {
         Farm farm = farmService.findOne(farmAsset.getFarm().getId());
         farmAsset.setFarm(farm);
         return farmAssetRepository.save(farmAsset);

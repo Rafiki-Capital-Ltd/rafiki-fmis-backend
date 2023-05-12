@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface FarmActivityMapper {
-    GetFarmActivityDto tofarmActivityDto(FarmActivity farmActivity);
+    GetFarmActivityDto toGetFarmActivityDto(FarmActivity farmActivity);
 
     FarmActivity toFarmActivity(CreateFarmActivityDto createFarmActivityDto);
 

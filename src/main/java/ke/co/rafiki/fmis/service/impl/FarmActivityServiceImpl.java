@@ -36,7 +36,7 @@ public class FarmActivityServiceImpl implements FarmActivityService {
     }
 
     @Override
-    public FarmActivity create(FarmActivity farmActivity) throws Exception {
+    public FarmActivity save(FarmActivity farmActivity) throws Exception {
         FarmActivityLog farmActivityLog = farmActivityLogService.findOne(farmActivity
                 .getFarmActivityLog().getId());
         farmActivity.setFarmActivityLog(farmActivityLog);

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FarmActivityLogService {
-    FarmActivityLog create(FarmActivityLog farmActivityLog) throws Exception;
+    FarmActivityLog save(FarmActivityLog farmActivityLog) throws Exception;
     Page<FarmActivityLog> findAll(int page, int size, String sort, String sortDirection);
     FarmActivityLog findOne(UUID id) throws Exception;
     FarmActivityLog findOne(Farm farm) throws Exception;

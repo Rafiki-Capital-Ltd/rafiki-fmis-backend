@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FarmConsumptionService {
-    FarmConsumption create(FarmConsumption farmConsumption) throws Exception;
+    FarmConsumption save(FarmConsumption farmConsumption) throws Exception;
     Page<FarmConsumption> findAll(int page, int size, String sort, String sortDirection);
     FarmConsumption findOne(UUID id) throws Exception;
     FarmConsumption update(UUID id, FarmConsumption farmConsumption) throws  Exception;

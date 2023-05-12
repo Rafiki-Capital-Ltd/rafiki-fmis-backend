@@ -8,9 +8,9 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface FarmMapper {
-    GetFarmDto farmToGetFarmDto(Farm farm);
+    GetFarmDto toGetFarmDto(Farm farm);
 
-    Farm createFarmDtoToFarm(CreateFarmDto createFarmDto);
+    Farm toFarm(CreateFarmDto createFarmDto);
 
-    Farm updateFarmDtoToFarm(UpdateFarmDto updateFarmDto);
+    Farm toFarm(UpdateFarmDto updateFarmDto);
 }

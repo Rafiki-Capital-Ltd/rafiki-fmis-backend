@@ -50,7 +50,7 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public Farm create(Farm farm) throws Exception {
+    public Farm save(Farm farm) throws Exception {
         Farm _farm = farmRepository.save(farm);
         FarmActivityLog farmActivityLog = FarmActivityLog.builder()
                 .farm(_farm)
@@ -62,8 +62,8 @@ public class FarmServiceImpl implements FarmService {
                 .longitude(farm.getLocation().getLongitude())
                 .farm(_farm)
                 .build();
-        farmActivityLogService.create(farmActivityLog);
-        farmLocationService.create(farmLocation);
+        farmActivityLogService.save(farmActivityLog);
+        farmLocationService.save(farmLocation);
         return _farm;
     }
 

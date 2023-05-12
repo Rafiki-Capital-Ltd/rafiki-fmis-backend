@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(UUID id) throws NotFoundException {
+    public User findOne(UUID id) throws Exception {
         return userRepository.findById(id).orElseThrow(() -> {
             String message = String.format("User with id %s was not found.", id);
             log.error(message);
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(String email) throws NotFoundException {
+    public User findOne(String email) throws Exception {
         return userRepository.findByEmail(email).orElseThrow(() -> {
             String message = String.format("User with email %s was not found.",email);
             log.error(message);
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) throws BadRequestException {
+    public User save(User user) throws Exception {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isPresent()) {
             String message = String.format("User with email " + user.getEmail() + " already exists.");
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UUID id, User user) throws NotFoundException {
+    public User update(UUID id, User user) throws Exception {
         User existingUser = this.findOne(id);
         existingUser.setFirstName(user.getFirstName());
         existingUser.setMiddleName(user.getMiddleName());

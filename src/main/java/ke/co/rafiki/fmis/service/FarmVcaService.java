@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FarmVcaService {
-    FarmVca create(FarmVca farmVca) throws Exception;
+    FarmVca save(FarmVca farmVca) throws Exception;
     Page<FarmVca> findAll(int page, int size, String sort, String sortDirection);
     FarmVca findOne(UUID id) throws Exception;
     FarmVca update(UUID id, FarmVca farmVca) throws Exception;
