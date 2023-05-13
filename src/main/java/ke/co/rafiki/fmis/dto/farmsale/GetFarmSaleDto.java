@@ -12,7 +12,7 @@ import java.util.UUID;
 public class GetFarmSaleDto {
     private UUID id;
     private LocalDate date;
-    private SaleType type;
+    private String type;
     private BigDecimal quantity;
     private BigDecimal amount;
     private String description;

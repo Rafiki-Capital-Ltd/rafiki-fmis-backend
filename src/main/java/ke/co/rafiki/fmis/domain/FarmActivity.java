@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class FarmActivity extends BaseEntityAudit {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_diary_id", nullable = false, updatable = false)
+    @ToString.Exclude
     private FarmActivityLog farmActivityLog;
 
     @Column(name = "date", nullable = false)

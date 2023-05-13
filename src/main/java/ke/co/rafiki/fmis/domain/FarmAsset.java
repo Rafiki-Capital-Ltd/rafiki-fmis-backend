@@ -30,5 +30,5 @@ public class FarmAsset extends BaseEntityAudit {
     private String storageLocation;
 
     @Column(name = "status", nullable = false)
-    private AssetStatus status = AssetStatus.FUNCTIONAL;
+    private String status = AssetStatus.FUNCTIONAL.toString();
 }

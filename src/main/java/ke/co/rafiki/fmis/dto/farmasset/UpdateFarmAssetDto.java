@@ -13,5 +13,5 @@ public class UpdateFarmAssetDto {
 
     private String storageLocation;
 
-    private AssetStatus status;
+    private String status;
 }

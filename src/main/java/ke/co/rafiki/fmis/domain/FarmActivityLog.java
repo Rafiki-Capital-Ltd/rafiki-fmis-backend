@@ -20,6 +20,7 @@ import java.util.List;
 public class FarmActivityLog extends BaseEntityAudit {
     @OneToOne(mappedBy = "farmActivityLog")
     @JoinColumn(name = "farm_id", nullable = false)
+    @ToString.Exclude
     private Farm farm;
 
     @Column(name = "year", nullable = false, updatable = false)

@@ -29,7 +29,7 @@ public class FarmSale extends BaseEntityAudit {
     private LocalDate date;
 
     @Column(name = "type", nullable = false)
-    private SaleType type;
+    private String type;
 
     @Column(name = "quantity", nullable = false)
     private BigDecimal quantity;

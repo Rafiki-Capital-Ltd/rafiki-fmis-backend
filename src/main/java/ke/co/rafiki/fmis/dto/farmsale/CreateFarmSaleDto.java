@@ -14,7 +14,7 @@ public class CreateFarmSaleDto {
     private LocalDate date;
 
     @NotNull
-    private SaleType type;
+    private String type;
 
     @NotNull
     private BigDecimal quantity;

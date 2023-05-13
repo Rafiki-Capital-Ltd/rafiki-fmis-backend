@@ -12,8 +12,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(FarmCropEntityListener.class)
 @Table(name = "farm_crops")
+@EntityListeners(FarmCropEntityListener.class)
 public class FarmCrop extends BaseEntityAudit {
     // the name of the crop eg maize, beans, mangoes
     @Column(name = "name", nullable = false)

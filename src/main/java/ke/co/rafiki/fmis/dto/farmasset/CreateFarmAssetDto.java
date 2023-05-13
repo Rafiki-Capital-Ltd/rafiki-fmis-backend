@@ -14,7 +14,7 @@ public class CreateFarmAssetDto {
 
     private String storageLocation;
 
-    private AssetStatus status;
+    private String status;
 
     private Farm farm;
 }

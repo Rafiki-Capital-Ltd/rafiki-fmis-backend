@@ -12,7 +12,7 @@ public class GetFarmAssetDto {
     private String type;
     private String description;
     private String storageLocation;
-    private AssetStatus status;
+    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
