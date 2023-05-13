@@ -1,7 +1,6 @@
 package ke.co.rafiki.fmis.service.impl;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.RoleRepository;
@@ -41,8 +40,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findOne(RoleType type) throws NotFoundException {
-        return roleRepository.findByType(type).orElseThrow(() -> {
+    public Role findOne(String type) throws NotFoundException {
+        return roleRepository.findByName(type).orElseThrow(() -> {
             String message = String.format("Role type %s was not found.", type);
             log.error(message);
             return new NotFoundException(message);
@@ -51,9 +50,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role save(Role role) throws BadRequestException {
-        Optional<Role> existingRole = roleRepository.findByType(role.getType());
+        Optional<Role> existingRole = roleRepository.findByName(role.getName());
         if (existingRole.isPresent()) {
-            String message = String.format("Role type %s already exists.", role.getType());
+            String message = String.format("Role name %s already exists.", role.getName());
             log.error(message);
             throw new BadRequestException(message);
         }
@@ -63,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role update(UUID id, Role role) throws NotFoundException {
         Role existingRole = this.findOne(id);
-        existingRole.setType(role.getType());
+        existingRole.setName(role.getName());
         return roleRepository.save(existingRole);
     }
 

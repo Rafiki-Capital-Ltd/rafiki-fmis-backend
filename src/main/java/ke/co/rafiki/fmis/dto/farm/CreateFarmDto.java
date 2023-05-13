@@ -2,6 +2,8 @@ package ke.co.rafiki.fmis.dto.farm;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import ke.co.rafiki.fmis.domain.County;
+import ke.co.rafiki.fmis.domain.Ward;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,10 +14,10 @@ public class CreateFarmDto {
     private BigDecimal size;
 
     @NotBlank
-    private String county;
+    private County county;
 
     @NotBlank
-    private String ward;
+    private Ward ward;
 
     private String nearestShoppingCenter;
 

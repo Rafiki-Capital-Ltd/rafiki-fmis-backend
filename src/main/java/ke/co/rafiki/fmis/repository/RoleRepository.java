@@ -1,7 +1,6 @@
 package ke.co.rafiki.fmis.repository;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.enums.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, UUID> {
-    Optional<Role> findByType(RoleType type);
+    Optional<Role> findByName(String name);
 }

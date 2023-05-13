@@ -1,15 +1,14 @@
 package ke.co.rafiki.fmis;
 
-import ke.co.rafiki.fmis.domain.Role;
+import ke.co.rafiki.fmis.domain.*;
 import ke.co.rafiki.fmis.domain.enums.RoleType;
-import ke.co.rafiki.fmis.domain.User;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
-import ke.co.rafiki.fmis.repository.RoleRepository;
-import ke.co.rafiki.fmis.repository.UserRepository;
+import ke.co.rafiki.fmis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -24,27 +23,39 @@ public class AppInitializer implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CountyRepository countyRepository;
+
+    @Autowired
+    private WardRepository wardRepository;
+
+    @Autowired
+    private FarmRepository farmRepository;
+
     @Override
     public void run(String... args) throws Exception {
-        createRoles();
-        createUsers();
+        initRoles();
+        List<User> users = initUsers();
+        List<County> counties = initCounties();
+        List<Ward> wards = initWards(counties);
+        List<Farm> farms = initFarms(users, counties);
     }
 
-    public void createRoles() {
+    private void initRoles() {
         roleRepository.deleteAll();
         roleRepository.saveAll(
                 Arrays.stream(RoleType.values())
-                    .map(type -> Role.builder().type(type).build())
+                    .map(type -> Role.builder().name(type.toString()).build())
                     .collect(Collectors.toSet())
         );
     }
 
-    public void createUsers() throws Exception {
-        Role farmerRole = roleRepository.findByType(RoleType.FARMER)
+    private List<User> initUsers() throws Exception {
+        Role farmerRole = roleRepository.findByName(RoleType.FARMER.toString())
                 .orElseThrow(NotFoundException::new);
-        Role managerRole = roleRepository.findByType(RoleType.MANAGER)
+        Role managerRole = roleRepository.findByName(RoleType.MANAGER.toString())
                 .orElseThrow(NotFoundException::new);
-        Role adminRole = roleRepository.findByType(RoleType.ADMIN)
+        Role adminRole = roleRepository.findByName(RoleType.ADMIN.toString())
                 .orElseThrow(NotFoundException::new);
         List<User> users = List.of(
                 User.builder()
@@ -69,6 +80,51 @@ public class AppInitializer implements CommandLineRunner {
                         .roles(Set.of(farmerRole, managerRole, adminRole))
                         .build()
         );
-        userRepository.saveAll(users);
+        return userRepository.saveAll(users);
+    }
+
+    private List<County> initCounties() {
+        List<County> counties = List.of(
+                County.builder().name("NAIROBI").build(),
+                County.builder().name("MAKUENI").build(),
+                County.builder().name("MACHAKOS").build(),
+                County.builder().name("KITUI").build(),
+                County.builder().name("MOMBASA").build(),
+                County.builder().name("NYERI").build()
+        );
+        return countyRepository.saveAll(counties);
+    }
+
+    private List<Ward> initWards(List<County> counties) {
+        List<Ward> wards = List.of(
+                Ward.builder().name("WARD 1").county(counties.get(1)).build(),
+                Ward.builder().name("WARD 2").county(counties.get(1)).build(),
+                Ward.builder().name("WARD 3").county(counties.get(2)).build(),
+                Ward.builder().name("WARD 4").county(counties.get(2)).build(),
+                Ward.builder().name("WARD 5").county(counties.get(3)).build(),
+                Ward.builder().name("WARD 6").county(counties.get(3)).build()
+        );
+        return wardRepository.saveAll(wards);
+    }
+
+    private List<Farm> initFarms(List<User> users, List<County> counties) {
+        farmRepository.deleteAll();
+        List<Farm> farms = List.of(
+                Farm.builder()
+                        .name("Test Farm 1")
+                        .owner(users.get(0))
+                        .size(BigDecimal.valueOf(12.0))
+                        .county(counties.get(1))
+                        .ward(counties.get(1).getWards().get(0))
+                        .build(),
+                Farm.builder()
+                        .name("Test Farm 2")
+                        .owner(users.get(1))
+                        .size(BigDecimal.valueOf(10.0))
+                        .county(counties.get(0))
+                        .ward(counties.get(0).getWards().get(0))
+                        .build()
+        );
+        return farmRepository.saveAll(farms);
     }
 }

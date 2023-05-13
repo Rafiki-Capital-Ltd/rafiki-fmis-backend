@@ -1,8 +1,6 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
-import ke.co.rafiki.fmis.domain.entitylisteners.RoleEntityListener;
-import ke.co.rafiki.fmis.domain.enums.String;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -16,13 +14,16 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "roles")
-@EntityListeners({RoleEntityListener.class})
-public class Role extends BaseEntityAudit {
+@Table(name = "wards")
+public class Ward extends BaseEntityAudit{
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "county_id", nullable = false)
+    private County county;
+
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<User> users;
+    private List<Farm> farms;
 }

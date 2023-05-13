@@ -1,7 +1,6 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
-import ke.co.rafiki.fmis.domain.entitylisteners.GenderEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -11,15 +10,20 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@ToString
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "genders")
-@EntityListeners(GenderEntityListener.class)
-public class Gender extends BaseEntityAudit {
+@AllArgsConstructor
+@Table(name = "counties")
+public class County extends BaseEntityAudit {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> users;
+    @ToString.Exclude
+    private List<Ward> wards;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Farm> farms;
 }

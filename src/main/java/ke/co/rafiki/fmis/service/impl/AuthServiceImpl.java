@@ -1,9 +1,8 @@
 package ke.co.rafiki.fmis.service.impl;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.enums.RoleType;
+import ke.co.rafiki.fmis.domain.enums.String;
 import ke.co.rafiki.fmis.domain.User;
-import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.service.AuthService;
 import ke.co.rafiki.fmis.service.RoleService;
 import ke.co.rafiki.fmis.service.UserService;
@@ -27,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User registerUser(User user) throws Exception {
-        Role role = roleService.findOne(RoleType.FARMER);
+        Role role = roleService.findOne(String.FARMER);
         user.setRoles(Set.of(role));
         return userService.save(user);
     }

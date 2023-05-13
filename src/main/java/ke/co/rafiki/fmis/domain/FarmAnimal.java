@@ -18,18 +18,21 @@ import java.util.List;
 @Table(name = "farm_animals")
 @EntityListeners(FarmAnimalEntityListener.class)
 public class FarmAnimal extends BaseEntityAudit {
+
+    // eg cow, goat, chicken...
     @Column(name = "name", nullable = false)
     private String name;
 
+    // a brief description of the animals
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "farm_animal_farm",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "farm_id")
-    )
+    // the number of animals eg 5 cows
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude
-    private List<Farm> farms;
+    private Farm farm;
 }

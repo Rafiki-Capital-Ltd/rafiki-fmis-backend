@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FarmEntityListener {
+
     @PostPersist
     private void postPersist(Farm farm) {
         log.info("Persisted farm " + farm);

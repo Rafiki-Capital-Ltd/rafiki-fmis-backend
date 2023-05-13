@@ -1,15 +1,15 @@
 package ke.co.rafiki.fmis.service;
 
 import ke.co.rafiki.fmis.domain.Role;
-import ke.co.rafiki.fmis.domain.enums.RoleType;
+import ke.co.rafiki.fmis.domain.enums.String;
 import org.springframework.data.domain.Page;
 
 import java.util.UUID;
 
 public interface RoleService {
-    Page<Role> findAll(int page, int size, String sort, String sortDirection);
+    Page<Role> findAll(int page, int size, java.lang.String sort, java.lang.String sortDirection);
     Role findOne(UUID id) throws Exception;
-    Role findOne(RoleType type) throws Exception;
+    Role findOne(String type) throws Exception;
     Role save(Role role) throws Exception;
     Role update(UUID id, Role role) throws Exception;
     void delete(UUID id);

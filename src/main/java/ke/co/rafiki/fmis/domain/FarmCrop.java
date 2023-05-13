@@ -5,9 +5,6 @@ import ke.co.rafiki.fmis.domain.entitylisteners.FarmCropEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-import java.util.UUID;
-
 @Entity
 @Builder
 @Getter
@@ -19,18 +16,19 @@ import java.util.UUID;
 @EntityListeners(FarmCropEntityListener.class)
 @Table(name = "farm_crops")
 public class FarmCrop extends BaseEntityAudit {
+    // the name of the crop eg maize, beans, mangoes
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "farm_animal_farm",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "farm_id")
-    )
+    // the size in acres of the crop planted on the farm
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude
-    private List<Farm> farms;
+    private Farm farm;
 }

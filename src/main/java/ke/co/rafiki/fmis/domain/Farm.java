@@ -29,11 +29,13 @@ public class Farm extends BaseEntityAudit {
     @Column(name = "size", scale = 2)
     private BigDecimal size;
 
-    @Column(name = "county", nullable = false)
-    private String county;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "county_id", nullable = false)
+    private County county;
 
-    @Column(name = "ward")
-    private String ward;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "county_id", nullable = false)
+    private Ward ward;
 
     @Column(name = "nearest_shopping_center")
     private String nearestShoppingCenter;
@@ -42,11 +44,11 @@ public class Farm extends BaseEntityAudit {
     @ToString.Exclude
     private FarmLocation location;
 
-    @ManyToMany(mappedBy = "farms")
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<FarmCrop> farmCrops;
 
-    @ManyToMany(mappedBy = "farms")
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<FarmAnimal> farmAnimals;
 

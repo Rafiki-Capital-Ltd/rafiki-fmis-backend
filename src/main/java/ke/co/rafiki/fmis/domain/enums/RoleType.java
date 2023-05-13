@@ -12,7 +12,7 @@ public enum RoleType {
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         return this.value;
     }
 }
