@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.dto.farmasset;
 
 import jakarta.validation.constraints.NotNull;
+import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.enums.AssetStatus;
 import lombok.Data;
 
@@ -14,4 +15,6 @@ public class CreateFarmAssetDto {
     private String storageLocation;
 
     private AssetStatus status;
+
+    private Farm farm;
 }

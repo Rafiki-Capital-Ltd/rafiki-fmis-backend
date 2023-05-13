@@ -3,12 +3,14 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.PhoneNumberEntityListener;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Builder
 @Getter
 @Setter
 @ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "phone_numbers")

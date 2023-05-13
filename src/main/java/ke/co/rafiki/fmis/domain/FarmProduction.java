@@ -3,6 +3,7 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmProductionEntityListener;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_production_records")

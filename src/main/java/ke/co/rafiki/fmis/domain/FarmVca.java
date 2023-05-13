@@ -3,12 +3,14 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmVcaEntityListener;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Builder
 @Getter
 @Setter
 @ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_value_chain_additions")

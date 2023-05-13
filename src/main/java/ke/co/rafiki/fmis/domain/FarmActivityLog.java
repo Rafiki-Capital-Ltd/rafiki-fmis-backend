@@ -3,6 +3,7 @@ package ke.co.rafiki.fmis.domain;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmActivityLogEntityListener;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Year;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_activity_logs")

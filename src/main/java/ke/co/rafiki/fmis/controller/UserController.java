@@ -17,6 +17,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping("users")
 public class UserController {

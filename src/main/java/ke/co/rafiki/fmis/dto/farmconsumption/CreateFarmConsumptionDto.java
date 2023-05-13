@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.dto.farmconsumption;
 
 import jakarta.validation.constraints.NotNull;
+import ke.co.rafiki.fmis.domain.Farm;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,4 +16,6 @@ public class CreateFarmConsumptionDto {
     private BigDecimal quantity;
 
     private String description;
+
+    private Farm farm;
 }

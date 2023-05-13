@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmAssetEntityListener;
 import ke.co.rafiki.fmis.domain.enums.AssetStatus;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Builder
 @Getter
 @Setter
 @ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_assets")

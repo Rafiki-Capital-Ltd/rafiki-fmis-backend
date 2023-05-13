@@ -1,6 +1,8 @@
 package ke.co.rafiki.fmis.controller;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.dto.farm.CreateFarmDto;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import static ke.co.rafiki.fmis.Constants.*;
 
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping("farms")
 public class FarmController {
@@ -74,5 +78,15 @@ public class FarmController {
     @DeleteMapping("/{id}")
     public void deleteFarm(@PathVariable UUID id) {
         farmService.delete(id);
+    }
+
+    @GetMapping("/context/{id}")
+    public ResponseEntity<GetFarmDto> switchFarmContext(@PathVariable UUID id, HttpServletResponse response) throws Exception {
+        Farm farm = farmService.findOne(id);
+        GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
+        Cookie cookie = new Cookie(FARM_CONTEXT_COOKIE_KEY, farm.getId().toString());
+        cookie.setMaxAge(30 * 24 * 60 * 60); // expires after 30 days
+        response.addCookie(cookie);
+        return ResponseEntity.ok(getFarmDto);
     }
 }

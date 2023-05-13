@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.dto.farmsale;
 
 import jakarta.validation.constraints.NotNull;
+import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.enums.SaleType;
 import lombok.Data;
 
@@ -22,4 +23,6 @@ public class CreateFarmSaleDto {
     private BigDecimal amount;
 
     private String description;
+
+    private Farm farm;
 }

@@ -2,10 +2,12 @@ package ke.co.rafiki.fmis.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmConsumption;
 import ke.co.rafiki.fmis.dto.farmconsumption.CreateFarmConsumptionDto;
 import ke.co.rafiki.fmis.dto.farmconsumption.GetFarmConsumptionDto;
 import ke.co.rafiki.fmis.dto.farmconsumption.UpdateFarmConsumptionDto;
+import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.mapper.FarmConsumptionMapper;
 import ke.co.rafiki.fmis.service.FarmConsumptionService;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import static ke.co.rafiki.fmis.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -33,8 +36,15 @@ public class FarmConsumptionController {
     @PostMapping
     public ResponseEntity<GetFarmConsumptionDto> createFarmConsumption(
             HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId,
             @Valid @RequestBody CreateFarmConsumptionDto createFarmConsumptionDto
     ) throws Exception {
+        if (farmId == null && createFarmConsumptionDto.getFarm() == null)
+            throw new BadRequestException();
+
+        if (createFarmConsumptionDto.getFarm() == null)
+            createFarmConsumptionDto.setFarm(Farm.builder().id(farmId).build());
+
         FarmConsumption farmConsumption = farmConsumptionService.save(farmConsumptionMapper.toFarmConsumption(createFarmConsumptionDto));
         GetFarmConsumptionDto getFarmConsumptionDto = farmConsumptionMapper.toGetFarmConsumptionDto(farmConsumption);
         URI location = new URI(request.getRequestURL() + "/" + farmConsumption.getId());
