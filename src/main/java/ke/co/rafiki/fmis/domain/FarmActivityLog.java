@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.FarmActivityLogEntityListener;
 import lombok.*;
 
 import java.time.Year;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_activity_logs")
+@EntityListeners(FarmActivityLogEntityListener.class)
 public class FarmActivityLog extends BaseEntityAudit {
     @OneToOne(mappedBy = "farmActivityLog")
     @JoinColumn(name = "farm_id", nullable = false)

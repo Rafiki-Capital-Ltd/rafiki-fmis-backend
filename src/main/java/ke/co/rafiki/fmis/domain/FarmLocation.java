@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.FarmLocationEntityListener;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_locations")
+@EntityListeners(FarmLocationEntityListener.class)
 public class FarmLocation extends BaseEntityAudit {
     @OneToOne(mappedBy = "location")
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)

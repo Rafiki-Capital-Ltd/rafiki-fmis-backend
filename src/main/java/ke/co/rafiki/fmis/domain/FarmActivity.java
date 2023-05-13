@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.FarmActivityEntityListener;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_activities")
+@EntityListeners(FarmActivityEntityListener.class)
 public class FarmActivity extends BaseEntityAudit {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_diary_id", nullable = false, updatable = false)

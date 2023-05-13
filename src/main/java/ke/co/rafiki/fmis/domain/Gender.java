@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.GenderEntityListener;
 import lombok.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "genders")
+@EntityListeners(GenderEntityListener.class)
 public class Gender extends BaseEntityAudit {
     @Column(name = "name")
     private String name;

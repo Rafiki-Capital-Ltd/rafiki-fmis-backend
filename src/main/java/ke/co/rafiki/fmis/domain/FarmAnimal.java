@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.FarmAnimalEntityListener;
 import lombok.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_animals")
+@EntityListeners(FarmAnimalEntityListener.class)
 public class FarmAnimal extends BaseEntityAudit {
     @Column(name = "name", nullable = false)
     private String name;

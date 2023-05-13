@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.FarmSaleEntityListener;
 import ke.co.rafiki.fmis.domain.enums.SaleType;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_sales_records")
+@EntityListeners(FarmSaleEntityListener.class)
 public class FarmSale extends BaseEntityAudit {
 
     @ManyToOne(optional = false)
