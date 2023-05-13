@@ -39,6 +39,14 @@ public class Farm extends BaseEntityAudit {
     @ToString.Exclude
     private FarmLocation location;
 
+    @ManyToMany(mappedBy = "farms")
+    @ToString.Exclude
+    private List<FarmCrop> farmCrops;
+
+    @ManyToMany(mappedBy = "farms")
+    @ToString.Exclude
+    private List<FarmAnimal> farmAnimals;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private FarmActivityLog farmActivityLog;

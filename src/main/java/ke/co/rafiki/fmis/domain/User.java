@@ -37,6 +37,10 @@ public class User extends BaseEntityAudit {
     @ToString.Exclude
     private Set<PhoneNumber> phoneNumbers;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "gender_id", nullable = false)
+    private Gender gender;
+
     @Column(name = "display_picture")
     private String displayPicture;
 
