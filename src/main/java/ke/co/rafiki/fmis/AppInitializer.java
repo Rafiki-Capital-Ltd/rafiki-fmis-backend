@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis;
 
 import ke.co.rafiki.fmis.domain.*;
+import ke.co.rafiki.fmis.domain.enums.GenderType;
 import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.*;
@@ -32,13 +33,17 @@ public class AppInitializer implements CommandLineRunner {
     @Autowired
     private FarmRepository farmRepository;
 
+    @Autowired
+    private GenderRepository genderRepository;
+
     @Override
     public void run(String... args) throws Exception {
         initRoles();
-        List<User> users = initUsers();
+        List<Gender> genders = initGenders();
+        List<User> users = initUsers(genders);
         List<County> counties = initCounties();
         List<Ward> wards = initWards(counties);
-        List<Farm> farms = initFarms(users, counties);
+        List<Farm> farms = initFarms(users, counties, wards);
     }
 
     private void initRoles() {
@@ -50,7 +55,16 @@ public class AppInitializer implements CommandLineRunner {
         );
     }
 
-    private List<User> initUsers() throws Exception {
+    private List<Gender> initGenders() {
+        genderRepository.deleteAll();
+        return genderRepository.saveAll(
+                Arrays.stream(GenderType.values())
+                        .map(gender -> Gender.builder().name(gender.toString()).build())
+                        .collect(Collectors.toSet())
+        );
+    }
+
+    private List<User> initUsers(List<Gender> genders) throws Exception {
         Role farmerRole = roleRepository.findByName(RoleType.FARMER.toString())
                 .orElseThrow(NotFoundException::new);
         Role managerRole = roleRepository.findByName(RoleType.MANAGER.toString())
@@ -63,6 +77,7 @@ public class AppInitializer implements CommandLineRunner {
                         .lastName("User")
                         .email("farmer@fmis.rafiki.co.ke")
                         .password("password")
+                        .gender(genders.get(0))
                         .roles(Set.of(farmerRole))
                         .build(),
                 User.builder()
@@ -70,6 +85,7 @@ public class AppInitializer implements CommandLineRunner {
                         .lastName("User")
                         .email("manager@fmis.rafiki.co.ke")
                         .password("password")
+                        .gender(genders.get(0))
                         .roles(Set.of(farmerRole, managerRole))
                         .build(),
                 User.builder()
@@ -77,6 +93,7 @@ public class AppInitializer implements CommandLineRunner {
                         .lastName("User")
                         .email("admin@fmis.rafiki.co.ke")
                         .password("password")
+                        .gender(genders.get(1))
                         .roles(Set.of(farmerRole, managerRole, adminRole))
                         .build()
         );
@@ -84,6 +101,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     private List<County> initCounties() {
+        countyRepository.deleteAll();
         List<County> counties = List.of(
                 County.builder().name("NAIROBI").build(),
                 County.builder().name("MAKUENI").build(),
@@ -107,7 +125,7 @@ public class AppInitializer implements CommandLineRunner {
         return wardRepository.saveAll(wards);
     }
 
-    private List<Farm> initFarms(List<User> users, List<County> counties) {
+    private List<Farm> initFarms(List<User> users, List<County> counties, List<Ward> wards) {
         farmRepository.deleteAll();
         List<Farm> farms = List.of(
                 Farm.builder()
@@ -115,14 +133,14 @@ public class AppInitializer implements CommandLineRunner {
                         .owner(users.get(0))
                         .size(BigDecimal.valueOf(12.0))
                         .county(counties.get(1))
-                        .ward(counties.get(1).getWards().get(0))
+                        .ward(wards.get(0))
                         .build(),
                 Farm.builder()
                         .name("Test Farm 2")
                         .owner(users.get(1))
                         .size(BigDecimal.valueOf(10.0))
                         .county(counties.get(0))
-                        .ward(counties.get(0).getWards().get(0))
+                        .ward(wards.get(0))
                         .build()
         );
         return farmRepository.saveAll(farms);

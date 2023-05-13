@@ -10,9 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CountyEntityListener {
     @PrePersist
-    private County prePersist(County county) {
+    private void prePersist(County county) {
         county.setName(county.getName().toUpperCase());
-        return county;
     }
 
     @PostPersist

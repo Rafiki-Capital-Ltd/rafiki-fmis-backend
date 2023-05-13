@@ -8,10 +8,10 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Entity
-@Builder
 @Getter
 @Setter
-@SuperBuilder
+@ToString
+@SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "genders")
@@ -20,6 +20,7 @@ public class Gender extends BaseEntityAudit {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "gender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<User> users;
 }

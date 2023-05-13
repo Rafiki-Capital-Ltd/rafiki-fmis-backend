@@ -7,11 +7,10 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_assets")

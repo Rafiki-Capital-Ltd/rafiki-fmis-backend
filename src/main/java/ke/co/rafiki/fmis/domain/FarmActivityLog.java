@@ -9,11 +9,10 @@ import java.time.Year;
 import java.util.List;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_activity_logs")

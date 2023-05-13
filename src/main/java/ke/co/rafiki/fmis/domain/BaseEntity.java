@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass // ensures that the base entity class will not have a separate representation as table of the extending class

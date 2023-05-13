@@ -10,9 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WardEntityListener {
     @PrePersist
-    private Ward prePersist(Ward ward) {
+    private void prePersist(Ward ward) {
         ward.setName(ward.getName().toUpperCase());
-        return ward;
     }
 
     @PostPersist

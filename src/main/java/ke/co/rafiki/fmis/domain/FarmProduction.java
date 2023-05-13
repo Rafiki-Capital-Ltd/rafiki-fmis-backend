@@ -9,11 +9,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_production_records")

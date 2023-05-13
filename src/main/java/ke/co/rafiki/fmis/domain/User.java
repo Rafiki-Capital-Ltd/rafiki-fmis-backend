@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -46,12 +45,7 @@ public class User extends BaseEntityAudit {
     @Column(name = "display_picture")
     private String displayPicture;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+    @ManyToMany(mappedBy = "users")
     @ToString.Exclude
     private Set<Role> roles;
 

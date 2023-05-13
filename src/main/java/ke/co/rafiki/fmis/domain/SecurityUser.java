@@ -19,7 +19,7 @@ public class SecurityUser implements UserDetails {
         return user
                 .getRoles()
                 .stream()
-                .map(role -> role.getType().toString())
+                .map(Role::getName)
                 .map(SimpleGrantedAuthority::new)
                 .toList();
     }

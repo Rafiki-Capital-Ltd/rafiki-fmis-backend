@@ -1,20 +1,21 @@
 package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
+import ke.co.rafiki.fmis.domain.entitylisteners.WardEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "wards")
+@EntityListeners(WardEntityListener.class)
 public class Ward extends BaseEntityAudit{
     @Column(name = "name", unique = true, nullable = false)
     private String name;

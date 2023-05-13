@@ -8,11 +8,10 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farm_activities")

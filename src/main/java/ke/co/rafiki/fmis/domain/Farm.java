@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "farms")
@@ -24,6 +24,7 @@ public class Farm extends BaseEntityAudit {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner", nullable = false, updatable = false)
+    @ToString.Exclude
     private User owner;
 
     @Column(name = "size", scale = 2)
@@ -31,10 +32,12 @@ public class Farm extends BaseEntityAudit {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "county_id", nullable = false)
+    @ToString.Exclude
     private County county;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "county_id", nullable = false)
+    @JoinColumn(name = "ward_id", nullable = false)
+    @ToString.Exclude
     private Ward ward;
 
     @Column(name = "nearest_shopping_center")

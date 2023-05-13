@@ -14,11 +14,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public class BaseEntityAudit extends BaseEntity implements Serializable {
+public abstract class BaseEntityAudit extends BaseEntity implements Serializable {
 
     private String createdBy;
     private String updatedBy;
