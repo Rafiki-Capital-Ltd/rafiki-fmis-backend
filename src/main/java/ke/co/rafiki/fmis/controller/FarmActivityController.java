@@ -73,7 +73,8 @@ public class FarmActivityController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFarmActivity(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteFarmActivity(@PathVariable UUID id) {
         farmActivityService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

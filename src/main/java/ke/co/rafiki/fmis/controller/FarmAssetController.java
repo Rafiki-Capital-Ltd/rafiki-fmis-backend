@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import static ke.co.rafiki.fmis.Constants.*;
+import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -83,7 +83,8 @@ public class FarmAssetController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFarmAsset(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteFarmAsset(@PathVariable UUID id) {
         farmAssetService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

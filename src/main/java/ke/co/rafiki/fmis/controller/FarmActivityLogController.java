@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import static ke.co.rafiki.fmis.Constants.*;
+import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -84,7 +84,8 @@ public class FarmActivityLogController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFarmActivityLog(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteFarmActivityLog(@PathVariable UUID id) {
         farmActivityLogService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
