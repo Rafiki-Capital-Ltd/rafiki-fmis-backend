@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmVcaEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -25,4 +27,9 @@ public class FarmVca extends BaseEntityAudit {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
+    private User owner;
 }

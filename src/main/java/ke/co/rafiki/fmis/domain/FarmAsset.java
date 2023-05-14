@@ -5,6 +5,8 @@ import ke.co.rafiki.fmis.domain.entitylisteners.FarmAssetEntityListener;
 import ke.co.rafiki.fmis.domain.enums.AssetStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -31,4 +33,9 @@ public class FarmAsset extends BaseEntityAudit {
 
     @Column(name = "status", nullable = false)
     private String status = AssetStatus.FUNCTIONAL.toString();
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
+    private User owner;
 }

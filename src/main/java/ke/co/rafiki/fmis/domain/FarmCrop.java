@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmCropEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -30,4 +32,9 @@ public class FarmCrop extends BaseEntityAudit {
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude
     private Farm farm;
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
+    private User owner;
 }

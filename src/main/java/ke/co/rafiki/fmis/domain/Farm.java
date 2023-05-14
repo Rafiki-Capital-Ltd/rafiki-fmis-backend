@@ -23,7 +23,7 @@ public class Farm extends BaseEntityAudit {
     private String name;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "owner", nullable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @ToString.Exclude
     private User owner;
 

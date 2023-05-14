@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmActivityEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -27,4 +29,9 @@ public class FarmActivity extends BaseEntityAudit {
 
     @Column(name = "activities")
     private String activities;
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
+    private User owner;
 }
