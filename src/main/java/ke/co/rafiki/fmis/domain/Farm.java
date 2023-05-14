@@ -6,7 +6,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -49,33 +49,33 @@ public class Farm extends BaseEntityAudit {
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmCrop> farmCrops;
+    private Set<FarmCrop> farmCrops;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmAnimal> farmAnimals;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private FarmActivityLog farmActivityLog;
+    private Set<FarmAnimal> farmAnimals;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmVca> farmVcas;
+    private Set<FarmActivityLog> farmActivityLogs;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmAsset> farmAssets;
+    private Set<FarmVca> farmVcas;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmProduction> farmProductions;
+    private Set<FarmAsset> farmAssets;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmConsumption> farmConsumptions;
+    private Set<FarmProduction> farmProductions;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmSale> farmSales;
+    private Set<FarmConsumption> farmConsumptions;
+
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<FarmSale> farmSales;
 }

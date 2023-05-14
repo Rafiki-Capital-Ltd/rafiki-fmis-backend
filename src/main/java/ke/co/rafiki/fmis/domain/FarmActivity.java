@@ -30,8 +30,7 @@ public class FarmActivity extends BaseEntityAudit {
     @Column(name = "activities")
     private String activities;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 }

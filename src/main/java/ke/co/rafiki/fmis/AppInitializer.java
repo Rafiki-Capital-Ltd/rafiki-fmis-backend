@@ -3,7 +3,6 @@ package ke.co.rafiki.fmis;
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.*;
 import ke.co.rafiki.fmis.domain.enums.AssetStatus;
-import ke.co.rafiki.fmis.domain.enums.GenderType;
 import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.domain.enums.SaleType;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
@@ -44,9 +43,6 @@ public class AppInitializer implements CommandLineRunner {
     private FarmRepository farmRepository;
 
     @Autowired
-    private GenderRepository genderRepository;
-
-    @Autowired
     private FarmAnimalRepository farmAnimalRepository;
 
     @Autowired
@@ -76,8 +72,7 @@ public class AppInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         initRoles();
-        List<Gender> genders = initGenders();
-        List<User> users = initUsers(genders);
+        List<User> users = initUsers();
         List<County> counties = initCounties();
         List<Ward> wards = initWards(counties);
         List<Farm> farms = initFarms(users, counties, wards);
@@ -103,17 +98,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<Gender> initGenders() {
-        genderRepository.deleteAll();
-        return genderRepository.saveAll(
-                Arrays.stream(GenderType.values())
-                        .map(gender -> Gender.builder().name(gender.toString()).build())
-                        .collect(Collectors.toSet())
-        );
-    }
-
-    @Transactional
-    private List<User> initUsers(List<Gender> genders) throws Exception {
+    private List<User> initUsers() throws Exception {
         userRepository.deleteAll();
         Role farmerRole = roleRepository.findByName(RoleType.FARMER.toString())
                 .orElseThrow(NotFoundException::new);
@@ -127,7 +112,6 @@ public class AppInitializer implements CommandLineRunner {
                         .lastName("User")
                         .email("farmer@fmis.rafiki.co.ke")
                         .password(passwordEncoder.encode("password"))
-                        .gender(genders.get(0))
                         .roles(Set.of(farmerRole))
                         .build(),
                 User.builder()
@@ -135,7 +119,6 @@ public class AppInitializer implements CommandLineRunner {
                         .lastName("User")
                         .email("manager@fmis.rafiki.co.ke")
                         .password(passwordEncoder.encode("password"))
-                        .gender(genders.get(0))
                         .roles(Set.of(farmerRole, managerRole))
                         .build(),
                 User.builder()
@@ -143,7 +126,6 @@ public class AppInitializer implements CommandLineRunner {
                         .lastName("User")
                         .email("admin@fmis.rafiki.co.ke")
                         .password(passwordEncoder.encode("password"))
-                        .gender(genders.get(1))
                         .roles(Set.of(farmerRole, managerRole, adminRole))
                         .build()
         );

@@ -22,6 +22,8 @@ public class UpdateUserDto {
     @NotEmpty
     private Set<PhoneNumber> phoneNumber;
 
+    private String gender;
+
     @NotEmpty
     private Set<Role> roles;
 }

@@ -34,8 +34,7 @@ public class FarmAsset extends BaseEntityAudit {
     @Column(name = "status", nullable = false)
     private String status = AssetStatus.FUNCTIONAL.toString();
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 }

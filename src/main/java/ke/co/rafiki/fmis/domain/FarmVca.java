@@ -28,8 +28,7 @@ public class FarmVca extends BaseEntityAudit {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 }

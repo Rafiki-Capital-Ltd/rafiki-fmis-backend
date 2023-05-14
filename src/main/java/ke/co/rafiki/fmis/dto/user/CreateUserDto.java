@@ -30,6 +30,8 @@ public class CreateUserDto {
     @NotEmpty
     private Set<PhoneNumber> phoneNumbers;
 
+    private String gender;
+
     @NotEmpty
     private Set<Role> roles;
 }

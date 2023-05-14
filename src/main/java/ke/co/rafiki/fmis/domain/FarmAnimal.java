@@ -37,8 +37,7 @@ public class FarmAnimal extends BaseEntityAudit {
     @ToString.Exclude
     private Farm farm;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 }

@@ -1,11 +1,11 @@
 package ke.co.rafiki.fmis.domain.enums;
 
-public enum GenderType {
+public enum Gender {
     MALE("MALE"), FEMALE("FEMALE");
 
     private final String value;
 
-    GenderType(String value) { this.value = value; }
+    Gender(String value) { this.value = value; }
 
     @Override
     public String toString() { return this.value; }

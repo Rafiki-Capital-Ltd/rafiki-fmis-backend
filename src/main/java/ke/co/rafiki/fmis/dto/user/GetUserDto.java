@@ -15,6 +15,7 @@ public class GetUserDto {
     private String lastName;
     private String email;
     private List<PhoneNumber> phoneNumbers;
+    private String gender;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

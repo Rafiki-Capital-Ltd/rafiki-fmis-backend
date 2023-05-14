@@ -29,8 +29,7 @@ public class FarmLocation extends BaseEntityAudit {
     @Column(name = "longitude", nullable = false)
     private BigDecimal longitude;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 }

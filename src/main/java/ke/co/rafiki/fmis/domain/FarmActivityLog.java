@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Year;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,8 +21,8 @@ import java.util.List;
 @Table(name = "farm_activity_logs")
 @EntityListeners(FarmActivityLogEntityListener.class)
 public class FarmActivityLog extends BaseEntityAudit {
-    @OneToOne(mappedBy = "farmActivityLog")
-    @JoinColumn(name = "farm_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
     @ToString.Exclude
     private Farm farm;
 
@@ -33,10 +34,9 @@ public class FarmActivityLog extends BaseEntityAudit {
 
     @OneToMany(mappedBy = "farmActivityLog", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<FarmActivity> farmActivities;
+    private Set<FarmActivity> farmActivities;
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 }
