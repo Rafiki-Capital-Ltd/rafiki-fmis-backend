@@ -9,6 +9,7 @@ import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 @Component
 public class AppInitializer implements CommandLineRunner {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -118,7 +122,7 @@ public class AppInitializer implements CommandLineRunner {
                         .firstName("Farmer")
                         .lastName("User")
                         .email("farmer@fmis.rafiki.co.ke")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .gender(genders.get(0))
                         .roles(Set.of(farmerRole))
                         .build(),
@@ -126,7 +130,7 @@ public class AppInitializer implements CommandLineRunner {
                         .firstName("Manager")
                         .lastName("User")
                         .email("manager@fmis.rafiki.co.ke")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .gender(genders.get(0))
                         .roles(Set.of(farmerRole, managerRole))
                         .build(),
@@ -134,7 +138,7 @@ public class AppInitializer implements CommandLineRunner {
                         .firstName("Admin")
                         .lastName("User")
                         .email("admin@fmis.rafiki.co.ke")
-                        .password("password")
+                        .password(passwordEncoder.encode("password"))
                         .gender(genders.get(1))
                         .roles(Set.of(farmerRole, managerRole, adminRole))
                         .build()

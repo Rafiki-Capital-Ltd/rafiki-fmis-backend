@@ -20,12 +20,7 @@ public class Role extends BaseEntityAudit {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<User> users;
 }

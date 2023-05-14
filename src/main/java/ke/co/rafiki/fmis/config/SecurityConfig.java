@@ -1,5 +1,6 @@
 package ke.co.rafiki.fmis.config;
 
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -31,6 +32,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/actuator/**").permitAll();
                     auth.requestMatchers("/auth/register").permitAll();
                     auth.requestMatchers("/auth/logout").permitAll();
+                    auth.requestMatchers("/users").hasAuthority(RoleType.ADMIN.toString());
                     auth.anyRequest().authenticated();
                 })
                 .userDetailsService(userDetailsService)
