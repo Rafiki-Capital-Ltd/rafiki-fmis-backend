@@ -56,8 +56,4 @@ public class User extends BaseEntityAudit {
     )
     @ToString.Exclude
     private Set<Role> roles;
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private Set<Farm> farms;
 }

@@ -24,7 +24,7 @@ public class Ward extends BaseEntityAudit{
     @JoinColumn(name = "county_id", nullable = false)
     private County county;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Farm> farms;
 }

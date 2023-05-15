@@ -1,7 +1,6 @@
 package ke.co.rafiki.fmis.mapper;
 
 import ke.co.rafiki.fmis.domain.Farm;
-import ke.co.rafiki.fmis.domain.FarmLocation;
 import ke.co.rafiki.fmis.dto.county.GetCountyDto;
 import ke.co.rafiki.fmis.dto.farm.CreateFarmDto;
 import ke.co.rafiki.fmis.dto.farm.GetFarmDto;
@@ -30,8 +29,8 @@ public interface FarmMapper {
                         .build())
                 .nearestShoppingCenter(farm.getNearestShoppingCenter())
                 .location(farm.getLocation() != null ? GetFarmLocationDto.builder()
-                        .latitude(farm.getLocation().getLatitude())
-                        .longitude(farm.getLocation().getLongitude())
+                        .latitude(farm.getLocation().getLat())
+                        .longitude(farm.getLocation().getLng())
                         .build() : null)
                 .createdAt(farm.getCreatedAt())
                 .updatedAt(farm.getCreatedAt())

@@ -20,5 +20,10 @@ public interface FarmActivityLogRepository extends JpaRepository<FarmActivityLog
     @Transactional
     @Modifying
     @Query("UPDATE FarmActivityLog fal SET fal.owner = null WHERE fal.owner = :owner")
-    void dissasociateFromOwner(@Param("owner") User owner);
+    void disassociateFromOwner(@Param("owner") User owner);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmActivityLog fal SET fal.farm = null WHERE fal.farm = :farm")
+    void disassociateFromFarm(@Param("farm") Farm farm);
 }

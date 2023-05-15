@@ -16,9 +16,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "farm_assets")
 @EntityListeners(FarmAssetEntityListener.class)
 public class FarmAsset extends BaseEntityAuditOwned {
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
-    private Farm farm;
 
     @Column(name = "type")
     private String type;
@@ -31,4 +28,9 @@ public class FarmAsset extends BaseEntityAuditOwned {
 
     @Column(name = "status", nullable = false)
     private String status = AssetStatus.FUNCTIONAL.toString();
+
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
+    private Farm farm;
+
 }

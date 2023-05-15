@@ -28,8 +28,8 @@ public class FarmAnimal extends BaseEntityAuditOwned {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
     @ToString.Exclude
     private Farm farm;
 }

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @EntityListeners(FarmActivityEntityListener.class)
 public class FarmActivity extends BaseEntityAuditOwned {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_diary_id", nullable = false, updatable = false)
+    @JoinColumn(name = "farm_activity_log_id", nullable = false, updatable = false)
     @ToString.Exclude
     private FarmActivityLog farmActivityLog;
 

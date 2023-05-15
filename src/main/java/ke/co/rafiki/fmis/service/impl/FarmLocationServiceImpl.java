@@ -56,8 +56,8 @@ public class FarmLocationServiceImpl implements FarmLocationService {
     @Override
     public FarmLocation update(UUID id, FarmLocation farmLocation) throws Exception {
         FarmLocation _farmLocation = this.findOne(id);
-        _farmLocation.setLatitude(farmLocation.getLatitude());
-        _farmLocation.setLongitude(farmLocation.getLongitude());
+        _farmLocation.setLat(farmLocation.getLat());
+        _farmLocation.setLng(farmLocation.getLng());
         return farmLocationRepository.save(_farmLocation);
     }
 

@@ -166,6 +166,7 @@ public class AppInitializer implements CommandLineRunner {
 
     @Transactional
     private List<Farm> initFarms(List<User> users, List<County> counties, List<Ward> wards) {
+        deleteFarmAssociations(farmRepository.findAll());
         farmRepository.deleteAll();
         List<Farm> farms = List.of(
                 Farm.builder()
@@ -363,8 +364,9 @@ public class AppInitializer implements CommandLineRunner {
     @Transactional
     private void deleteUserAssociations(List<User> users) {
         users.forEach(user -> {
+            farmRepository.disassociateFromOwner(user);
             farmAssetRepository.disassociateFromOwner(user);
-            farmActivityLogRepository.dissasociateFromOwner(user);
+            farmActivityLogRepository.disassociateFromOwner(user);
             farmActivityRepository.disassociateFromOwner(user);
             farmAnimalRepository.disassociateFromOwner(user);
             farmCropRepository.disassociateFromOwner(user);
@@ -372,7 +374,21 @@ public class AppInitializer implements CommandLineRunner {
             farmProductionRepository.disassociateFromOwner(user);
             farmSaleRepository.disassociateFromOwner(user);
             farmVcaRepository.disassociateFromOwner(user);
-//            userRepository.disassociateRoleFromUser(user.getId());
+            userRepository.disassociateRoleFromUser(user.getId());
+        });
+    }
+
+    @Transactional
+    private void deleteFarmAssociations(List<Farm> farms) {
+        farms.forEach(farm -> {
+            farmAssetRepository.disassociateFromFarm(farm);
+            farmActivityLogRepository.disassociateFromFarm(farm);
+            farmAnimalRepository.disassociateFromFarm(farm);
+            farmCropRepository.disassociateFromFarm(farm);
+            farmConsumptionRepository.disassociateFromFarm(farm);
+            farmProductionRepository.disassociateFromFarm(farm);
+            farmSaleRepository.disassociateFromFarm(farm);
+            farmVcaRepository.disassociateFromFarm(farm);
         });
     }
 }

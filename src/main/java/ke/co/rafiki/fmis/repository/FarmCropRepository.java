@@ -24,4 +24,9 @@ public interface FarmCropRepository extends JpaRepository<FarmCrop, UUID> {
     @Modifying
     @Query("UPDATE FarmCrop fc SET fc.owner = null WHERE fc.owner = :owner")
     void disassociateFromOwner(@Param("owner") User owner);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmCrop fc SET fc.farm = null WHERE fc.farm = :farm")
+    void disassociateFromFarm(@Param("farm") Farm farm);
 }

@@ -25,4 +25,9 @@ public interface FarmConsumptionRepository extends JpaRepository<FarmConsumption
     @Modifying
     @Query("UPDATE FarmConsumption fac SET fac.owner = null WHERE fac.owner = :owner")
     void disassociateFromOwner(@Param("owner") User owner);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmConsumption fac SET fac.farm = null WHERE fac.farm = :farm")
+    void disassociateFromFarm(@Param("farm") Farm farm);
 }

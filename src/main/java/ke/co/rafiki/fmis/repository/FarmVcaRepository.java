@@ -25,4 +25,9 @@ public interface FarmVcaRepository extends JpaRepository<FarmVca, UUID> {
     @Modifying
     @Query("UPDATE FarmVca fav SET fav.owner = null WHERE fav.owner = :owner")
     void disassociateFromOwner(@Param("owner") User owner);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmVca fav SET fav.farm = null WHERE fav.farm = :farm")
+    void disassociateFromFarm(@Param("farm") Farm farm);
 }

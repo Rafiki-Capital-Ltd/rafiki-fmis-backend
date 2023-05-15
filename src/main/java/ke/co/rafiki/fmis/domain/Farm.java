@@ -25,13 +25,13 @@ public class Farm extends BaseEntityAuditOwned {
     @Column(name = "size", scale = 2)
     private BigDecimal size;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "county_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "county_id")
     @ToString.Exclude
     private County county;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ward_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ward_id")
     @ToString.Exclude
     private Ward ward;
 

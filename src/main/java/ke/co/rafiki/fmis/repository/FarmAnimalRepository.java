@@ -23,4 +23,9 @@ public interface FarmAnimalRepository extends JpaRepository<FarmAnimal, UUID> {
     @Modifying
     @Query("UPDATE FarmAnimal fa SET fa.owner = null WHERE fa.owner = :owner")
     void disassociateFromOwner(@Param("owner") User owner);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmAnimal fa SET fa.farm = null WHERE fa.farm = :farm")
+    void disassociateFromFarm(@Param("farm") Farm farm);
 }

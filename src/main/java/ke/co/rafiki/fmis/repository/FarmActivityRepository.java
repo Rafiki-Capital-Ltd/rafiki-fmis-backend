@@ -1,6 +1,7 @@
 package ke.co.rafiki.fmis.repository;
 
 import jakarta.transaction.Transactional;
+import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmActivity;
 import ke.co.rafiki.fmis.domain.FarmActivityLog;
 import ke.co.rafiki.fmis.domain.User;
@@ -25,4 +26,9 @@ public interface FarmActivityRepository extends JpaRepository<FarmActivity, UUID
     @Modifying
     @Query("UPDATE FarmActivity fac SET fac.owner = null WHERE fac.owner = :owner")
     void disassociateFromOwner(@Param("owner") User owner);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmActivity fac SET fac.farmActivityLog = null WHERE fac.farmActivityLog = :farmActivityLog")
+    void disassociateFromFarm(@Param("farmActivityLog") FarmActivityLog farmActivityLog);
 }

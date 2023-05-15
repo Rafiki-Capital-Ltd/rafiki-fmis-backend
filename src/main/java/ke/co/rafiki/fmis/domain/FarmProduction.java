@@ -18,9 +18,6 @@ import java.time.LocalDate;
 @Table(name = "farm_production_records")
 @EntityListeners(FarmProductionEntityListener.class)
 public class FarmProduction extends BaseEntityAuditOwned {
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
-    private Farm farm;
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
@@ -30,4 +27,9 @@ public class FarmProduction extends BaseEntityAuditOwned {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
+    private Farm farm;
+
 }

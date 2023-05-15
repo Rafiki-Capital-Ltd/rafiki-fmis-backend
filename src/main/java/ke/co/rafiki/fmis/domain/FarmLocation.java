@@ -22,8 +22,8 @@ public class FarmLocation extends BaseEntityAuditOwned {
     private Farm farm;
 
     @Column(name = "latitude", nullable = false)
-    private BigDecimal latitude;
+    private BigDecimal lat;
 
     @Column(name = "longitude", nullable = false)
-    private BigDecimal longitude;
+    private BigDecimal lng;
 }

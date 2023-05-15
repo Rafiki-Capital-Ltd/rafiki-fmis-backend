@@ -24,7 +24,7 @@ public class County extends BaseEntityAudit {
     @ToString.Exclude
     private List<Ward> wards;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Farm> farms;
 }

@@ -15,14 +15,16 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "farm_value_chain_additions")
 @EntityListeners(FarmVcaEntityListener.class)
 public class FarmVca extends BaseEntityAuditOwned {
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "farm_id", nullable = false, updatable = false)
-    @ToString.Exclude
-    private Farm farm;
 
     @Column(name = "type", nullable = false)
     private String type;
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
+    @ToString.Exclude
+    private Farm farm;
+
 }
