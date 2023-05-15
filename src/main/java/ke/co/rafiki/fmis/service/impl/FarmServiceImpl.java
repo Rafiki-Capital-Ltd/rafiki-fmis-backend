@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,13 +75,13 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public Page<Farm> findAll(int page, int size, String sort, String sortDirection) {
+    public List<Farm> findAll(int page, int size, String sort, String sortDirection) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
-        return farmRepository.findAll(pageRequest);
+        return farmRepository.findAll(pageRequest).getContent();
     }
 
     @Override
-    @PreAuthorize("hasPermission(#id, 'Farm', 'ADMIN')")
+    @PostAuthorize("hasPermission(returnObject, 'ADMIN')")
     public Farm findOne(UUID id) throws Exception {
         return farmRepository.findById(id).orElseThrow(() -> {
             String message = "Farm id " + id + " was not found";
@@ -89,6 +91,7 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'Farm', 'MANAGER')")
     public Farm update(UUID id, Farm farm) throws Exception {
         Farm _farm = this.findOne(id);
         _farm.setName(farm.getName());
@@ -101,6 +104,7 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'Farm', 'MANAGER')")
     public void delete(UUID id) {
         farmRepository.deleteById(id);
     }

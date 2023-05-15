@@ -18,8 +18,7 @@ public class CustomPermissionEvaluator<E extends BaseEntityAuditOwned, R extends
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
-        if (!(targetDomainObject instanceof BaseEntityAuditOwned))
-            throw new IllegalArgumentException("Could not cast targetDomainObject to BaseEntityOwned");
+        if (!(targetDomainObject instanceof BaseEntityAuditOwned)) return true;
 
         E subject = (E) targetDomainObject;
 
@@ -31,7 +30,9 @@ public class CustomPermissionEvaluator<E extends BaseEntityAuditOwned, R extends
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
-        E subject = repository.findById((UUID) targetId).orElseThrow(IllegalArgumentException::new);
+        E subject = repository.findById((UUID) targetId).orElse(null);
+
+        if (subject == null) return true;
 
         boolean isAdmin = authentication.getAuthorities()
                 .stream().anyMatch(a -> a.getAuthority().equals(permission));
