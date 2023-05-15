@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmActivityLogEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Year;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "farm_activity_logs")
 @EntityListeners(FarmActivityLogEntityListener.class)
-public class FarmActivityLog extends BaseEntityAudit {
+public class FarmActivityLog extends BaseEntityAuditOwned {
     @ManyToOne
     @JoinColumn(name = "farm_id")
     @ToString.Exclude
@@ -35,8 +32,4 @@ public class FarmActivityLog extends BaseEntityAudit {
     @OneToMany(mappedBy = "farmActivityLog", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Set<FarmActivity> farmActivities;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User owner;
 }

@@ -71,7 +71,7 @@ public class AppInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initRoles();
+        List<Role> roles = initRoles();
         List<User> users = initUsers();
         List<County> counties = initCounties();
         List<Ward> wards = initWards(counties);
@@ -88,9 +88,11 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private void initRoles() {
+    private List<Role> initRoles() {
+        roleRepository.findAll()
+                .forEach(role -> roleRepository.disassociateRoleFromUser(role.getId()));
         roleRepository.deleteAll();
-        roleRepository.saveAll(
+        return roleRepository.saveAll(
                 Arrays.stream(RoleType.values())
                     .map(type -> Role.builder().name(type.toString()).build())
                     .collect(Collectors.toSet())
@@ -99,6 +101,7 @@ public class AppInitializer implements CommandLineRunner {
 
     @Transactional
     private List<User> initUsers() throws Exception {
+        deleteUserAssociations(userRepository.findAll());
         userRepository.deleteAll();
         Role farmerRole = roleRepository.findByName(RoleType.FARMER.toString())
                 .orElseThrow(NotFoundException::new);
@@ -129,6 +132,7 @@ public class AppInitializer implements CommandLineRunner {
                         .roles(Set.of(farmerRole, managerRole, adminRole))
                         .build()
         );
+        roleRepository.saveAll(List.of(farmerRole, managerRole, adminRole));
         return userRepository.saveAll(users);
     }
 
@@ -354,5 +358,21 @@ public class AppInitializer implements CommandLineRunner {
                         .build()
         );
         return farmActivityRepository.saveAll(farmActivities);
+    }
+
+    @Transactional
+    private void deleteUserAssociations(List<User> users) {
+        users.forEach(user -> {
+            farmAssetRepository.disassociateFromOwner(user);
+            farmActivityLogRepository.dissasociateFromOwner(user);
+            farmActivityRepository.disassociateFromOwner(user);
+            farmAnimalRepository.disassociateFromOwner(user);
+            farmCropRepository.disassociateFromOwner(user);
+            farmConsumptionRepository.disassociateFromOwner(user);
+            farmProductionRepository.disassociateFromOwner(user);
+            farmSaleRepository.disassociateFromOwner(user);
+            farmVcaRepository.disassociateFromOwner(user);
+//            userRepository.disassociateRoleFromUser(user.getId());
+        });
     }
 }

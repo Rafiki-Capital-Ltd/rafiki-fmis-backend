@@ -1,10 +1,15 @@
 package ke.co.rafiki.fmis.repository;
 
+import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmVca;
+import ke.co.rafiki.fmis.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +20,9 @@ public interface FarmVcaRepository extends JpaRepository<FarmVca, UUID> {
     Page<FarmVca> findByFarm(Farm farm, Pageable pageable);
 
     List<FarmVca> findByFarm(Farm farm);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE FarmVca fav SET fav.owner = null WHERE fav.owner = :owner")
+    void disassociateFromOwner(@Param("owner") User owner);
 }

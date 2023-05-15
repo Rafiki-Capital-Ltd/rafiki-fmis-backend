@@ -2,11 +2,8 @@ package ke.co.rafiki.fmis.domain;
 
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmSaleEntityListener;
-import ke.co.rafiki.fmis.domain.enums.SaleType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "farm_sales_records")
 @EntityListeners(FarmSaleEntityListener.class)
-public class FarmSale extends BaseEntityAudit {
+public class FarmSale extends BaseEntityAuditOwned {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
@@ -41,8 +38,4 @@ public class FarmSale extends BaseEntityAudit {
 
     @Column(name = "description")
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User owner;
 }

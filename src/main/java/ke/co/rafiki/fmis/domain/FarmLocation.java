@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmLocationEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 
@@ -18,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Table(name = "farm_locations")
 @EntityListeners(FarmLocationEntityListener.class)
-public class FarmLocation extends BaseEntityAudit {
+public class FarmLocation extends BaseEntityAuditOwned {
     @OneToOne(mappedBy = "location")
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     private Farm farm;
@@ -28,8 +26,4 @@ public class FarmLocation extends BaseEntityAudit {
 
     @Column(name = "longitude", nullable = false)
     private BigDecimal longitude;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User owner;
 }

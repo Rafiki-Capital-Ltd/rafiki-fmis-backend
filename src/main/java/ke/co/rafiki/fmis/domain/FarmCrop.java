@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmCropEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -16,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @AllArgsConstructor
 @Table(name = "farm_crops")
 @EntityListeners(FarmCropEntityListener.class)
-public class FarmCrop extends BaseEntityAudit {
+public class FarmCrop extends BaseEntityAuditOwned {
     // the name of the crop eg maize, beans, mangoes
     @Column(name = "name", nullable = false)
     private String name;
@@ -32,8 +30,4 @@ public class FarmCrop extends BaseEntityAudit {
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude
     private Farm farm;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User owner;
 }

@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmAnimalEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -18,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "farm_animals")
 @EntityListeners(FarmAnimalEntityListener.class)
-public class FarmAnimal extends BaseEntityAudit {
+public class FarmAnimal extends BaseEntityAuditOwned {
 
     // eg cow, goat, chicken...
     @Column(name = "name", nullable = false)
@@ -36,8 +32,4 @@ public class FarmAnimal extends BaseEntityAudit {
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     @ToString.Exclude
     private Farm farm;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User owner;
 }

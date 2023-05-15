@@ -1,5 +1,6 @@
 package ke.co.rafiki.fmis.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.RoleEntityListener;
 import lombok.*;
@@ -20,12 +21,7 @@ public class Role extends BaseEntityAudit {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
     private Set<User> users;
 }

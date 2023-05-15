@@ -17,15 +17,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "farms")
 @EntityListeners(FarmEntityListener.class)
-public class Farm extends BaseEntityAudit {
+public class Farm extends BaseEntityAuditOwned {
 
     @Column(name = "name")
     private String name;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    @ToString.Exclude
-    private User owner;
 
     @Column(name = "size", scale = 2)
     private BigDecimal size;

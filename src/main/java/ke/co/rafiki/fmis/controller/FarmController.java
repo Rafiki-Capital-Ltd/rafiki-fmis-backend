@@ -8,7 +8,9 @@ import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.dto.farm.CreateFarmDto;
 import ke.co.rafiki.fmis.dto.farm.GetFarmDto;
 import ke.co.rafiki.fmis.dto.farm.UpdateFarmDto;
+import ke.co.rafiki.fmis.mapper.CountyMapper;
 import ke.co.rafiki.fmis.mapper.FarmMapper;
+import ke.co.rafiki.fmis.mapper.WardMapper;
 import ke.co.rafiki.fmis.service.FarmService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,17 +22,22 @@ import java.util.List;
 import java.util.UUID;
 import static ke.co.rafiki.fmis.misc.Constants.*;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 @RestController
 @RequestMapping("farms")
 public class FarmController {
 
     private final FarmService farmService;
     private final FarmMapper farmMapper;
+    private final CountyMapper countyMapper;
+    private final WardMapper wardMapper;
 
-    public FarmController(FarmService farmService, FarmMapper farmMapper) {
+    public FarmController(FarmService farmService, FarmMapper farmMapper,
+                          CountyMapper countyMapper, WardMapper wardMapper) {
         this.farmService = farmService;
         this.farmMapper = farmMapper;
+        this.countyMapper = countyMapper;
+        this.wardMapper = wardMapper;
     }
 
     @PostMapping

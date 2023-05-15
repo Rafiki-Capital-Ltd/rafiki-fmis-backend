@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -65,6 +66,7 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'Farm', 'ADMIN')")
     public Farm findOne(UUID id) throws Exception {
         return farmRepository.findById(id).orElseThrow(() -> {
             String message = "Farm id " + id + " was not found";

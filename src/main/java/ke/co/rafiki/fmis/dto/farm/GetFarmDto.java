@@ -1,7 +1,9 @@
 package ke.co.rafiki.fmis.dto.farm;
 
-import ke.co.rafiki.fmis.domain.County;
-import ke.co.rafiki.fmis.domain.Ward;
+import ke.co.rafiki.fmis.dto.county.GetCountyDto;
+import ke.co.rafiki.fmis.dto.farmlocation.GetFarmLocationDto;
+import ke.co.rafiki.fmis.dto.ward.GetWardDto;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,13 +11,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
+@Builder
 public class GetFarmDto {
     private UUID id;
     private BigDecimal size;
-    private County county;
-    private Ward ward;
+    private GetCountyDto county;
+    private GetWardDto ward;
     private String nearestShoppingCenter;
-    private LocationDto location;
+    private GetFarmLocationDto location;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

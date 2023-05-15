@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,7 +22,12 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class BaseEntityAudit extends BaseEntity implements Serializable {
 
+    @CreatedBy
+    @Column(name = "created_by")
     private String createdBy;
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
     private String updatedBy;
 
     @CreationTimestamp

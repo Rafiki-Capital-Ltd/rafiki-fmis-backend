@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmConsumptionEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "farm_consumptions")
 @EntityListeners(FarmConsumptionEntityListener.class)
-public class FarmConsumption extends BaseEntityAudit {
+public class FarmConsumption extends BaseEntityAuditOwned {
     @ManyToOne(optional = false)
     @JoinColumn(name = "farm_id", nullable = false, updatable = false)
     private Farm farm;
@@ -32,8 +30,4 @@ public class FarmConsumption extends BaseEntityAudit {
 
     @Column(name = "description")
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User owner;
 }
