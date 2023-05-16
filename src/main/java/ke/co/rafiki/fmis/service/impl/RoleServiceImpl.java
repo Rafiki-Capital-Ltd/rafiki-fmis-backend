@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,6 +58,11 @@ public class RoleServiceImpl implements RoleService {
             throw new BadRequestException(message);
         }
         return roleRepository.save(role);
+    }
+
+    @Override
+    public List<Role> saveAll(List<Role> roles) throws Exception {
+        return roleRepository.saveAll(roles);
     }
 
     @Override

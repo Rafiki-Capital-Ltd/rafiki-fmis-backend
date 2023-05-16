@@ -14,6 +14,7 @@ public interface FarmMapper {
     default GetFarmDto toGetFarmDto(Farm farm) {
         return GetFarmDto.builder()
                 .id(farm.getId())
+                .name(farm.getName())
                 .size(farm.getSize())
                 .county(GetCountyDto.builder()
                         .id(farm.getCounty().getId())
@@ -22,10 +23,10 @@ public interface FarmMapper {
                         .updatedAt(farm.getCounty().getUpdatedAt())
                         .build())
                 .ward(GetWardDto.builder()
-                        .id(farm.getCounty().getId())
-                        .name(farm.getCounty().getName())
-                        .createdAt(farm.getCounty().getCreatedAt())
-                        .updatedAt(farm.getCounty().getUpdatedAt())
+                        .id(farm.getWard().getId())
+                        .name(farm.getWard().getName())
+                        .createdAt(farm.getWard().getCreatedAt())
+                        .updatedAt(farm.getWard().getUpdatedAt())
                         .build())
                 .nearestShoppingCenter(farm.getNearestShoppingCenter())
                 .location(farm.getLocation() != null ? GetFarmLocationDto.builder()
@@ -39,5 +40,14 @@ public interface FarmMapper {
 
     Farm toFarm(CreateFarmDto createFarmDto);
 
-    Farm toFarm(UpdateFarmDto updateFarmDto);
+    default Farm toFarm(UpdateFarmDto updateFarmDto) {
+        return Farm.builder()
+                .name(updateFarmDto.getName())
+                .size(updateFarmDto.getSize())
+                .county(updateFarmDto.getCounty())
+                .ward(updateFarmDto.getWard())
+                .nearestShoppingCenter(updateFarmDto.getNearestShoppingCenter())
+                .location(updateFarmDto.getLocation())
+                .build();
+    };
 }

@@ -1,17 +1,13 @@
-package ke.co.rafiki.fmis.dto.user;
+package ke.co.rafiki.fmis.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import ke.co.rafiki.fmis.domain.PhoneNumber;
 import ke.co.rafiki.fmis.domain.Role;
-import lombok.Data;
 
-import java.util.List;
 import java.util.Set;
 
-@Data
-public class CreateUserDto {
+public class RegisterUserDto {
     @NotBlank
     private String firstName;
 

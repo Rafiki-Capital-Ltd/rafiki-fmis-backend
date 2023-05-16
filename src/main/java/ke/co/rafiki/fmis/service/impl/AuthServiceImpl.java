@@ -17,17 +17,13 @@ import java.util.Set;
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
-    private final RoleService roleService;
 
-    public AuthServiceImpl(UserService userService, RoleService roleService) {
+    public AuthServiceImpl(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @Override
     public User registerUser(User user) throws Exception {
-        Role role = roleService.findOne(RoleType.FARMER.toString());
-        user.setRoles(Set.of(role));
         return userService.save(user);
     }
 

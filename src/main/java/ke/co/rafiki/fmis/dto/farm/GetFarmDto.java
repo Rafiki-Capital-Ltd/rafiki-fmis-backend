@@ -14,6 +14,7 @@ import java.util.UUID;
 @Builder
 public class GetFarmDto {
     private UUID id;
+    private String name;
     private BigDecimal size;
     private GetCountyDto county;
     private GetWardDto ward;

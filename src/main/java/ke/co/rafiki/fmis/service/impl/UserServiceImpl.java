@@ -1,9 +1,12 @@
 package ke.co.rafiki.fmis.service.impl;
 
+import ke.co.rafiki.fmis.domain.Role;
 import ke.co.rafiki.fmis.domain.User;
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.UserRepository;
+import ke.co.rafiki.fmis.service.RoleService;
 import ke.co.rafiki.fmis.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -21,13 +25,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public UserServiceImpl(
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            RoleService roleService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -64,6 +71,12 @@ public class UserServiceImpl implements UserService {
         }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+
+        if (user.getRoles() == null) {
+            Role role = roleService.findOne(RoleType.FARMER.toString());
+            user.setRoles(Set.of(role));
+        }
+
         return userRepository.save(user);
     }
 
