@@ -2,7 +2,6 @@ package ke.co.rafiki.fmis.repository;
 
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.Farm;
-import ke.co.rafiki.fmis.domain.FarmCrop;
 import ke.co.rafiki.fmis.domain.FarmVca;
 import ke.co.rafiki.fmis.domain.User;
 import org.springframework.data.domain.Page;
@@ -22,13 +21,13 @@ public interface FarmVcaRepository extends JpaRepository<FarmVca, UUID> {
 
     List<FarmVca> findByFarm(Farm farm);
 
-    Page<FarmCrop> findByOwner(User user, Pageable pageable);
+    Page<FarmVca> findByOwner(User user, Pageable pageable);
 
-    List<FarmCrop> findByOwner(User user);
+    List<FarmVca> findByOwner(User user);
 
     @Transactional
     @Query("SELECT fav FROM FarmVca AS fav WHERE fav.owner = :owner AND fav.farm = :farm")
-    Page<FarmCrop> findByOwnerAndFarm(
+    Page<FarmVca> findByOwnerAndFarm(
             @Param("owner") User owner,
             @Param("farm") Farm farm,
             Pageable pageable
@@ -36,7 +35,7 @@ public interface FarmVcaRepository extends JpaRepository<FarmVca, UUID> {
 
     @Transactional
     @Query("SELECT fav FROM FarmVca AS fav WHERE fav.owner = :owner AND fav.farm = :farm")
-    List<FarmCrop> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
+    List<FarmVca> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

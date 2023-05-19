@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class FarmSaleServiceImpl implements FarmSaleService {
 
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
     public FarmSale save(FarmSale farmSales) throws Exception {
         Farm farm = farmService.findOne(farmSales.getFarm().getId());
         farmSales.setFarm(farm);
@@ -50,12 +52,20 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
-    public Page<FarmSale> findAll(int page, int size, String sort, String sortDirection) {
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmSale> findAll(int page, int size,
+                                  String sort, String sortDirection) throws Exception {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
-        return farmSaleRepository.findAll(pageRequest);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmSaleRepository.findAll(pageRequest);
+
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmSaleRepository.findByOwner(owner, pageRequest);
     }
 
     @Override
+    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
     public FarmSale findOne(UUID id) throws Exception {
         return farmSaleRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
@@ -65,6 +75,7 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'FarmSale', 'MANAGER')")
     public FarmSale update(UUID id, FarmSale farmSale) throws Exception {
         FarmSale _farmSale = this.findOne(id);
         _farmSale.setDate(farmSale.getDate());
@@ -76,21 +87,25 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'FarmSale', 'MANAGER')")
     public void delete(UUID id) {
         farmSaleRepository.deleteById(id);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteAll() {
         farmSaleRepository.deleteAll();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGER')")
     public void deleteMany(List<FarmSale> farmSales) {
         farmSaleRepository.deleteAll(farmSales);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmSale> findByFarm(
             Farm farm, int page, int size,
             String sort, String sortDirection

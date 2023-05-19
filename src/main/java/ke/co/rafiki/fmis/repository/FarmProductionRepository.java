@@ -2,7 +2,6 @@ package ke.co.rafiki.fmis.repository;
 
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.Farm;
-import ke.co.rafiki.fmis.domain.FarmCrop;
 import ke.co.rafiki.fmis.domain.FarmProduction;
 import ke.co.rafiki.fmis.domain.User;
 import org.springframework.data.domain.Page;
@@ -22,19 +21,19 @@ public interface FarmProductionRepository extends JpaRepository<FarmProduction, 
 
     List<FarmProduction> findByFarm(Farm farm);
 
-    Page<FarmCrop> findByOwner(User user, Pageable pageable);
+    Page<FarmProduction> findByOwner(User user, Pageable pageable);
 
-    List<FarmCrop> findByOwner(User user);
+    List<FarmProduction> findByOwner(User user);
 
     @Query("SELECT fap FROM FarmProduction AS fap WHERE fap.owner = :owner AND fap.farm = :farm")
-    Page<FarmCrop> findByOwnerAndFarm(
+    Page<FarmProduction> findByOwnerAndFarm(
             @Param("owner") User owner,
             @Param("farm") Farm farm,
             Pageable pageable
     );
 
     @Query("SELECT fap FROM FarmProduction AS fap WHERE fap.owner = :owner AND fap.farm = :farm")
-    List<FarmCrop> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
+    List<FarmProduction> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Query("SELECT SUM(fap.quantity) FROM FarmAnimal AS fap")
     long findTotal();

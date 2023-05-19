@@ -22,6 +22,10 @@ public interface FarmActivityRepository extends JpaRepository<FarmActivity, UUID
 
     List<FarmActivity> findByFarmActivityLog(FarmActivityLog farmActivityLog);
 
+    Page<FarmActivity> findByOwner(User owner, Pageable pageable);
+
+    List<FarmActivity> findByOwner(User owner);
+
     @Transactional
     @Modifying
     @Query("UPDATE FarmActivity fac SET fac.owner = null WHERE fac.owner = :owner")

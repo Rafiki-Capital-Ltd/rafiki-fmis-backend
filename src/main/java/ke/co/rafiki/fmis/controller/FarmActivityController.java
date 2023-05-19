@@ -47,7 +47,7 @@ public class FarmActivityController {
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
             @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
-    ) {
+    ) throws Exception {
         Page<FarmActivity> farmActivities = farmActivityService.findAll(page, size, sort, sortDirection);
         List<GetFarmActivityDto> getFarmActivityDtos = farmActivities.stream()
                 .map(farmActivityMapper::toGetFarmActivityDto)

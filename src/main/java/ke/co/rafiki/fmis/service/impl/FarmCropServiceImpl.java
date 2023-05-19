@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,7 @@ public class FarmCropServiceImpl implements FarmCropService {
     }
 
     @Override
-    @PreAuthorize("hasPermission(#id, 'FarmCrop', 'MANAGER')")
+    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
     public FarmCrop findOne(UUID id) throws Exception {
         return farmCropRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";

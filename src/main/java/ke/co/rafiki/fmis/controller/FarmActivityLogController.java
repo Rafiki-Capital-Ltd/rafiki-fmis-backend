@@ -58,7 +58,7 @@ public class FarmActivityLogController {
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
             @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
-    ) {
+    ) throws Exception {
         Page<FarmActivityLog> farmActivities = farmActivityLogService.findAll(page, size, sort, sortDirection);
         List<GetFarmActivityLogDto> getFarmActivityLogDtos = farmActivities.stream()
                 .map(farmActivityLogMapper::toGetFarmActivityLogDto)

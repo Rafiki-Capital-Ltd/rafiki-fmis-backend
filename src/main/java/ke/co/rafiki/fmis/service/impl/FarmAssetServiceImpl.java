@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class FarmAssetServiceImpl implements FarmAssetService {
 
 
     @Override
-    @PreAuthorize("hasRole('FARMER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public FarmAsset save(FarmAsset farmAsset) throws Exception {
         Farm farm = farmService.findOne(farmAsset.getFarm().getId());
         farmAsset.setFarm(farm);
@@ -49,7 +50,7 @@ public class FarmAssetServiceImpl implements FarmAssetService {
     }
 
     @Override
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public Page<FarmAsset> findAll(
             int page, int size,
             String sort, String sortDirection
@@ -64,7 +65,7 @@ public class FarmAssetServiceImpl implements FarmAssetService {
     }
 
     @Override
-    @PreAuthorize("hasPermission(#id, 'FarmAsset', 'MANAGER')")
+    @PostAuthorize("hasPermission(returnObject 'MANAGER')")
     public FarmAsset findOne(UUID id) throws Exception {
         return farmAssetRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
@@ -129,7 +130,7 @@ public class FarmAssetServiceImpl implements FarmAssetService {
     }
 
     @Override
-    @PreAuthorize("hasRole('FARMER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public long getCount(Farm farm) throws Exception {
         if (isAuthorized(RoleType.MANAGER))
             return farmAssetRepository.findAll().size();

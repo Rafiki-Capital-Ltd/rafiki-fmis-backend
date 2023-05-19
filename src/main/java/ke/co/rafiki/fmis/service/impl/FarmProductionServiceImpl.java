@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 import static ke.co.rafiki.fmis.misc.HelperMethods.getAuthentication;
 import static ke.co.rafiki.fmis.misc.HelperMethods.isAuthorized;
+import static ke.co.rafiki.fmis.misc.HelperMethods.*;
 
 @Slf4j
 @Service
@@ -43,6 +45,7 @@ public class FarmProductionServiceImpl implements FarmProductionService {
 
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
     public FarmProduction save(FarmProduction farmProduction) throws Exception {
         Farm farm = farmService.findOne(farmProduction.getFarm().getId());
         farmProduction.setFarm(farm);
@@ -50,12 +53,22 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     }
 
     @Override
-    public Page<FarmProduction> findAll(int page, int size, String sort, String sortDirection) {
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmProduction> findAll(
+            int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
-        return farmProductionRepository.findAll(pageRequest);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmProductionRepository.findAll(pageRequest);
+
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmProductionRepository.findByOwner(owner, pageRequest);
     }
 
     @Override
+    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
     public FarmProduction findOne(UUID id) throws Exception {
         return farmProductionRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
@@ -65,6 +78,7 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'FarmProduction', 'MANAGER')")
     public FarmProduction update(UUID id, FarmProduction farmProduction) throws Exception {
         FarmProduction _farmProduction = this.findOne(id);
         _farmProduction.setDate(farmProduction.getDate());
@@ -74,21 +88,25 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     }
 
     @Override
+    @PreAuthorize("hasPermission(#id, 'FarmProduction', 'MANAGER')")
     public void delete(UUID id) {
         farmProductionRepository.deleteById(id);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteAll() {
         farmProductionRepository.deleteAll();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('MANAGER')")
     public void deleteMany(List<FarmProduction> farmProductions) {
         farmProductionRepository.deleteAll(farmProductions);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmProduction> findByFarm(
             Farm farm, int page, int size,
             String sort, String sortDirection

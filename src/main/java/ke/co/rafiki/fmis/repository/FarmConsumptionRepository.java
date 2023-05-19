@@ -3,7 +3,6 @@ package ke.co.rafiki.fmis.repository;
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmConsumption;
-import ke.co.rafiki.fmis.domain.FarmCrop;
 import ke.co.rafiki.fmis.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +21,12 @@ public interface FarmConsumptionRepository extends JpaRepository<FarmConsumption
 
     List<FarmConsumption> findByFarm(Farm farm);
 
-    Page<FarmCrop> findByOwner(User user, Pageable pageable);
+    Page<FarmConsumption> findByOwner(User user, Pageable pageable);
 
-    List<FarmCrop> findByOwner(User user);
+    List<FarmConsumption> findByOwner(User user);
 
     @Query("SELECT fac FROM FarmConsumption AS fac WHERE fac.owner = :owner AND fac.farm = :farm")
-    Page<FarmCrop> findByOwnerAndFarm(
+    Page<FarmConsumption> findByOwnerAndFarm(
             @Param("owner") User owner,
             @Param("farm") Farm farm,
             Pageable pageable
@@ -35,7 +34,7 @@ public interface FarmConsumptionRepository extends JpaRepository<FarmConsumption
 
 
     @Query("SELECT fac FROM FarmConsumption AS fac WHERE fac.owner = :owner AND fac.farm = :farm")
-    List<FarmCrop> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
+    List<FarmConsumption> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac")
     long findTotal();

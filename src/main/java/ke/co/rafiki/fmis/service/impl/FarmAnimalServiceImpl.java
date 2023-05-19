@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class FarmAnimalServiceImpl implements FarmAnimalService {
 
 
     @Override
-    @PreAuthorize("hasRole('FARMER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public FarmAnimal save(FarmAnimal farmAnimal) throws Exception {
         Farm farm = farmService.findOne(farmAnimal.getFarm().getId());
         farmAnimal.setFarm(farm);
@@ -49,7 +50,7 @@ public class FarmAnimalServiceImpl implements FarmAnimalService {
     }
 
     @Override
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public Page<FarmAnimal> findAll(
             int page, int size,
             String sort, String sortDirection
@@ -64,7 +65,7 @@ public class FarmAnimalServiceImpl implements FarmAnimalService {
     }
 
     @Override
-    @PreAuthorize("hasPermission(#id, 'FarmAnimal', 'MANAGER')")
+    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
     public FarmAnimal findOne(UUID id) throws Exception {
         return farmAnimalRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
