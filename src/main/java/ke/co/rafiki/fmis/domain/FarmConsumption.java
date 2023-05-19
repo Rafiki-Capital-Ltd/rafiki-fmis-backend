@@ -19,6 +19,8 @@ import java.time.LocalDate;
 @EntityListeners(FarmConsumptionEntityListener.class)
 public class FarmConsumption extends BaseEntityAuditOwned {
 
+    // TODO: type
+
     @Column(name = "date", nullable = false)
     private LocalDate date;
 

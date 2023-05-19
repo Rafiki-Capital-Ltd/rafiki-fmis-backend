@@ -16,6 +16,8 @@ import lombok.experimental.SuperBuilder;
 @EntityListeners(FarmAnimalEntityListener.class)
 public class FarmAnimal extends BaseEntityAuditOwned {
 
+    // TODO: Farm animal category
+
     // eg cow, goat, chicken...
     @Column(name = "name", nullable = false)
     private String name;

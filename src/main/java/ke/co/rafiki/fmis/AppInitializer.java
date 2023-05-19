@@ -111,6 +111,13 @@ public class AppInitializer implements CommandLineRunner {
                 .orElseThrow(NotFoundException::new);
         List<User> users = List.of(
                 User.builder()
+                        .firstName("Ernest")
+                        .lastName("Wambua")
+                        .email("ernestwambua2@gmail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .roles(Set.of(farmerRole))
+                        .build(),
+                User.builder()
                         .firstName("Farmer")
                         .lastName("User")
                         .email("farmer@fmis.rafiki.co.ke")

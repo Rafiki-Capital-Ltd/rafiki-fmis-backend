@@ -36,6 +36,7 @@ public class SecurityConfiguration {
                 .userDetailsService(userDetailsService)
                 .logout(configurer -> configurer.logoutUrl("/auth/logout"))
                 .csrf(AbstractHttpConfigurer::disable) // disable CSRF
+                .cors(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults()) // use Basic authentication
                 .build();
     }

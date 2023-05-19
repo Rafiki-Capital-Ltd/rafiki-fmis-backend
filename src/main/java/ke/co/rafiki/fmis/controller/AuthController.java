@@ -37,6 +37,13 @@ public class AuthController {
         return ResponseEntity.created(location).body(getUserDto);
     }
 
+    @GetMapping("/login")
+    public ResponseEntity<GetUserDto> login(Principal principal) throws Exception {
+        User user = userService.findOne(principal.getName());
+        GetUserDto getUserDto = userMapper.toGetUserDto(user);
+        return ResponseEntity.ok(getUserDto);
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<GetUserDto> profile(Principal principal) throws Exception {
         User user = userService.findOne(principal.getName());

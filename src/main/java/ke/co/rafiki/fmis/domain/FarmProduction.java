@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Table(name = "farm_production_records")
 @EntityListeners(FarmProductionEntityListener.class)
 public class FarmProduction extends BaseEntityAuditOwned {
+    // TODO: expenditures
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
