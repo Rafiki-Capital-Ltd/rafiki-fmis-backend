@@ -57,7 +57,7 @@ public class FarmAssetController {
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
             @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
-    ) {
+    ) throws Exception {
         Page<FarmAsset> farmAssets = farmAssetService.findAll(page, size, sort, sortDirection);
         List<GetFarmAssetDto> getFarmAssetDtos = farmAssets.stream()
                 .map(farmAssetMapper::toGetFarmAssetDto)
@@ -86,5 +86,17 @@ public class FarmAssetController {
     public ResponseEntity<?> deleteFarmAsset(@PathVariable UUID id) {
         farmAssetService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount(
+            HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+    ) throws Exception {
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            return ResponseEntity.ok(farmAssetService.getCount(farm));
+        }
+        return ResponseEntity.ok(farmAssetService.getCount());
     }
 }

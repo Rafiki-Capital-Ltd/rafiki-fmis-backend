@@ -1,5 +1,6 @@
 package ke.co.rafiki.fmis.security;
 
+import org.apache.commons.text.CaseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ public class MultiPermissionEvaluator implements PermissionEvaluator {
     }
 
     private String getTargetType(String targetDomainObjectName) {
-        return targetDomainObjectName.toLowerCase() + "PermissionEvaluator";
+        String objectName = CaseUtils.toCamelCase(targetDomainObjectName, false);
+        return objectName + "PermissionEvaluator";
     }
 }

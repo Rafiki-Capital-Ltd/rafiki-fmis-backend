@@ -28,7 +28,7 @@ public class FarmAnimal extends BaseEntityAuditOwned {
 
     // the number of animals eg 5 cows
     @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    private Integer quantity = 0;
 
     @ManyToOne
     @JoinColumn(name = "farm_id")

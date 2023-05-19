@@ -10,14 +10,33 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public interface FarmAnimalRepository extends JpaRepository<FarmAnimal, UUID> {
     Page<FarmAnimal> findByFarm(Farm farm, Pageable pageable);
 
     List<FarmAnimal> findByFarm(Farm farm);
+
+    Page<FarmAnimal> findByOwner(User user, Pageable pageable);
+
+    List<FarmAnimal> findByOwner(User user);
+
+
+    @Transactional
+    @Query("SELECT fa FROM FarmAnimal AS fa WHERE fa.owner = :owner AND fa.farm = :farm")
+    Page<FarmAnimal> findByOwnerAndFarm(
+            @Param("owner") User owner,
+            @Param("farm") Farm farm,
+            Pageable pageable
+    );
+
+    @Transactional
+    @Query("SELECT fa FROM FarmAnimal AS fa WHERE fa.owner = :owner AND fa.farm = :farm")
+    List<FarmAnimal> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

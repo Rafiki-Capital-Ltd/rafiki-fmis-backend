@@ -21,6 +21,22 @@ public interface FarmAssetRepository extends JpaRepository<FarmAsset, UUID> {
 
     List<FarmAsset> findByFarm(Farm farm);
 
+    Page<FarmAsset> findByOwner(User user, Pageable pageable);
+
+    List<FarmAsset> findByOwner(User user);
+
+    @Transactional
+    @Query("SELECT fas FROM FarmAsset AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
+    Page<FarmAsset> findByOwnerAndFarm(
+            @Param("owner") User owner,
+            @Param("farm") Farm farm,
+            Pageable pageable
+    );
+
+    @Transactional
+    @Query("SELECT fas FROM FarmAsset AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
+    List<FarmAsset> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
+
     @Transactional
     @Modifying
     @Query("UPDATE FarmAsset fas SET fas.owner = null WHERE fas.owner = :owner")

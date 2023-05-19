@@ -8,10 +8,12 @@ import ke.co.rafiki.fmis.dto.user.GetUserDto;
 import ke.co.rafiki.fmis.mapper.UserMapper;
 import ke.co.rafiki.fmis.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.security.Principal;
+import static ke.co.rafiki.fmis.misc.HelperMethods.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -49,5 +51,11 @@ public class AuthController {
         User user = userService.findOne(principal.getName());
         GetUserDto getUserDto = userMapper.toGetUserDto(user);
         return ResponseEntity.ok(getUserDto);
+    }
+
+    @GetMapping("/is-authenticated")
+    public ResponseEntity<Boolean> isAuthenticated(Principal principal) {
+        Authentication authentication = getAuthentication();
+        return ResponseEntity.ok(authentication.isAuthenticated());
     }
 }
