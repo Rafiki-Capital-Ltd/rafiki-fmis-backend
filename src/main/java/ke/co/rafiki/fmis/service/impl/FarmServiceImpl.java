@@ -117,4 +117,14 @@ public class FarmServiceImpl implements FarmService {
     public void deleteAll() {
         farmRepository.deleteAll();
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public long getCount() throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmRepository.findAll().size();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmRepository.findByOwner(owner).size();
+    }
 }

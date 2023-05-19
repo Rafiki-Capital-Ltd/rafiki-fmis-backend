@@ -88,4 +88,18 @@ public class FarmSaleController {
         farmSaleService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount(
+            HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+    ) throws Exception {
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            return ResponseEntity.ok(farmSaleService.getCount(farm));
+        }
+        return ResponseEntity.ok(farmSaleService.getCount());
+    }
 }

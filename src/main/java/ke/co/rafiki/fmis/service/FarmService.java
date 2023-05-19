@@ -15,4 +15,5 @@ public interface FarmService {
     void delete(UUID id);
     void deleteMany(List<Farm> farms);
     void deleteAll();
+    long getCount() throws Exception;
 }

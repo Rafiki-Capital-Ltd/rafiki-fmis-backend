@@ -87,4 +87,18 @@ public class FarmVcaController {
         farmVcaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount(
+            HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+    ) throws Exception {
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            return ResponseEntity.ok(farmVcaService.getCount(farm));
+        }
+        return ResponseEntity.ok(farmVcaService.getCount());
+    }
 }

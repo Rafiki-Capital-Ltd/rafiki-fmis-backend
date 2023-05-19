@@ -2,18 +2,25 @@ package ke.co.rafiki.fmis.service.impl;
 
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmSale;
+import ke.co.rafiki.fmis.domain.User;
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
 import ke.co.rafiki.fmis.repository.FarmSaleRepository;
 import ke.co.rafiki.fmis.service.FarmSaleService;
 import ke.co.rafiki.fmis.service.FarmService;
+import ke.co.rafiki.fmis.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static ke.co.rafiki.fmis.misc.HelperMethods.getAuthentication;
+import static ke.co.rafiki.fmis.misc.HelperMethods.isAuthorized;
 
 @Slf4j
 @Service
@@ -21,12 +28,16 @@ public class FarmSaleServiceImpl implements FarmSaleService {
 
     private final FarmSaleRepository farmSaleRepository;
     private final FarmService farmService;
+    private final UserService userService;
 
     public  FarmSaleServiceImpl(
-            FarmSaleRepository farmSalesRepository, FarmService farmService
+            FarmSaleRepository farmSalesRepository,
+            FarmService farmService,
+            UserService userService
     ) {
         this.farmSaleRepository = farmSalesRepository;
         this.farmService = farmService;
+        this.userService = userService;
     }
 
 
@@ -87,5 +98,26 @@ public class FarmSaleServiceImpl implements FarmSaleService {
         Farm _farm = farmService.findOne(farm.getId());
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
         return farmSaleRepository.findByFarm(_farm, pageRequest);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public long getCount() throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmSaleRepository.findAll().size();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmSaleRepository.findByOwner(owner).size();
+    }
+
+    @Override
+    @PreAuthorize("hasRole('FARMER')")
+    public long getCount(Farm farm) throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmSaleRepository.findAll().size();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        Farm _farm = farmService.findOne(farm.getId());
+        return farmSaleRepository.findByOwnerAndFarm(owner, _farm).size();
     }
 }

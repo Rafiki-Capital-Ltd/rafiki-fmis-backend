@@ -97,4 +97,11 @@ public class FarmController {
         response.addCookie(cookie);
         return ResponseEntity.ok(getFarmDto);
     }
+
+
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCount(HttpServletRequest request) throws Exception {
+        return ResponseEntity.ok(farmService.getCount());
+    }
 }

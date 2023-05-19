@@ -2,6 +2,7 @@ package ke.co.rafiki.fmis.repository;
 
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.Farm;
+import ke.co.rafiki.fmis.domain.FarmCrop;
 import ke.co.rafiki.fmis.domain.FarmSale;
 import ke.co.rafiki.fmis.domain.User;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,22 @@ public interface FarmSaleRepository extends JpaRepository<FarmSale, UUID> {
     Page<FarmSale> findByFarm(Farm farm, Pageable pageable);
 
     List<FarmSale> findByFarm(Farm farm);
+
+    Page<FarmCrop> findByOwner(User user, Pageable pageable);
+
+    List<FarmCrop> findByOwner(User user);
+
+    @Transactional
+    @Query("SELECT fas FROM FarmSale AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
+    Page<FarmCrop> findByOwnerAndFarm(
+            @Param("owner") User owner,
+            @Param("farm") Farm farm,
+            Pageable pageable
+    );
+
+    @Transactional
+    @Query("SELECT fas FROM FarmSale AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
+    List<FarmCrop> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

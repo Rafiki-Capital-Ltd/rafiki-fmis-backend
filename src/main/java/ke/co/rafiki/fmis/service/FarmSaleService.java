@@ -19,4 +19,6 @@ public interface FarmSaleService {
             Farm farm, int page, int size,
             String sort, String sortDirection
     ) throws Exception;
+    long getCount() throws Exception;
+    long getCount(Farm farm) throws Exception;
 }
