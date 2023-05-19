@@ -88,8 +88,6 @@ public class FarmConsumptionController {
         return ResponseEntity.noContent().build();
     }
 
-
-
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
@@ -100,5 +98,17 @@ public class FarmConsumptionController {
             return ResponseEntity.ok(farmConsumptionService.getCount(farm));
         }
         return ResponseEntity.ok(farmConsumptionService.getCount());
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotal(
+            HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+    ) throws Exception {
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            return ResponseEntity.ok(farmConsumptionService.getTotal(farm));
+        }
+        return ResponseEntity.ok(farmConsumptionService.getTotal());
     }
 }

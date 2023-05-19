@@ -99,4 +99,16 @@ public class FarmProductionController {
         }
         return ResponseEntity.ok(farmProductionService.getCount());
     }
+
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotal(
+            HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+    ) throws Exception {
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            return ResponseEntity.ok(farmProductionService.getTotal(farm));
+        }
+        return ResponseEntity.ok(farmProductionService.getTotal());
+    }
 }

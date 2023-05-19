@@ -109,7 +109,7 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     }
 
     @Override
-    @PreAuthorize("hasRole('FARMER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public long getCount(Farm farm) throws Exception {
         if (isAuthorized(RoleType.MANAGER))
             return farmProductionRepository.findAll().size();
@@ -117,5 +117,26 @@ public class FarmProductionServiceImpl implements FarmProductionService {
         User owner = userService.findOne(getAuthentication().getName());
         Farm _farm = farmService.findOne(farm.getId());
         return farmProductionRepository.findByOwnerAndFarm(owner, _farm).size();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public long getTotal() throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmProductionRepository.findTotal();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmProductionRepository.findTotal(owner);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public long getTotal(Farm farm) throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmProductionRepository.findTotal();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        Farm _farm = farmService.findOne(farm.getId());
+        return farmProductionRepository.findTotal(owner, _farm);
     }
 }

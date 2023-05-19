@@ -89,8 +89,6 @@ public class FarmSaleController {
         return ResponseEntity.noContent().build();
     }
 
-
-
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
@@ -101,5 +99,17 @@ public class FarmSaleController {
             return ResponseEntity.ok(farmSaleService.getCount(farm));
         }
         return ResponseEntity.ok(farmSaleService.getCount());
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotal(
+            HttpServletRequest request,
+            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+    ) throws Exception {
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            return ResponseEntity.ok(farmSaleService.getTotal(farm));
+        }
+        return ResponseEntity.ok(farmSaleService.getTotal());
     }
 }

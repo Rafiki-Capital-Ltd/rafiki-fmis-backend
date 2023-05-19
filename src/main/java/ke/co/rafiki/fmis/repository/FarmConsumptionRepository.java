@@ -26,7 +26,6 @@ public interface FarmConsumptionRepository extends JpaRepository<FarmConsumption
 
     List<FarmCrop> findByOwner(User user);
 
-    @Transactional
     @Query("SELECT fac FROM FarmConsumption AS fac WHERE fac.owner = :owner AND fac.farm = :farm")
     Page<FarmCrop> findByOwnerAndFarm(
             @Param("owner") User owner,
@@ -34,9 +33,18 @@ public interface FarmConsumptionRepository extends JpaRepository<FarmConsumption
             Pageable pageable
     );
 
-    @Transactional
+
     @Query("SELECT fac FROM FarmConsumption AS fac WHERE fac.owner = :owner AND fac.farm = :farm")
     List<FarmCrop> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
+
+    @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac")
+    long findTotal();
+
+    @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac WHERE fac.owner = :owner")
+    long findTotal(@Param("owner") User owner);
+
+    @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac WHERE fac.owner = :owner AND fac.farm = :farm")
+    long findTotal(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

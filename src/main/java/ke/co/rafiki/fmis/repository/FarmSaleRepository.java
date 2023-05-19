@@ -26,7 +26,6 @@ public interface FarmSaleRepository extends JpaRepository<FarmSale, UUID> {
 
     List<FarmCrop> findByOwner(User user);
 
-    @Transactional
     @Query("SELECT fas FROM FarmSale AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
     Page<FarmCrop> findByOwnerAndFarm(
             @Param("owner") User owner,
@@ -34,9 +33,17 @@ public interface FarmSaleRepository extends JpaRepository<FarmSale, UUID> {
             Pageable pageable
     );
 
-    @Transactional
     @Query("SELECT fas FROM FarmSale AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
     List<FarmCrop> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
+
+    @Query("SELECT SUM(fas.amount) FROM FarmSale AS fas")
+    long findTotal();
+
+    @Query("SELECT SUM(fas.amount) FROM FarmSale AS fas WHERE fas.owner = :owner")
+    long findTotal(@Param("owner") User owner);
+
+    @Query("SELECT SUM(fas.amount) FROM FarmSale AS fas WHERE fas.owner = :owner AND fas.farm = :farm")
+    long findTotal(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

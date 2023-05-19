@@ -41,7 +41,7 @@ public class FarmCropServiceImpl implements FarmCropService {
 
 
     @Override
-    @PreAuthorize("hasRole('FARMER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public FarmCrop save(FarmCrop farmCrop) throws Exception {
         Farm farm = farmService.findOne(farmCrop.getFarm().getId());
         farmCrop.setFarm(farm);
@@ -49,7 +49,7 @@ public class FarmCropServiceImpl implements FarmCropService {
     }
 
     @Override
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public Page<FarmCrop> findAll(
             int page, int size,
             String sort, String sortDirection
@@ -128,7 +128,7 @@ public class FarmCropServiceImpl implements FarmCropService {
     }
 
     @Override
-    @PreAuthorize("hasRole('FARMER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public long getCount(Farm farm) throws Exception {
         if (isAuthorized(RoleType.MANAGER))
             return farmCropRepository.findAll().size();
@@ -136,5 +136,26 @@ public class FarmCropServiceImpl implements FarmCropService {
         User owner = userService.findOne(getAuthentication().getName());
         Farm _farm = farmService.findOne(farm.getId());
         return farmCropRepository.findByOwnerAndFarm(owner, _farm).size();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public long getTotal() throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmCropRepository.findTotal();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmCropRepository.findTotal(owner);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public long getTotal(Farm farm) throws Exception {
+        if (isAuthorized(RoleType.MANAGER))
+            return farmCropRepository.findTotal();
+
+        User owner = userService.findOne(getAuthentication().getName());
+        Farm _farm = farmService.findOne(farm.getId());
+        return farmCropRepository.findTotal(owner, _farm);
     }
 }

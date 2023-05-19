@@ -21,4 +21,6 @@ public interface FarmConsumptionService {
     ) throws Exception;
     long getCount() throws Exception;
     long getCount(Farm farm) throws Exception;
+    long getTotal() throws Exception;
+    long getTotal(Farm farm) throws Exception;
 }
