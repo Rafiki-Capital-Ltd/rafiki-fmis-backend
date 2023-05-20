@@ -12,7 +12,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -37,13 +39,13 @@ public interface FarmConsumptionRepository extends JpaRepository<FarmConsumption
     List<FarmConsumption> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac")
-    long findTotal();
+    Optional<BigDecimal> findTotal();
 
     @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac WHERE fac.owner = :owner")
-    long findTotal(@Param("owner") User owner);
+    Optional<BigDecimal> findTotal(@Param("owner") User owner);
 
     @Query("SELECT SUM(fac.quantity) FROM FarmConsumption AS fac WHERE fac.owner = :owner AND fac.farm = :farm")
-    long findTotal(@Param("owner") User owner, @Param("farm") Farm farm);
+    Optional<BigDecimal> findTotal(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

@@ -92,12 +92,19 @@ public class FarmController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/context")
+    public ResponseEntity<GetFarmDto> getFarmContext(@CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId) throws Exception {
+        Farm farm = farmService.findOne(farmId);
+        GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
+        return ResponseEntity.ok(getFarmDto);
+    }
+
     @GetMapping("/context/{id}")
     public ResponseEntity<GetFarmDto> switchFarmContext(@PathVariable UUID id, HttpServletResponse response) throws Exception {
         Farm farm = farmService.findOne(id);
         GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
         Cookie cookie = new Cookie(FARM_CONTEXT_COOKIE_KEY, farm.getId().toString());
-        cookie.setMaxAge(30 * 24 * 60 * 60); // expires after 30 days
+        cookie.setPath("/");
         response.addCookie(cookie);
         return ResponseEntity.ok(getFarmDto);
     }

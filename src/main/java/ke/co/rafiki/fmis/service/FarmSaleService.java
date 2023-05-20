@@ -4,6 +4,7 @@ import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmSale;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,6 @@ public interface FarmSaleService {
     ) throws Exception;
     long getCount() throws Exception;
     long getCount(Farm farm) throws Exception;
-    long getTotal() throws Exception;
-    long getTotal(Farm farm) throws Exception;
+    BigDecimal getTotal() throws Exception;
+    BigDecimal getTotal(Farm farm) throws Exception;
 }

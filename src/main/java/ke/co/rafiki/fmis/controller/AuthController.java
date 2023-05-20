@@ -57,7 +57,7 @@ public class AuthController {
         return ResponseEntity.created(location).body(getUserDto);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(
             @Valid @RequestBody LoginDto loginDto
     ) throws Exception {
@@ -66,7 +66,7 @@ public class AuthController {
         );
         User user = userService.findOne(authentication.getName());
         GetUserDto getUserDto = userMapper.toGetUserDto(user);
-        String accessToken = authService.generateAccessToken().getTokenValue();
+        String accessToken = authService.generateAccessToken(authentication).getTokenValue();
         HashMap<String, Object> response = new HashMap<>();
         response.put("user", getUserDto);
         response.put("accessToken", accessToken);

@@ -48,6 +48,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Jwt generateAccessToken() {
         Authentication authentication = getAuthentication();
+        return getAccessToken(authentication);
+    }
+
+    @Override
+    public Jwt generateAccessToken(Authentication authentication) {
+        return getAccessToken(authentication);
+    }
+
+    private Jwt getAccessToken(Authentication authentication) {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities()
                 .stream()

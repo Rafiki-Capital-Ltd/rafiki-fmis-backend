@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -138,22 +139,22 @@ public class FarmSaleServiceImpl implements FarmSaleService {
 
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
-    public long getTotal() throws Exception {
+    public BigDecimal getTotal() throws Exception {
         if (isAuthorized(RoleType.MANAGER))
-            return farmSaleRepository.findTotal();
+            return farmSaleRepository.findTotal().orElse(BigDecimal.ZERO);
 
         User owner = userService.findOne(getAuthentication().getName());
-        return farmSaleRepository.findTotal(owner);
+        return farmSaleRepository.findTotal(owner).orElse(BigDecimal.ZERO);
     }
 
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
-    public long getTotal(Farm farm) throws Exception {
+    public BigDecimal getTotal(Farm farm) throws Exception {
         if (isAuthorized(RoleType.MANAGER))
-            return farmSaleRepository.findTotal();
+            return farmSaleRepository.findTotal().orElse(BigDecimal.ZERO);
 
         User owner = userService.findOne(getAuthentication().getName());
         Farm _farm = farmService.findOne(farm.getId());
-        return farmSaleRepository.findTotal(owner, _farm);
+        return farmSaleRepository.findTotal(owner, _farm).orElse(BigDecimal.ZERO);
     }
 }

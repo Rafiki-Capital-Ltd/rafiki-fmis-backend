@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -101,14 +103,14 @@ public class FarmConsumptionController {
     }
 
     @GetMapping("/total")
-    public ResponseEntity<Long> getTotal(
+    public ResponseEntity<BigDecimal> getTotal(
             HttpServletRequest request,
             @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();
-            return ResponseEntity.ok(farmConsumptionService.getTotal(farm));
+            return ResponseEntity.ok(farmConsumptionService.getTotal(farm).setScale(2, RoundingMode.HALF_UP));
         }
-        return ResponseEntity.ok(farmConsumptionService.getTotal());
+        return ResponseEntity.ok(farmConsumptionService.getTotal().setScale(2, RoundingMode.HALF_UP));
     }
 }
