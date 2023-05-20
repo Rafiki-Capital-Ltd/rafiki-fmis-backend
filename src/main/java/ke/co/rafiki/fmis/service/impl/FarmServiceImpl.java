@@ -58,12 +58,14 @@ public class FarmServiceImpl implements FarmService {
 
         Farm _farm = farmRepository.save(farm);
 
-        FarmLocation farmLocation = FarmLocation.builder()
-                .lat(farm.getLocation().getLat())
-                .lng(farm.getLocation().getLng())
-                .farm(_farm)
-                .build();
-        farmLocationRepository.save(farmLocation);
+        if (farm.getLocation() != null) {
+            FarmLocation farmLocation = FarmLocation.builder()
+                    .lat(farm.getLocation().getLat())
+                    .lng(farm.getLocation().getLng())
+                    .farm(_farm)
+                    .build();
+            farmLocationRepository.save(farmLocation);
+        }
 
         return _farm;
     }

@@ -43,11 +43,15 @@ public class FarmController {
     @PostMapping
     public ResponseEntity<GetFarmDto> createFarm(
             HttpServletRequest request,
+            HttpServletResponse response,
             @Valid @RequestBody CreateFarmDto createFarmDto
     ) throws Exception {
         Farm farm = farmService.save(farmMapper.toFarm(createFarmDto));
         GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
         URI location = new URI(request.getRequestURL() + "/" + farm.getId());
+        Cookie cookie = new Cookie(FARM_CONTEXT_COOKIE_KEY, farm.getId().toString());
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return ResponseEntity.created(location).body(getFarmDto);
     }
 
@@ -97,8 +101,6 @@ public class FarmController {
         response.addCookie(cookie);
         return ResponseEntity.ok(getFarmDto);
     }
-
-
 
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(HttpServletRequest request) throws Exception {

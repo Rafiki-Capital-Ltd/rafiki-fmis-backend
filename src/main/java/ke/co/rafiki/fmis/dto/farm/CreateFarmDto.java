@@ -11,13 +11,16 @@ import java.math.BigDecimal;
 
 @Data
 public class CreateFarmDto {
+    @NotNull
     private String name;
 
     @NotNull
     private BigDecimal size;
 
+    @NotNull
     private County county;
 
+    @NotNull
     private Ward ward;
 
     private String nearestShoppingCenter;
