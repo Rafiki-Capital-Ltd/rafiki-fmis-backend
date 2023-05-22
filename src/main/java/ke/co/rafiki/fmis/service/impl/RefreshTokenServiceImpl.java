@@ -1,5 +1,6 @@
 package ke.co.rafiki.fmis.service.impl;
 
+import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.RefreshToken;
 import ke.co.rafiki.fmis.domain.User;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
@@ -39,7 +40,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
+    @Transactional
     public RefreshToken createToken(User user) throws Exception {
+        refreshTokenRepository.deleteByUser(user);
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(UUID.randomUUID().toString())
                 .user(user)

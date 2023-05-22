@@ -102,15 +102,6 @@ public class AuthController {
         return ResponseEntity.ok(authentication.isAuthenticated());
     }
 
-    @GetMapping("/access-token")
-    public ResponseEntity<Map<String, Object>> getJwtToken() {
-        Jwt accessToken = authService.generateAccessToken();
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("accessToken", accessToken.getTokenValue());
-        response.put("expiresAt", accessToken.getExpiresAt());
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, Object>> refreshToken(
             @CookieValue(name = REFRESH_TOKEN_COOKIE_KEY) String token,
@@ -132,6 +123,7 @@ public class AuthController {
         response.put("refreshToken", refreshToken.getToken());
         response.put("tokenType", refreshToken.getType());
         response.put("expiresAt", accessToken.getExpiresAt());
+        response.put("user", userMapper.toGetUserDto(refreshToken.getUser()));
         return ResponseEntity.ok(response);
     }
 }
