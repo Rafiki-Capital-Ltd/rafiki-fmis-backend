@@ -69,8 +69,12 @@ public class AppInitializer implements CommandLineRunner {
     @Autowired
     private FarmVcaRepository farmVcaRepository;
 
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
+
     @Override
     public void run(String... args) throws Exception {
+        refreshTokenRepository.deleteAll();
         List<Role> roles = initRoles();
         List<User> users = initUsers();
         List<County> counties = initCounties();

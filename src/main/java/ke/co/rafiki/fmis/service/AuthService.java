@@ -13,4 +13,5 @@ public interface AuthService {
     User profile() throws Exception;
     Jwt generateAccessToken();
     Jwt generateAccessToken(Authentication authentication);
+    Jwt generateAccessToken(User user);
 }

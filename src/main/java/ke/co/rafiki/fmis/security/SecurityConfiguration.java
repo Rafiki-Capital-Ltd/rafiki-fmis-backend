@@ -29,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Value("${jwt.key}")
+    @Value("${app.security.jwt.key}")
     private String jwtKey;
 
     private final UserDetailsService userDetailsService;
@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/actuator/**").permitAll();
                     auth.requestMatchers("/auth/register").permitAll();
                     auth.requestMatchers("/auth/login").permitAll();
+                    auth.requestMatchers("/auth/refresh").permitAll();
                     auth.requestMatchers("/auth/logout").permitAll();
                     auth.requestMatchers("/users").hasAuthority(RoleType.ADMIN.toString());
                     auth.anyRequest().authenticated();

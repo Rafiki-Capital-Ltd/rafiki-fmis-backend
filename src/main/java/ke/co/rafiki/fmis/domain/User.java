@@ -56,4 +56,7 @@ public class User extends BaseEntityAudit {
     )
     @ToString.Exclude
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private RefreshToken refreshToken;
 }
