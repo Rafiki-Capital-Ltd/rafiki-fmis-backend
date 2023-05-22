@@ -50,7 +50,7 @@ public class FarmCropServiceImpl implements FarmCropService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmCrop> findAll(
             int page, int size,
             String sort, String sortDirection

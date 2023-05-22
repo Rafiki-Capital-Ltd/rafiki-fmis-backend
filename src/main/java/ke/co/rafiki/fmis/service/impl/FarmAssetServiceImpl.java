@@ -39,18 +39,18 @@ public class FarmAssetServiceImpl implements FarmAssetService {
         this.userService = userService;
     }
 
-
-
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
     public FarmAsset save(FarmAsset farmAsset) throws Exception {
         Farm farm = farmService.findOne(farmAsset.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
         farmAsset.setFarm(farm);
+        farmAsset.setOwner(owner);
         return farmAssetRepository.save(farmAsset);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmAsset> findAll(
             int page, int size,
             String sort, String sortDirection
@@ -60,8 +60,8 @@ public class FarmAssetServiceImpl implements FarmAssetService {
         if (isAuthorized(RoleType.MANAGER))
             return farmAssetRepository.findAll(pageRequest);
 
-        User user = userService.findOne(getAuthentication().getName());
-        return farmAssetRepository.findByOwner(user, pageRequest);
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmAssetRepository.findByOwner(owner, pageRequest);
     }
 
     @Override
