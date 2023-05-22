@@ -6,6 +6,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.text.Normalizer;
+
 public final class HelperMethods {
 
     public static Authentication getAuthentication() {
@@ -22,5 +24,4 @@ public final class HelperMethods {
                 .stream()
                 .anyMatch(authority -> authority.getAuthority().equals(role.toString()));
     }
-
 }

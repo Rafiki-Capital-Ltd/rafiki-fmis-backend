@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -42,14 +43,16 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Override
     @Transactional
     public RefreshToken createToken(User user) throws Exception {
-        refreshTokenRepository.deleteByUser(user);
-        RefreshToken refreshToken = RefreshToken.builder()
-                .token(UUID.randomUUID().toString())
-                .user(user)
-                .type("Bearer")
-                .expiresAt(Instant.now().plusMillis(refreshTokenExpiresMs))
-                .build();
-        return refreshTokenRepository.save(refreshToken);
+        return refreshTokenRepository.findByUser(user)
+                .orElseGet(() -> refreshTokenRepository.save(
+                    RefreshToken.builder()
+                            .token(UUID.randomUUID().toString())
+                            .user(user)
+                            .type("Bearer")
+                            .expiresAt(Instant.now().plusMillis(refreshTokenExpiresMs))
+                            .build()
+                        )
+                );
     }
 
     @Override
