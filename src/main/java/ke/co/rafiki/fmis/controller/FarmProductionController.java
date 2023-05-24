@@ -7,7 +7,6 @@ import ke.co.rafiki.fmis.domain.FarmProduction;
 import ke.co.rafiki.fmis.dto.farmproduction.CreateFarmProductionDto;
 import ke.co.rafiki.fmis.dto.farmproduction.GetFarmProductionDto;
 import ke.co.rafiki.fmis.dto.farmproduction.UpdateFarmProductionDto;
-import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.mapper.FarmProductionMapper;
 import ke.co.rafiki.fmis.service.FarmProductionService;
 import org.springframework.data.domain.Page;
@@ -60,25 +59,25 @@ public class FarmProductionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmProductionDto> findFarmProductionById(@PathVariable UUID id) throws Exception {
-        FarmProduction farmProduction = farmProductionService.findOne(id);
+    public ResponseEntity<GetFarmProductionDto> findFarmProductionById(@PathVariable String id) throws Exception {
+        FarmProduction farmProduction = farmProductionService.findOne(UUID.fromString(id));
         GetFarmProductionDto getFarmProductionDto = farmProductionMapper.toGetFarmProductionDto(farmProduction);
         return ResponseEntity.ok(getFarmProductionDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmProductionDto> updateFarmProduction(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmProductionDto updateFarmProductionDto
     ) throws Exception {
         FarmProduction farmProduction = farmProductionMapper.toFarmProduction(updateFarmProductionDto);
-        GetFarmProductionDto getFarmProductionDto = farmProductionMapper.toGetFarmProductionDto(farmProductionService.update(id, farmProduction));
+        GetFarmProductionDto getFarmProductionDto = farmProductionMapper.toGetFarmProductionDto(farmProductionService.update(UUID.fromString(id), farmProduction));
         return ResponseEntity.ok(getFarmProductionDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarmProduction(@PathVariable UUID id) {
-        farmProductionService.delete(id);
+    public ResponseEntity<?> deleteFarmProduction(@PathVariable String id) {
+        farmProductionService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 

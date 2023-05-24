@@ -70,25 +70,26 @@ public class FarmController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmDto> findFarmById(@PathVariable UUID id) throws Exception {
-        Farm farm = farmService.findOne(id);
+    public ResponseEntity<GetFarmDto> findFarmById(@PathVariable String id) throws Exception {
+        Farm farm = farmService.findOne(UUID.fromString(id));
         GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
         return ResponseEntity.ok(getFarmDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmDto> updateFarm(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmDto updateFarmDto
     ) throws Exception {
         Farm farm = farmMapper.toFarm(updateFarmDto);
-        GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farmService.update(id, farm));
+        GetFarmDto getFarmDto = farmMapper
+                .toGetFarmDto(farmService.update(UUID.fromString(id), farm));
         return ResponseEntity.ok(getFarmDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarm(@PathVariable UUID id) {
-        farmService.delete(id);
+    public ResponseEntity<?> deleteFarm(@PathVariable String id) {
+        farmService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 
@@ -100,8 +101,8 @@ public class FarmController {
     }
 
     @GetMapping("/context/{id}")
-    public ResponseEntity<GetFarmDto> switchFarmContext(@PathVariable UUID id, HttpServletResponse response) throws Exception {
-        Farm farm = farmService.findOne(id);
+    public ResponseEntity<GetFarmDto> switchFarmContext(@PathVariable String id, HttpServletResponse response) throws Exception {
+        Farm farm = farmService.findOne(UUID.fromString(id));
         GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
         Cookie cookie = new Cookie(FARM_CONTEXT_COOKIE_KEY, farm.getId().toString());
         cookie.setPath("/");

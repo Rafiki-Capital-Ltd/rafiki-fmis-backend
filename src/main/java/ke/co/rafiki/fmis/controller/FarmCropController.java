@@ -7,7 +7,6 @@ import ke.co.rafiki.fmis.domain.FarmCrop;
 import ke.co.rafiki.fmis.dto.farmcrop.CreateFarmCropDto;
 import ke.co.rafiki.fmis.dto.farmcrop.GetFarmCropDto;
 import ke.co.rafiki.fmis.dto.farmcrop.UpdateFarmCropDto;
-import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.mapper.FarmCropMapper;
 import ke.co.rafiki.fmis.service.FarmCropService;
 import org.springframework.data.domain.Page;
@@ -58,25 +57,26 @@ public class FarmCropController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmCropDto> findFarmCropById(@PathVariable UUID id) throws Exception {
-        FarmCrop farmCrop = farmCropService.findOne(id);
+    public ResponseEntity<GetFarmCropDto> findFarmCropById(@PathVariable String id) throws Exception {
+        FarmCrop farmCrop = farmCropService.findOne(UUID.fromString(id));
         GetFarmCropDto getFarmCropDto = farmCropMapper.toGetFarmCropDto(farmCrop);
         return ResponseEntity.ok(getFarmCropDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmCropDto> updateFarmCrop(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmCropDto updateFarmCropDto
     ) throws Exception {
         FarmCrop farmCrop = farmCropMapper.toFarmCrop(updateFarmCropDto);
-        GetFarmCropDto getFarmCropDto = farmCropMapper.toGetFarmCropDto(farmCropService.update(id, farmCrop));
+        GetFarmCropDto getFarmCropDto = farmCropMapper
+                .toGetFarmCropDto(farmCropService.update(UUID.fromString(id), farmCrop));
         return ResponseEntity.ok(getFarmCropDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarmCrop(@PathVariable UUID id) {
-        farmCropService.delete(id);
+    public ResponseEntity<?> deleteFarmCrop(@PathVariable String id) {
+        farmCropService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 

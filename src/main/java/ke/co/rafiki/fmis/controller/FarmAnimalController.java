@@ -57,25 +57,26 @@ public class FarmAnimalController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmAnimalDto> findFarmAnimalById(@PathVariable UUID id) throws Exception {
-        FarmAnimal farmAnimal = farmAnimalService.findOne(id);
+    public ResponseEntity<GetFarmAnimalDto> findFarmAnimalById(@PathVariable String id) throws Exception {
+        FarmAnimal farmAnimal = farmAnimalService.findOne(UUID.fromString(id));
         GetFarmAnimalDto getFarmAnimalDto = farmAnimalMapper.toGetFarmAnimalDto(farmAnimal);
         return ResponseEntity.ok(getFarmAnimalDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmAnimalDto> updateFarmAnimal(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmAnimalDto updateFarmAnimalDto
     ) throws Exception {
         FarmAnimal farmAnimal = farmAnimalMapper.toFarmAnimal(updateFarmAnimalDto);
-        GetFarmAnimalDto getFarmAnimalDto = farmAnimalMapper.toGetFarmAnimalDto(farmAnimalService.update(id, farmAnimal));
+        GetFarmAnimalDto getFarmAnimalDto = farmAnimalMapper
+                .toGetFarmAnimalDto(farmAnimalService.update(UUID.fromString(id), farmAnimal));
         return ResponseEntity.ok(getFarmAnimalDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarmAnimal(@PathVariable UUID id) {
-        farmAnimalService.delete(id);
+    public ResponseEntity<?> deleteFarmAnimal(@PathVariable String id) {
+        farmAnimalService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 

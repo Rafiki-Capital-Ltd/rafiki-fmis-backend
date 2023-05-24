@@ -7,7 +7,6 @@ import ke.co.rafiki.fmis.domain.FarmSale;
 import ke.co.rafiki.fmis.dto.farmsale.CreateFarmSaleDto;
 import ke.co.rafiki.fmis.dto.farmsale.GetFarmSaleDto;
 import ke.co.rafiki.fmis.dto.farmsale.UpdateFarmSaleDto;
-import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.mapper.FarmSaleMapper;
 import ke.co.rafiki.fmis.service.FarmSaleService;
 import org.springframework.data.domain.Page;
@@ -61,25 +60,26 @@ public class FarmSaleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmSaleDto> findFarmSaleById(@PathVariable UUID id) throws Exception {
-        FarmSale farmSale = farmSaleService.findOne(id);
+    public ResponseEntity<GetFarmSaleDto> findFarmSaleById(@PathVariable String id) throws Exception {
+        FarmSale farmSale = farmSaleService.findOne(UUID.fromString(id));
         GetFarmSaleDto getFarmSaleDto = farmSaleMapper.toGetFarmSaleDto(farmSale);
         return ResponseEntity.ok(getFarmSaleDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmSaleDto> updateFarmSale(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmSaleDto updateFarmSaleDto
     ) throws Exception {
         FarmSale farmSale = farmSaleMapper.toFarmSale(updateFarmSaleDto);
-        GetFarmSaleDto getFarmSaleDto = farmSaleMapper.toGetFarmSaleDto(farmSaleService.update(id, farmSale));
+        GetFarmSaleDto getFarmSaleDto = farmSaleMapper
+                .toGetFarmSaleDto(farmSaleService.update(UUID.fromString(id), farmSale));
         return ResponseEntity.ok(getFarmSaleDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarmSale(@PathVariable UUID id) {
-        farmSaleService.delete(id);
+    public ResponseEntity<?> deleteFarmSale(@PathVariable String id) {
+        farmSaleService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 

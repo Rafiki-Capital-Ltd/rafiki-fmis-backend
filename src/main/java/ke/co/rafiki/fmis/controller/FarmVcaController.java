@@ -7,7 +7,6 @@ import ke.co.rafiki.fmis.domain.FarmVca;
 import ke.co.rafiki.fmis.dto.farmvca.CreateFarmVcaDto;
 import ke.co.rafiki.fmis.dto.farmvca.GetFarmVcaDto;
 import ke.co.rafiki.fmis.dto.farmvca.UpdateFarmVcaDto;
-import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.mapper.FarmVcaMapper;
 import ke.co.rafiki.fmis.service.FarmVcaService;
 import org.springframework.data.domain.Page;
@@ -58,25 +57,26 @@ public class FarmVcaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmVcaDto> findFarmVcaById(@PathVariable UUID id) throws Exception {
-        FarmVca farmVca = farmVcaService.findOne(id);
+    public ResponseEntity<GetFarmVcaDto> findFarmVcaById(@PathVariable String id) throws Exception {
+        FarmVca farmVca = farmVcaService.findOne(UUID.fromString(id));
         GetFarmVcaDto getFarmVcaDto = farmVcaMapper.toGetFarmVcaDto(farmVca);
         return ResponseEntity.ok(getFarmVcaDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmVcaDto> updateFarmVca(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmVcaDto updateFarmVcaDto
     ) throws Exception {
         FarmVca farmVca = farmVcaMapper.toFarmVca(updateFarmVcaDto);
-        GetFarmVcaDto getFarmVcaDto = farmVcaMapper.toGetFarmVcaDto(farmVcaService.update(id, farmVca));
+        GetFarmVcaDto getFarmVcaDto = farmVcaMapper
+                .toGetFarmVcaDto(farmVcaService.update(UUID.fromString(id), farmVca));
         return ResponseEntity.ok(getFarmVcaDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarmVca(@PathVariable UUID id) {
-        farmVcaService.delete(id);
+    public ResponseEntity<?> deleteFarmVca(@PathVariable String id) {
+        farmVcaService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 

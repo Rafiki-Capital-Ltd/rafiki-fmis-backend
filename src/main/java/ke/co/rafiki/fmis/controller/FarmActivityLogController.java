@@ -67,25 +67,26 @@ public class FarmActivityLogController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetFarmActivityLogDto> findFarmActivityLogById(@PathVariable UUID id) throws Exception {
-        FarmActivityLog farmActivityLog = farmActivityLogService.findOne(id);
+    public ResponseEntity<GetFarmActivityLogDto> findFarmActivityLogById(@PathVariable String id) throws Exception {
+        FarmActivityLog farmActivityLog = farmActivityLogService.findOne(UUID.fromString(id));
         GetFarmActivityLogDto getFarmActivityLogDto = farmActivityLogMapper.toGetFarmActivityLogDto(farmActivityLog);
         return ResponseEntity.ok(getFarmActivityLogDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFarmActivityLogDto> updateFarmActivityLog(
-            @PathVariable UUID id,
+            @PathVariable String id,
             @Valid @RequestBody UpdateFarmActivityLogDto updateFarmActivityLogDto
     ) throws Exception {
         FarmActivityLog farmActivityLog = farmActivityLogMapper.toFarmActivityLog(updateFarmActivityLogDto);
-        GetFarmActivityLogDto getFarmActivityLogDto = farmActivityLogMapper.toGetFarmActivityLogDto(farmActivityLogService.update(id, farmActivityLog));
+        GetFarmActivityLogDto getFarmActivityLogDto = farmActivityLogMapper
+                .toGetFarmActivityLogDto(farmActivityLogService.update(UUID.fromString(id), farmActivityLog));
         return ResponseEntity.ok(getFarmActivityLogDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFarmActivityLog(@PathVariable UUID id) {
-        farmActivityLogService.delete(id);
+    public ResponseEntity<?> deleteFarmActivityLog(@PathVariable String id) {
+        farmActivityLogService.delete(UUID.fromString(id));
         return ResponseEntity.noContent().build();
     }
 }

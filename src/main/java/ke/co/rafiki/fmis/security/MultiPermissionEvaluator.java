@@ -1,6 +1,5 @@
 package ke.co.rafiki.fmis.security;
 
-import org.apache.commons.text.CaseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
@@ -33,12 +32,13 @@ public class MultiPermissionEvaluator implements PermissionEvaluator {
         String _targetType = getTargetType(targetType);
         PermissionEvaluator permissionEvaluator = permissionEvaluators.get(_targetType);
         if (permissionEvaluator == null)
-            throw new IllegalArgumentException("No permission evaluator found for targetType=" + targetType + permissionEvaluators);
+            throw new IllegalArgumentException("No permission evaluator found for targetType=" + _targetType + permissionEvaluators);
         return permissionEvaluator.hasPermission(authentication, targetId, targetType, permission);
     }
 
     private String getTargetType(String targetDomainObjectName) {
-        String objectName = CaseUtils.toCamelCase(targetDomainObjectName, false);
-        return objectName + "PermissionEvaluator";
+        return targetDomainObjectName.substring(0, 1).toLowerCase()
+                + targetDomainObjectName.substring(1)
+                + "PermissionEvaluator";
     }
 }
