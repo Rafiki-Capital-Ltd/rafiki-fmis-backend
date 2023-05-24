@@ -9,16 +9,17 @@ import java.util.UUID;
 
 public interface FarmVcaService {
     FarmVca save(FarmVca farmVca) throws Exception;
-    Page<FarmVca> findAll(int page, int size, String sort, String sortDirection);
+    Page<FarmVca> findAll(int page, int size,
+                          String sort, String sortDirection);
+    Page<FarmVca> findAll(Farm farm, int page, int size,
+                          String sort, String sortDirection);
     FarmVca findOne(UUID id) throws Exception;
     FarmVca update(UUID id, FarmVca farmVca) throws Exception;
     void delete(UUID id);
     void deleteAll();
     void deleteMany(List<FarmVca> farmVcas);
-    Page<FarmVca> findByFarm(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
+    Page<FarmVca> findByFarm(Farm farm, int page, int size,
+                             String sort, String sortDirection) throws Exception;
     long getCount() throws Exception;
     long getCount(Farm farm) throws Exception;
 }

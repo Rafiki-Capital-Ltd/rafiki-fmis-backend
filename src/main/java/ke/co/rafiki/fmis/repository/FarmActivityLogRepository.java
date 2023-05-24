@@ -3,6 +3,7 @@ package ke.co.rafiki.fmis.repository;
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.Farm;
 import ke.co.rafiki.fmis.domain.FarmActivityLog;
+import ke.co.rafiki.fmis.domain.FarmAsset;
 import ke.co.rafiki.fmis.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,18 @@ public interface FarmActivityLogRepository extends JpaRepository<FarmActivityLog
     Page<FarmActivityLog> findByOwner(User owner, Pageable pageable);
 
     List<FarmActivityLog> findByOwner(User owner);
+
+    @Transactional
+    @Query("SELECT fal FROM FarmActivityLog AS fal WHERE fal.owner = :owner AND fal.farm = :farm")
+    Page<FarmActivityLog> findByOwnerAndFarm(
+            @Param("owner") User owner,
+            @Param("farm") Farm farm,
+            Pageable pageable
+    );
+
+    @Transactional
+    @Query("SELECT fal FROM FarmActivityLog AS fal WHERE fal.owner = :owner AND fal.farm = :farm")
+    List<FarmActivityLog> findByOwnerAndFarm(@Param("owner") User owner, @Param("farm") Farm farm);
 
     @Transactional
     @Modifying

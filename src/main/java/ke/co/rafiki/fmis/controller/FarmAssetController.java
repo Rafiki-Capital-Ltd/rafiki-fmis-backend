@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
@@ -49,10 +50,16 @@ public class FarmAssetController {
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
             @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection,
-            @RequestParam(name = "farm") UUID farmId
+            @RequestParam(name = "farm", required = false) UUID farmId
     ) throws Exception {
-        Farm farm = Farm.builder().id(farmId).build();
-        Page<FarmAsset> farmAssets = farmAssetService.findAll(farm, page, size, sort, sortDirection);
+        Page<FarmAsset> farmAssets;
+
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            farmAssets = farmAssetService.findAll(farm, page, size, sort, sortDirection);
+        } else
+            farmAssets = farmAssetService.findAll(page, size, sort, sortDirection);
+
         List<GetFarmAssetDto> getFarmAssetDtos = farmAssets.stream()
                 .map(farmAssetMapper::toGetFarmAssetDto)
                 .toList();

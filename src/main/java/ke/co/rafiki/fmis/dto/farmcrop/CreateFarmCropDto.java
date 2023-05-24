@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class CreateFarmCropDto {
     @NotBlank
-    private String name;
+    private String type;
 
     @NotBlank
     private String description;

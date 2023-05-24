@@ -9,7 +9,10 @@ import java.util.UUID;
 
 public interface FarmActivityLogService {
     FarmActivityLog save(FarmActivityLog farmActivityLog) throws Exception;
-    Page<FarmActivityLog> findAll(int page, int size, String sort, String sortDirection) throws Exception;
+    Page<FarmActivityLog> findAll(int page, int size, String sort,
+                                  String sortDirection) throws Exception;
+    Page<FarmActivityLog> findAll(Farm farm, int page, int size,
+                                  String sort, String sortDirection) throws Exception;
     FarmActivityLog findOne(UUID id) throws Exception;
     FarmActivityLog update(UUID id, FarmActivityLog farmActivityLog) throws Exception;
     void delete(UUID id);

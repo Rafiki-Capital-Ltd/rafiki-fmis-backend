@@ -1,10 +1,7 @@
 package ke.co.rafiki.fmis.repository;
 
 import jakarta.transaction.Transactional;
-import ke.co.rafiki.fmis.domain.Farm;
-import ke.co.rafiki.fmis.domain.FarmActivity;
-import ke.co.rafiki.fmis.domain.FarmActivityLog;
-import ke.co.rafiki.fmis.domain.User;
+import ke.co.rafiki.fmis.domain.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

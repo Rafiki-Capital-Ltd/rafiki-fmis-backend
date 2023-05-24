@@ -45,16 +45,16 @@ public class FarmCropServiceImpl implements FarmCropService {
     @PreAuthorize("hasAuthority('FARMER')")
     public FarmCrop save(FarmCrop farmCrop) throws Exception {
         Farm farm = farmService.findOne(farmCrop.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
         farmCrop.setFarm(farm);
+        farmCrop.setOwner(owner);
         return farmCropRepository.save(farmCrop);
     }
 
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
-    public Page<FarmCrop> findAll(
-            int page, int size,
-            String sort, String sortDirection
-    ) throws Exception {
+    public Page<FarmCrop> findAll(int page, int size, String sort,
+                                  String sortDirection) throws Exception {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
 
         if (isAuthorized(RoleType.MANAGER))
@@ -62,6 +62,20 @@ public class FarmCropServiceImpl implements FarmCropService {
 
         User user = userService.findOne(getAuthentication().getName());
         return farmCropRepository.findByOwner(user, pageRequest);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmCrop> findAll(Farm farm, int page, int size,
+                                  String sort, String sortDirection) throws Exception {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmCropRepository.findAll(pageRequest);
+
+        Farm _farm = farmService.findOne(farm.getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmCropRepository.findByOwnerAndFarm(owner, _farm, pageRequest);
     }
 
     @Override
@@ -78,7 +92,7 @@ public class FarmCropServiceImpl implements FarmCropService {
     @PreAuthorize("hasPermission(#id, 'FarmCrop', 'MANAGER')")
     public FarmCrop update(UUID id, FarmCrop farmCrop) throws Exception {
         FarmCrop _farmCrop = this.findOne(id);
-        _farmCrop.setName(farmCrop.getName());
+        _farmCrop.setType(farmCrop.getType());
         _farmCrop.setQuantity(farmCrop.getQuantity());
         _farmCrop.setDescription(farmCrop.getDescription());
         return farmCropRepository.save(_farmCrop);

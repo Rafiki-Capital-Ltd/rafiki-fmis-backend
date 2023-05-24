@@ -49,9 +49,17 @@ public class FarmProductionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
-            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
+            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection,
+            @RequestParam(name = "farm", required = false) UUID farmId
     ) throws Exception {
-        Page<FarmProduction> farmProductions = farmProductionService.findAll(page, size, sort, sortDirection);
+        Page<FarmProduction> farmProductions;
+
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            farmProductions = farmProductionService.findAll(farm, page, size, sort, sortDirection);
+        } else
+            farmProductions = farmProductionService.findAll(page, size, sort, sortDirection);
+
         List<GetFarmProductionDto> getFarmProductionDtos = farmProductions.stream()
                 .map(farmProductionMapper::toGetFarmProductionDto)
                 .toList();

@@ -11,6 +11,8 @@ public interface FarmAnimalService {
     FarmAnimal save(FarmAnimal farmAnimal) throws Exception;
     Page<FarmAnimal> findAll(int page, int size,
                             String sort, String sortDirection) throws Exception;
+    Page<FarmAnimal> findAll(Farm farm, int page, int size,
+                            String sort, String sortDirection) throws Exception;
     FarmAnimal findOne(UUID id) throws Exception;
     FarmAnimal update(UUID id, FarmAnimal farmAnimal) throws Exception;
     void delete(UUID id);

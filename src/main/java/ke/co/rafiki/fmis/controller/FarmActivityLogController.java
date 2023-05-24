@@ -57,10 +57,18 @@ public class FarmActivityLogController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
-            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
+            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection,
+            @RequestParam(name = "farm", required = false) UUID farmId
     ) throws Exception {
-        Page<FarmActivityLog> farmActivities = farmActivityLogService.findAll(page, size, sort, sortDirection);
-        List<GetFarmActivityLogDto> getFarmActivityLogDtos = farmActivities.stream()
+        Page<FarmActivityLog> farmActivityLogs;
+
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            farmActivityLogs = farmActivityLogService.findAll(farm, page, size, sort, sortDirection);
+        } else
+            farmActivityLogs = farmActivityLogService.findAll(page, size, sort, sortDirection);
+
+        List<GetFarmActivityLogDto> getFarmActivityLogDtos = farmActivityLogs.stream()
                 .map(farmActivityLogMapper::toGetFarmActivityLogDto)
                 .toList();
         return ResponseEntity.ok(new PageImpl<>(getFarmActivityLogDtos));

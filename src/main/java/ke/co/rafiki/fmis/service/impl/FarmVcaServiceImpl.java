@@ -43,14 +43,26 @@ public class FarmVcaServiceImpl implements FarmVcaService {
 
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
     public FarmVca save(FarmVca farmVca) throws Exception {
         Farm farm = farmService.findOne(farmVca.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
         farmVca.setFarm(farm);
+        farmVca.setOwner(owner);
         return farmVcaRepository.save(farmVca);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmVca> findAll(int page, int size, String sort, String sortDirection) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        return farmVcaRepository.findAll(pageRequest);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmVca> findAll(Farm farm, int page, int size,
+                                 String sort, String sortDirection) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
         return farmVcaRepository.findAll(pageRequest);
     }

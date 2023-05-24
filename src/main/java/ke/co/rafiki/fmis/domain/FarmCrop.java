@@ -15,9 +15,9 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "farm_crops")
 @EntityListeners(FarmCropEntityListener.class)
 public class FarmCrop extends BaseEntityAuditOwned {
-    // the name of the crop eg maize, beans, mangoes
-    @Column(name = "name", nullable = false)
-    private String name;
+    // the name of the crop e.g maize, beans, mangoes
+    @Column(name = "type", nullable = false)
+    private String type;
 
     @Column(name = "description")
     private String description;

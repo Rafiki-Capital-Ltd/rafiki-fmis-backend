@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class GetFarmAnimalDto {
     private UUID id;
-    private String name;
+    private String type;
     private String description;
     private Integer quantity;
     private LocalDateTime createdAt;

@@ -49,16 +49,16 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     @PreAuthorize("hasAuthority('FARMER')")
     public FarmProduction save(FarmProduction farmProduction) throws Exception {
         Farm farm = farmService.findOne(farmProduction.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
         farmProduction.setFarm(farm);
+        farmProduction.setOwner(owner);
         return farmProductionRepository.save(farmProduction);
     }
 
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
-    public Page<FarmProduction> findAll(
-            int page, int size,
-            String sort, String sortDirection
-    ) throws Exception {
+    public Page<FarmProduction> findAll(int page, int size, String sort,
+                                        String sortDirection) throws Exception {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
 
         if (isAuthorized(RoleType.MANAGER))
@@ -66,6 +66,20 @@ public class FarmProductionServiceImpl implements FarmProductionService {
 
         User owner = userService.findOne(getAuthentication().getName());
         return farmProductionRepository.findByOwner(owner, pageRequest);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmProduction> findAll(Farm farm, int page, int size, String sort,
+                                        String sortDirection) throws Exception {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmProductionRepository.findAll(pageRequest);
+
+        Farm _farm = farmService.findOne(farm.getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmProductionRepository.findByOwnerAndFarm(owner, _farm, pageRequest);
     }
 
     @Override

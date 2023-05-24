@@ -211,25 +211,25 @@ public class AppInitializer implements CommandLineRunner {
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmAnimal> farmAnimals = List.of(
                 FarmAnimal.builder()
-                        .name("Cow")
+                        .type("Cow")
                         .quantity(3)
                         .farm(farms.get(0))
                         .owner(owner)
                         .build(),
                 FarmAnimal.builder()
-                        .name("Goat")
+                        .type("Goat")
                         .quantity(6)
                         .farm(farms.get(0))
                         .owner(owner)
                         .build(),
                 FarmAnimal.builder()
-                        .name("Sheep")
+                        .type("Sheep")
                         .quantity(6)
                         .farm(farms.get(0))
                         .owner(owner)
                         .build(),
                 FarmAnimal.builder()
-                        .name("Chicken")
+                        .type("Chicken")
                         .quantity(3)
                         .farm(farms.get(0))
                         .owner(owner)
@@ -243,13 +243,13 @@ public class AppInitializer implements CommandLineRunner {
         farmCropRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmCrop> farmCrops = List.of(
-                FarmCrop.builder().name("Maize").quantity(2)
+                FarmCrop.builder().type("Maize").quantity(2)
                         .owner(owner).farm(farms.get(0)).build(),
-                FarmCrop.builder().name("Goat").quantity(2)
+                FarmCrop.builder().type("Goat").quantity(2)
                         .owner(owner).farm(farms.get(0)).build(),
-                FarmCrop.builder().name("Sheep").quantity(2)
+                FarmCrop.builder().type("Sheep").quantity(2)
                         .owner(owner).farm(farms.get(0)).build(),
-                FarmCrop.builder().name("Chicken").quantity(2)
+                FarmCrop.builder().type("Chicken").quantity(2)
                         .owner(owner).farm(farms.get(0)).build()
         );
         return farmCropRepository.saveAll(farmCrops);

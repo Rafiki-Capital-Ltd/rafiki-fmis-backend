@@ -10,16 +10,17 @@ import java.util.UUID;
 
 public interface FarmSaleService {
     FarmSale save(FarmSale farmSale) throws Exception;
-    Page<FarmSale> findAll(int page, int size, String sort, String sortDirection) throws Exception;
+    Page<FarmSale> findAll(int page, int size,
+                           String sort, String sortDirection) throws Exception;
+    Page<FarmSale> findAll(Farm farm, int page, int size,
+                           String sort, String sortDirection) throws Exception;
     FarmSale findOne(UUID id) throws Exception;
     FarmSale update(UUID id, FarmSale farmSale) throws Exception;
     void delete(UUID id);
     void deleteAll();
     void deleteMany(List<FarmSale> farmSales);
-    Page<FarmSale> findByFarm(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
+    Page<FarmSale> findByFarm(Farm farm, int page, int size,
+                              String sort, String sortDirection) throws Exception;
     long getCount() throws Exception;
     long getCount(Farm farm) throws Exception;
     BigDecimal getTotal() throws Exception;

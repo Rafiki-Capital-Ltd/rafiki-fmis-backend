@@ -45,12 +45,14 @@ public class FarmAnimalServiceImpl implements FarmAnimalService {
     @PreAuthorize("hasAuthority('FARMER')")
     public FarmAnimal save(FarmAnimal farmAnimal) throws Exception {
         Farm farm = farmService.findOne(farmAnimal.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
         farmAnimal.setFarm(farm);
+        farmAnimal.setOwner(owner);
         return farmAnimalRepository.save(farmAnimal);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmAnimal> findAll(
             int page, int size,
             String sort, String sortDirection
@@ -60,12 +62,28 @@ public class FarmAnimalServiceImpl implements FarmAnimalService {
         if (isAuthorized(RoleType.MANAGER))
             return farmAnimalRepository.findAll(pageRequest);
 
-        User user = userService.findOne(getAuthentication().getName());
-        return farmAnimalRepository.findByOwner(user, pageRequest);
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmAnimalRepository.findByOwner(owner, pageRequest);
     }
 
     @Override
-    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmAnimal> findAll(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmAnimalRepository.findAll(pageRequest);
+
+        Farm _farm = farmService.findOne(farm.getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmAnimalRepository.findByOwnerAndFarm(owner, _farm, pageRequest);
+    }
+
+    @Override
+    @PostAuthorize("hasPermission(returnObject, 'FARMER')")
     public FarmAnimal findOne(UUID id) throws Exception {
         return farmAnimalRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
@@ -78,7 +96,7 @@ public class FarmAnimalServiceImpl implements FarmAnimalService {
     @PreAuthorize("hasPermission(#id, 'FarmAnimal', 'MANAGER')")
     public FarmAnimal update(UUID id, FarmAnimal farmAnimal) throws Exception {
         FarmAnimal _farmAnimal = this.findOne(id);
-        _farmAnimal.setName(farmAnimal.getName());
+        _farmAnimal.setType(farmAnimal.getType());
         _farmAnimal.setQuantity(farmAnimal.getQuantity());
         _farmAnimal.setDescription(farmAnimal.getDescription());
         return farmAnimalRepository.save(_farmAnimal);

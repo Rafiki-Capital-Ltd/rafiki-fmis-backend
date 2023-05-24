@@ -47,9 +47,17 @@ public class FarmAnimalController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
-            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
+            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection,
+            @RequestParam(name = "farm", required = false) UUID farmId
     ) throws Exception {
-        Page<FarmAnimal> farmAnimals = farmAnimalService.findAll(page, size, sort, sortDirection);
+        Page<FarmAnimal> farmAnimals;
+
+        if (farmId != null) {
+            Farm farm = Farm.builder().id(farmId).build();
+            farmAnimals = farmAnimalService.findAll(farm, page, size, sort, sortDirection);
+        } else
+            farmAnimals = farmAnimalService.findAll(page, size, sort, sortDirection);
+
         List<GetFarmAnimalDto> getFarmAnimalDtos = farmAnimals.stream()
                 .map(farmAnimalMapper::toGetFarmAnimalDto)
                 .toList();

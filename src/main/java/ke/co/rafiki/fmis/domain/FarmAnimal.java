@@ -19,8 +19,8 @@ public class FarmAnimal extends BaseEntityAuditOwned {
     // TODO: Farm animal category
 
     // eg cow, goat, chicken...
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "type", nullable = false)
+    private String type;
 
     // a brief description of the animals
     @Column(name = "description")

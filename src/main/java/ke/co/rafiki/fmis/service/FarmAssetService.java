@@ -18,10 +18,8 @@ public interface FarmAssetService {
     void delete(UUID id);
     void deleteAll();
     void deleteMany(List<FarmAsset> farmAssets);
-    Page<FarmAsset> findByFarm(
-            Farm farm, int page, int size,
-            String sort, String sortDirection
-    ) throws Exception;
+    Page<FarmAsset> findByFarm(Farm farm, int page, int size,
+                               String sort, String sortDirection) throws Exception;
     long getCount() throws Exception;
     long getCount(Farm farm) throws Exception;
 }

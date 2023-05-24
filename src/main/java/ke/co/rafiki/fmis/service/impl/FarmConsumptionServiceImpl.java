@@ -55,10 +55,8 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
 
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
-    public Page<FarmConsumption> findAll(
-            int page, int size,
-            String sort, String sortDirection
-    ) throws Exception {
+    public Page<FarmConsumption> findAll(int page, int size, String sort,
+                                         String sortDirection) throws Exception {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
 
         if (isAuthorized(RoleType.MANAGER))
@@ -66,6 +64,20 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
 
         User owner = userService.findOne(getAuthentication().getName());
         return farmConsumptionRepository.findByOwner(owner, pageRequest);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmConsumption> findAll(Farm farm, int page, int size, String sort,
+                                         String sortDirection) throws Exception {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmConsumptionRepository.findAll(pageRequest);
+
+        Farm _farm = farmService.findOne(farm.getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmConsumptionRepository.findByOwnerAndFarm(owner, _farm, pageRequest);
     }
 
     @Override
