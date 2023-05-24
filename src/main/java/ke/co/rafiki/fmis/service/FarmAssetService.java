@@ -11,6 +11,8 @@ public interface FarmAssetService {
     FarmAsset save(FarmAsset farmAsset) throws Exception;
     Page<FarmAsset> findAll(int page, int size,
                             String sort, String sortDirection) throws Exception;
+    Page<FarmAsset> findAll(Farm farm, int page, int size,
+                            String sort, String sortDirection) throws Exception;
     FarmAsset findOne(UUID id) throws Exception;
     FarmAsset update(UUID id, FarmAsset farmAsset) throws Exception;
     void delete(UUID id);

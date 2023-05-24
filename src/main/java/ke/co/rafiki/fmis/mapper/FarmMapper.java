@@ -1,6 +1,8 @@
 package ke.co.rafiki.fmis.mapper;
 
+import ke.co.rafiki.fmis.domain.County;
 import ke.co.rafiki.fmis.domain.Farm;
+import ke.co.rafiki.fmis.domain.Ward;
 import ke.co.rafiki.fmis.dto.county.GetCountyDto;
 import ke.co.rafiki.fmis.dto.farm.CreateFarmDto;
 import ke.co.rafiki.fmis.dto.farm.GetFarmDto;
@@ -28,14 +30,23 @@ public interface FarmMapper {
                 .build();
     }
 
-    Farm toFarm(CreateFarmDto createFarmDto);
+    default Farm toFarm(CreateFarmDto createFarmDto) {
+        return Farm.builder()
+                .name(createFarmDto.getName())
+                .size(createFarmDto.getSize())
+                .county(County.builder().name(createFarmDto.getCounty()).build())
+                .ward(Ward.builder().name(createFarmDto.getWard()).build())
+                .nearestShoppingCenter(createFarmDto.getNearestShoppingCenter())
+                .location(createFarmDto.getLocation())
+                .build();
+    };
 
     default Farm toFarm(UpdateFarmDto updateFarmDto) {
         return Farm.builder()
                 .name(updateFarmDto.getName())
                 .size(updateFarmDto.getSize())
-                .county(updateFarmDto.getCounty())
-                .ward(updateFarmDto.getWard())
+                .county(County.builder().name(updateFarmDto.getCounty()).build())
+                .ward(Ward.builder().name(updateFarmDto.getWard()).build())
                 .nearestShoppingCenter(updateFarmDto.getNearestShoppingCenter())
                 .location(updateFarmDto.getLocation())
                 .build();

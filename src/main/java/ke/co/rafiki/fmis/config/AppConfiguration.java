@@ -21,6 +21,8 @@ public class AppConfiguration {
             public void addCorsMappings(CorsRegistry corsRegistry) {
                 corsRegistry.addMapping("/**")
                         .allowedOrigins(
+                                "http://127.0.0.1:5173",
+                                "http://127.0.0.1:3000",
                                 "http://localhost:5173",
                                 "http://localhost:3000",
                                 "http://rafikifmis.co.ke"
@@ -32,22 +34,4 @@ public class AppConfiguration {
             }
         };
     }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration corsConfig = new CorsConfiguration();
-//        corsConfig.setAllowedOrigins(
-//                List.of(
-//                        "http://localhost:5173",
-//                        "http://localhost:3000",
-//                        "http://rafikifmis.co.ke"
-//                )
-//        );
-//        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
-//        corsConfig.setAllowedHeaders(List.of("*"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", corsConfig);
-//        return source;
-//    }
-
 }

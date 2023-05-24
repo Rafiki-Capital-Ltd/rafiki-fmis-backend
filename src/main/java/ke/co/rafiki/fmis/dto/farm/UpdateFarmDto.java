@@ -16,9 +16,9 @@ public class UpdateFarmDto {
     @NotNull
     private BigDecimal size;
 
-    private County county;
+    private String county;
 
-    private Ward ward;
+    private String ward;
 
     private String nearestShoppingCenter;
 

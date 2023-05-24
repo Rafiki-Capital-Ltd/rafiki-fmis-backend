@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -36,15 +35,8 @@ public class FarmAssetController {
     @PostMapping
     public ResponseEntity<GetFarmAssetDto> createFarmAsset(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId,
             @Valid @RequestBody CreateFarmAssetDto createFarmAssetDto
     ) throws Exception {
-        if (farmId == null && createFarmAssetDto.getFarm() == null)
-            throw new BadRequestException();
-
-        if (createFarmAssetDto.getFarm() == null)
-            createFarmAssetDto.setFarm(Farm.builder().id(farmId).build());
-
         FarmAsset farmAsset = farmAssetService.save(farmAssetMapper.toFarmAsset(createFarmAssetDto));
         GetFarmAssetDto getFarmAssetDto = farmAssetMapper.toGetFarmAssetDto(farmAsset);
         URI location = new URI(request.getRequestURL() + "/" + farmAsset.getId());
@@ -56,9 +48,11 @@ public class FarmAssetController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "100") int size,
             @RequestParam(defaultValue = "createdAt") String sort,
-            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection
+            @RequestParam (defaultValue = "DESC", name = "sort_direction") String sortDirection,
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
-        Page<FarmAsset> farmAssets = farmAssetService.findAll(page, size, sort, sortDirection);
+        Farm farm = Farm.builder().id(farmId).build();
+        Page<FarmAsset> farmAssets = farmAssetService.findAll(farm, page, size, sort, sortDirection);
         List<GetFarmAssetDto> getFarmAssetDtos = farmAssets.stream()
                 .map(farmAssetMapper::toGetFarmAssetDto)
                 .toList();
@@ -91,7 +85,7 @@ public class FarmAssetController {
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();

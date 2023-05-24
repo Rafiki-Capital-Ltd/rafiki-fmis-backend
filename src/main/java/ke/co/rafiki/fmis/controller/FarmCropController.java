@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -36,15 +35,8 @@ public class FarmCropController {
     @PostMapping
     public ResponseEntity<GetFarmCropDto> createFarmCrop(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId,
             @Valid @RequestBody CreateFarmCropDto createFarmCropDto
     ) throws Exception {
-        if (farmId == null && createFarmCropDto.getFarm() == null)
-            throw new BadRequestException();
-
-        if (createFarmCropDto.getFarm() == null)
-            createFarmCropDto.setFarm(Farm.builder().id(farmId).build());
-
         FarmCrop farmCrop = farmCropService.save(farmCropMapper.toFarmCrop(createFarmCropDto));
         GetFarmCropDto getFarmCropDto = farmCropMapper.toGetFarmCropDto(farmCrop);
         URI location = new URI(request.getRequestURL() + "/" + farmCrop.getId());
@@ -91,7 +83,7 @@ public class FarmCropController {
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();
@@ -103,7 +95,7 @@ public class FarmCropController {
     @GetMapping("/total")
     public ResponseEntity<Long> getTotal(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();

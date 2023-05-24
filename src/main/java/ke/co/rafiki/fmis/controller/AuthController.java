@@ -104,7 +104,7 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, Object>> refreshToken(
-            @CookieValue(name = REFRESH_TOKEN_COOKIE_KEY) String token,
+            @CookieValue(name = REFRESH_TOKEN_COOKIE_KEY, required = false) String token,
             @RequestBody Map<String, String> requestBody
     ) throws Exception {
         String _token;

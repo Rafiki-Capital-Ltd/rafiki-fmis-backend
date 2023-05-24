@@ -122,6 +122,13 @@ public class AppInitializer implements CommandLineRunner {
                         .roles(Set.of(farmerRole))
                         .build(),
                 User.builder()
+                        .firstName("Daniel")
+                        .lastName("Gitari")
+                        .email("danigitari@gmail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .roles(Set.of(farmerRole))
+                        .build(),
+                User.builder()
                         .firstName("Farmer")
                         .lastName("User")
                         .email("farmer@fmis.rafiki.co.ke")

@@ -20,7 +20,6 @@ import java.math.RoundingMode;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -38,15 +37,8 @@ public class FarmProductionController {
     @PostMapping
     public ResponseEntity<GetFarmProductionDto> createFarmProduction(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId,
             @Valid @RequestBody CreateFarmProductionDto createFarmProductionDto
     ) throws Exception {
-        if (farmId == null && createFarmProductionDto.getFarm() == null)
-            throw new BadRequestException();
-
-        if (createFarmProductionDto.getFarm() == null)
-            createFarmProductionDto.setFarm(Farm.builder().id(farmId).build());
-
         FarmProduction farmProduction = farmProductionService.save(farmProductionMapper.toFarmProduction(createFarmProductionDto));
         GetFarmProductionDto getFarmProductionDto = farmProductionMapper.toGetFarmProductionDto(farmProduction);
         URI location = new URI(request.getRequestURL() + "/" + farmProduction.getId());
@@ -93,7 +85,7 @@ public class FarmProductionController {
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();
@@ -105,7 +97,7 @@ public class FarmProductionController {
     @GetMapping("/total")
     public ResponseEntity<BigDecimal> getTotal(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();

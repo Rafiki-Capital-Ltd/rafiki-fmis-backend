@@ -93,7 +93,7 @@ public class FarmController {
     }
 
     @GetMapping("/context")
-    public ResponseEntity<GetFarmDto> getFarmContext(@CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId) throws Exception {
+    public ResponseEntity<GetFarmDto> getFarmContext(@CookieValue(name = FARM_CONTEXT_COOKIE_KEY, required = false) UUID farmId) throws Exception {
         Farm farm = farmService.findOne(farmId);
         GetFarmDto getFarmDto = farmMapper.toGetFarmDto(farm);
         return ResponseEntity.ok(getFarmDto);

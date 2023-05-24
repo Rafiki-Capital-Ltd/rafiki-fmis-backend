@@ -65,6 +65,22 @@ public class FarmAssetServiceImpl implements FarmAssetService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public Page<FarmAsset> findAll(
+            Farm farm, int page, int size,
+            String sort, String sortDirection
+    ) throws Exception {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+
+        if (isAuthorized(RoleType.MANAGER))
+            return farmAssetRepository.findAll(pageRequest);
+
+        Farm _farm = farmService.findOne(farm.getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        return farmAssetRepository.findByOwnerAndFarm(owner, _farm, pageRequest);
+    }
+
+    @Override
     @PostAuthorize("hasPermission(returnObject 'MANAGER')")
     public FarmAsset findOne(UUID id) throws Exception {
         return farmAssetRepository.findById(id).orElseThrow(() -> {

@@ -18,10 +18,10 @@ public class CreateFarmDto {
     private BigDecimal size;
 
     @NotNull
-    private County county;
+    private String county;
 
     @NotNull
-    private Ward ward;
+    private String ward;
 
     private String nearestShoppingCenter;
 

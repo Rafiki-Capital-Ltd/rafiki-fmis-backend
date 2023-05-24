@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -36,15 +35,8 @@ public class FarmVcaController {
     @PostMapping
     public ResponseEntity<GetFarmVcaDto> createFarmVca(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId,
             @Valid @RequestBody CreateFarmVcaDto createFarmVcaDto
     ) throws Exception {
-        if (farmId == null && createFarmVcaDto.getFarm() == null)
-            throw new BadRequestException();
-
-        if (createFarmVcaDto.getFarm() == null)
-            createFarmVcaDto.setFarm(Farm.builder().id(farmId).build());
-
         FarmVca farmVca = farmVcaService.save(farmVcaMapper.toFarmVca(createFarmVcaDto));
         GetFarmVcaDto getFarmVcaDto = farmVcaMapper.toGetFarmVcaDto(farmVca);
         URI location = new URI(request.getRequestURL() + "/" + farmVca.getId());
@@ -93,7 +85,7 @@ public class FarmVcaController {
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();

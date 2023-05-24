@@ -7,7 +7,6 @@ import ke.co.rafiki.fmis.domain.FarmAnimal;
 import ke.co.rafiki.fmis.dto.farmanimal.CreateFarmAnimalDto;
 import ke.co.rafiki.fmis.dto.farmanimal.GetFarmAnimalDto;
 import ke.co.rafiki.fmis.dto.farmanimal.UpdateFarmAnimalDto;
-import ke.co.rafiki.fmis.exceptions.BadRequestException;
 import ke.co.rafiki.fmis.mapper.FarmAnimalMapper;
 import ke.co.rafiki.fmis.service.FarmAnimalService;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import static ke.co.rafiki.fmis.misc.Constants.*;
 
 @SuppressWarnings("unused")
 @RestController
@@ -36,15 +34,8 @@ public class FarmAnimalController {
     @PostMapping
     public ResponseEntity<GetFarmAnimalDto> createFarmAnimal(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId,
             @Valid @RequestBody CreateFarmAnimalDto createFarmAnimalDto
     ) throws Exception {
-        if (farmId == null && createFarmAnimalDto.getFarm() == null)
-            throw new BadRequestException();
-
-        if (createFarmAnimalDto.getFarm() == null)
-            createFarmAnimalDto.setFarm(Farm.builder().id(farmId).build());
-
         FarmAnimal farmAnimal = farmAnimalService.save(farmAnimalMapper.toFarmAnimal(createFarmAnimalDto));
         GetFarmAnimalDto getFarmAnimalDto = farmAnimalMapper.toGetFarmAnimalDto(farmAnimal);
         URI location = new URI(request.getRequestURL() + "/" + farmAnimal.getId());
@@ -91,7 +82,7 @@ public class FarmAnimalController {
     @GetMapping("/count")
     public ResponseEntity<Long> getCount(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();
@@ -103,7 +94,7 @@ public class FarmAnimalController {
     @GetMapping("/total")
     public ResponseEntity<Long> getTotal(
             HttpServletRequest request,
-            @CookieValue(name = FARM_CONTEXT_COOKIE_KEY) UUID farmId
+            @RequestParam(name = "farm") UUID farmId
     ) throws Exception {
         if (farmId != null) {
             Farm farm = Farm.builder().id(farmId).build();
