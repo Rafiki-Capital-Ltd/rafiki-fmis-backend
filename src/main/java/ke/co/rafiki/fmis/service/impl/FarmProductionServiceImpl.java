@@ -43,23 +43,11 @@ public class FarmProductionServiceImpl implements FarmProductionService {
         this.userService = userService;
     }
 
-
-
-    @Override
-    @PreAuthorize("hasAuthority('FARMER')")
-    public FarmProduction save(FarmProduction farmProduction) throws Exception {
-        Farm farm = farmService.findOne(farmProduction.getFarm().getId());
-        User owner = userService.findOne(getAuthentication().getName());
-        farmProduction.setFarm(farm);
-        farmProduction.setOwner(owner);
-        return farmProductionRepository.save(farmProduction);
-    }
-
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmProduction> findAll(int page, int size, String sort,
                                         String sortDirection) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
 
         if (isAuthorized(RoleType.MANAGER))
             return farmProductionRepository.findAll(pageRequest);
@@ -72,7 +60,7 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmProduction> findAll(Farm farm, int page, int size, String sort,
                                         String sortDirection) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
 
         if (isAuthorized(RoleType.MANAGER))
             return farmProductionRepository.findAll(pageRequest);
@@ -83,13 +71,23 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     }
 
     @Override
-    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
+    @PostAuthorize("hasPermission(returnObject, 'FARMER')")
     public FarmProduction findOne(UUID id) throws Exception {
         return farmProductionRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
             log.error(message);
             return new NotFoundException(message);
         });
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public FarmProduction save(FarmProduction farmProduction) throws Exception {
+        Farm farm = farmService.findOne(farmProduction.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        farmProduction.setFarm(farm);
+        farmProduction.setOwner(owner);
+        return farmProductionRepository.save(farmProduction);
     }
 
     @Override
@@ -115,7 +113,7 @@ public class FarmProductionServiceImpl implements FarmProductionService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public void deleteMany(List<FarmProduction> farmProductions) {
         farmProductionRepository.deleteAll(farmProductions);
     }

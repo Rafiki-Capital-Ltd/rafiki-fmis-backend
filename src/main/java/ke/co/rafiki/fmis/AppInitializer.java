@@ -3,6 +3,7 @@ package ke.co.rafiki.fmis;
 import jakarta.transaction.Transactional;
 import ke.co.rafiki.fmis.domain.*;
 import ke.co.rafiki.fmis.domain.enums.AssetStatus;
+import ke.co.rafiki.fmis.domain.enums.PurchaseType;
 import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.domain.enums.SaleType;
 import ke.co.rafiki.fmis.exceptions.NotFoundException;
@@ -37,7 +38,10 @@ public class AppInitializer implements CommandLineRunner {
     private CountyRepository countyRepository;
 
     @Autowired
-    private WardRepository wardRepository;
+    private ConstituencyRepository constituencyRepository;
+
+    @Autowired
+    private SubCountyRepository subCountyRepository;
 
     @Autowired
     private FarmRepository farmRepository;
@@ -47,6 +51,9 @@ public class AppInitializer implements CommandLineRunner {
 
     @Autowired
     private FarmCropRepository farmCropRepository;
+
+    @Autowired
+    private FarmInputRepository farmInputRepository;
 
     @Autowired
     private FarmAssetRepository farmAssetRepository;
@@ -67,6 +74,12 @@ public class AppInitializer implements CommandLineRunner {
     private FarmSaleRepository farmSaleRepository;
 
     @Autowired
+    private FarmPurchaseRepository farmPurchaseRepository;
+
+    @Autowired
+    private FarmExpenseRepository farmExpenseRepository;
+
+    @Autowired
     private FarmVcaRepository farmVcaRepository;
 
     @Autowired
@@ -77,22 +90,23 @@ public class AppInitializer implements CommandLineRunner {
         refreshTokenRepository.deleteAll();
         List<Role> roles = initRoles();
         List<User> users = initUsers();
-        List<County> counties = initCounties();
-        List<Ward> wards = initWards(counties);
-        List<Farm> farms = initFarms(users, counties, wards);
+        List<Farm> farms = initFarms(users);
         List<FarmAnimal> farmAnimals = initFarmAnimals(farms);
         List<FarmCrop> farmCrops = initFarmCrops(farms);
         List<FarmAsset> farmAssets = initFarmAssets(farms);
+        List<FarmInput> farmInputs = initFarmInputs(farms);
         List<FarmConsumption> farmConsumptions = initFarmConsumptions(farms);
         List<FarmProduction> farmProductions = initFarmProductions(farms);
         List<FarmSale> farmSales = initFarmSales(farms);
+        List<FarmPurchase> farmPurchases = initFarmPurchases(farms);
+        List<FarmExpense> farmExpenses = initFarmExpenses(farms);
         List<FarmVca> farmVcas = initFarmVcas(farms);
         List<FarmActivityLog> farmActivityLogs = initFarmActivityLogs(farms);
         List<FarmActivity> farmActivities = initFarmActivities(farmActivityLogs);
     }
 
     @Transactional
-    private List<Role> initRoles() {
+    public List<Role> initRoles() {
         roleRepository.findAll()
                 .forEach(role -> roleRepository.disassociateRoleFromUser(role.getId()));
         roleRepository.deleteAll();
@@ -104,7 +118,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<User> initUsers() throws Exception {
+    public List<User> initUsers() throws Exception {
         deleteUserAssociations(userRepository.findAll());
         userRepository.deleteAll();
         Role farmerRole = roleRepository.findByName(RoleType.FARMER.toString())
@@ -155,58 +169,37 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<County> initCounties() {
-        countyRepository.deleteAll();
-        List<County> counties = List.of(
-                County.builder().name("NAIROBI").build(),
-                County.builder().name("MAKUENI").build(),
-                County.builder().name("MACHAKOS").build(),
-                County.builder().name("KITUI").build(),
-                County.builder().name("MOMBASA").build(),
-                County.builder().name("NYERI").build()
-        );
-        return countyRepository.saveAll(counties);
-    }
-
-    @Transactional
-    private List<Ward> initWards(List<County> counties) {
-        wardRepository.deleteAll();
-        List<Ward> wards = List.of(
-                Ward.builder().name("WARD 1").county(counties.get(1)).build(),
-                Ward.builder().name("WARD 2").county(counties.get(1)).build(),
-                Ward.builder().name("WARD 3").county(counties.get(2)).build(),
-                Ward.builder().name("WARD 4").county(counties.get(2)).build(),
-                Ward.builder().name("WARD 5").county(counties.get(3)).build(),
-                Ward.builder().name("WARD 6").county(counties.get(3)).build()
-        );
-        return wardRepository.saveAll(wards);
-    }
-
-    @Transactional
-    private List<Farm> initFarms(List<User> users, List<County> counties, List<Ward> wards) {
+    public List<Farm> initFarms(List<User> users) {
         deleteFarmAssociations(farmRepository.findAll());
         farmRepository.deleteAll();
+        County county = countyRepository.findById(1).get();
+        Constituency constituency1 = constituencyRepository.findByCounty(county).get(0);
+        Constituency constituency2 = constituencyRepository.findByCounty(county).get(1);
+        SubCounty subCounty1 = subCountyRepository.findByConstituency(constituency1).get(0);
+        SubCounty subCounty2 = subCountyRepository.findByConstituency(constituency2).get(0);
         List<Farm> farms = List.of(
                 Farm.builder()
                         .name("Test Farm 1")
                         .owner(users.get(0))
                         .size(BigDecimal.valueOf(12.0))
-                        .county(counties.get(1))
-                        .ward(wards.get(0))
+                        .county(county)
+                        .constituency(constituency1)
+                        .subCounty(subCounty1)
                         .build(),
                 Farm.builder()
                         .name("Test Farm 2")
                         .owner(users.get(1))
                         .size(BigDecimal.valueOf(10.0))
-                        .county(counties.get(0))
-                        .ward(wards.get(0))
+                        .county(county)
+                        .constituency(constituency2)
+                        .subCounty(subCounty2)
                         .build()
         );
         return farmRepository.saveAll(farms);
     }
 
     @Transactional
-    private List<FarmAnimal> initFarmAnimals(List<Farm> farms) {
+    public List<FarmAnimal> initFarmAnimals(List<Farm> farms) {
         farmAnimalRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmAnimal> farmAnimals = List.of(
@@ -239,7 +232,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmCrop> initFarmCrops(List<Farm> farms) {
+    public List<FarmCrop> initFarmCrops(List<Farm> farms) {
         farmCropRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmCrop> farmCrops = List.of(
@@ -256,7 +249,24 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmAsset> initFarmAssets(List<Farm> farms) {
+    public List<FarmInput> initFarmInputs(List<Farm> farms) {
+        farmInputRepository.deleteAll();
+        User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
+        List<FarmInput> farmInputs = List.of(
+                FarmInput.builder().type("Pesticides").quantity(2)
+                        .owner(owner).farm(farms.get(0)).build(),
+                FarmInput.builder().type("Insecticides").quantity(2)
+                        .owner(owner).farm(farms.get(0)).build(),
+                FarmInput.builder().type("Herbicides").quantity(2)
+                        .owner(owner).farm(farms.get(0)).build(),
+                FarmInput.builder().type("Seedlings").quantity(2)
+                        .owner(owner).farm(farms.get(0)).build()
+        );
+        return farmInputRepository.saveAll(farmInputs);
+    }
+
+    @Transactional
+    public List<FarmAsset> initFarmAssets(List<Farm> farms) {
         farmAssetRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmAsset> farmAssets = List.of(
@@ -274,7 +284,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmConsumption> initFarmConsumptions(List<Farm> farms) {
+    public List<FarmConsumption> initFarmConsumptions(List<Farm> farms) {
         farmConsumptionRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmConsumption> farmConsumptions = List.of(
@@ -291,7 +301,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmProduction> initFarmProductions(List<Farm> farms) {
+    public List<FarmProduction> initFarmProductions(List<Farm> farms) {
         farmProductionRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmProduction> farmProductions = List.of(
@@ -308,7 +318,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmSale> initFarmSales(List<Farm> farms) {
+    public List<FarmSale> initFarmSales(List<Farm> farms) {
         farmSaleRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmSale> farmSales = List.of(
@@ -329,7 +339,49 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmVca> initFarmVcas(List<Farm> farms) {
+    public List<FarmPurchase> initFarmPurchases(List<Farm> farms) {
+        farmPurchaseRepository.deleteAll();
+        User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
+        List<FarmPurchase> farmPurchases = List.of(
+                FarmPurchase.builder().date(LocalDate.now()).type(PurchaseType.CASH.toString())
+                        .quantity(BigDecimal.valueOf(10)).farm(farms.get(0))
+                        .owner(owner).build(),
+                FarmPurchase.builder().date(LocalDate.now()).type(PurchaseType.CASH.toString())
+                        .quantity(BigDecimal.valueOf(10)).farm(farms.get(0))
+                        .owner(owner).build(),
+                FarmPurchase.builder().date(LocalDate.now()).type(PurchaseType.CREDIT.toString())
+                        .quantity(BigDecimal.valueOf(10)).farm(farms.get(0))
+                        .owner(owner).build(),
+                FarmPurchase.builder().date(LocalDate.now()).type(PurchaseType.CREDIT.toString())
+                        .quantity(BigDecimal.valueOf(10)).farm(farms.get(0))
+                        .owner(owner).build()
+        );
+        return farmPurchaseRepository.saveAll(farmPurchases);
+    }
+
+    @Transactional
+    public List<FarmExpense> initFarmExpenses(List<Farm> farms) {
+        farmExpenseRepository.deleteAll();
+        User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
+        List<FarmExpense> farmExpenses = List.of(
+                FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CASH.toString())
+                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .owner(owner).build(),
+                FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CASH.toString())
+                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .owner(owner).build(),
+                FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CREDIT.toString())
+                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .owner(owner).build(),
+                FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CREDIT.toString())
+                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .owner(owner).build()
+        );
+        return farmExpenseRepository.saveAll(farmExpenses);
+    }
+
+    @Transactional
+    public List<FarmVca> initFarmVcas(List<Farm> farms) {
         farmVcaRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmVca> farmVcas = List.of(
@@ -344,7 +396,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmActivityLog> initFarmActivityLogs(List<Farm> farms) {
+    public List<FarmActivityLog> initFarmActivityLogs(List<Farm> farms) {
         farmActivityLogRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmActivityLog> farmActivityLogs = List.of(
@@ -359,7 +411,7 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private List<FarmActivity> initFarmActivities(List<FarmActivityLog> farmActivityLogs) {
+    public List<FarmActivity> initFarmActivities(List<FarmActivityLog> farmActivityLogs) {
         farmActivityRepository.deleteAll();
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmActivity> farmActivities = List.of(
@@ -380,10 +432,11 @@ public class AppInitializer implements CommandLineRunner {
     }
 
     @Transactional
-    private void deleteUserAssociations(List<User> users) {
+    public void deleteUserAssociations(List<User> users) {
         users.forEach(user -> {
             farmRepository.disassociateFromOwner(user);
             farmAssetRepository.disassociateFromOwner(user);
+            farmInputRepository.disassociateFromOwner(user);
             farmActivityLogRepository.disassociateFromOwner(user);
             farmActivityRepository.disassociateFromOwner(user);
             farmAnimalRepository.disassociateFromOwner(user);
@@ -391,21 +444,26 @@ public class AppInitializer implements CommandLineRunner {
             farmConsumptionRepository.disassociateFromOwner(user);
             farmProductionRepository.disassociateFromOwner(user);
             farmSaleRepository.disassociateFromOwner(user);
+            farmPurchaseRepository.disassociateFromOwner(user);
+            farmExpenseRepository.disassociateFromOwner(user);
             farmVcaRepository.disassociateFromOwner(user);
             userRepository.disassociateRoleFromUser(user.getId());
         });
     }
 
     @Transactional
-    private void deleteFarmAssociations(List<Farm> farms) {
+    public void deleteFarmAssociations(List<Farm> farms) {
         farms.forEach(farm -> {
             farmAssetRepository.disassociateFromFarm(farm);
+            farmInputRepository.disassociateFromFarm(farm);
             farmActivityLogRepository.disassociateFromFarm(farm);
             farmAnimalRepository.disassociateFromFarm(farm);
             farmCropRepository.disassociateFromFarm(farm);
             farmConsumptionRepository.disassociateFromFarm(farm);
             farmProductionRepository.disassociateFromFarm(farm);
             farmSaleRepository.disassociateFromFarm(farm);
+            farmPurchaseRepository.disassociateFromFarm(farm);
+            farmExpenseRepository.disassociateFromFarm(farm);
             farmVcaRepository.disassociateFromFarm(farm);
         });
     }

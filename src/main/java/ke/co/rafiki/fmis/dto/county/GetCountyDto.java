@@ -9,10 +9,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class GetCountyDto {
-
-    private UUID id;
+    private Integer id;
     private String name;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
 }

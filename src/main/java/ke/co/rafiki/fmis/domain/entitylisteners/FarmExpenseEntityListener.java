@@ -10,14 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 public class FarmExpenseEntityListener {
     @PostPersist
     private void postPersist(FarmExpense farmExpense) {
-        log.info("Persisted farm crop " + farmExpense);
+        log.info("Persisted farm expense " + farmExpense);
     }
 
     @PostUpdate
-    private void postUpdate(FarmExpense farmExpense) { log.info("Updated farm crop " + farmExpense); }
+    private void postUpdate(FarmExpense farmExpense) { log.info("Updated farm expense " + farmExpense); }
 
     @PostRemove
     private void postRemove(FarmExpense farmExpense) {
-        log.info("Removed farm crop " + farmExpense);
+        log.info("Removed farm expense " + farmExpense);
     }
 }

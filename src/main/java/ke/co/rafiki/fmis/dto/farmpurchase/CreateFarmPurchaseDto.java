@@ -1,0 +1,27 @@
+package ke.co.rafiki.fmis.dto.farmpurchase;
+
+import jakarta.validation.constraints.NotNull;
+import ke.co.rafiki.fmis.domain.Farm;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Data
+public class CreateFarmPurchaseDto {
+    @NotNull
+    private LocalDate date;
+
+    @NotNull
+    private String type;
+
+    @NotNull
+    private BigDecimal quantity;
+
+    @NotNull
+    private BigDecimal amount;
+
+    private String description;
+
+    private Farm farm;
+}

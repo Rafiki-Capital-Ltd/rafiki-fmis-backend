@@ -24,24 +24,15 @@ public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
     private final UserService userService;
     private final FarmLocationRepository farmLocationRepository;
-    private final FarmActivityLogRepository farmActivityLogRepository;
-    private final CountyRepository countyRepository;
-    private final WardRepository wardRepository;
 
     public FarmServiceImpl(
             FarmRepository farmRepository,
             UserService userService,
-            FarmLocationRepository farmLocationRepository,
-            FarmActivityLogRepository farmActivityLogRepository,
-            CountyRepository countyRepository,
-            WardRepository wardRepository
+            FarmLocationRepository farmLocationRepository
     ) {
         this.farmRepository = farmRepository;
         this.userService = userService;
         this.farmLocationRepository = farmLocationRepository;
-        this.farmActivityLogRepository = farmActivityLogRepository;
-        this.countyRepository = countyRepository;
-        this.wardRepository = wardRepository;
     }
 
     @Override
@@ -49,13 +40,7 @@ public class FarmServiceImpl implements FarmService {
     @PreAuthorize("hasAuthority('FARMER')")
     public Farm save(Farm farm) throws Exception {
         User user = userService.findOne(getAuthentication().getName());
-        County county = countyRepository.findByName(farm.getCounty().getName()).orElseThrow();
-        Ward ward = wardRepository.findByName(farm.getWard().getName()).orElseThrow();
-
-        farm.setCounty(county);
-        farm.setWard(ward);
         farm.setOwner(user);
-
         Farm _farm = farmRepository.save(farm);
 
         if (farm.getLocation() != null) {
@@ -98,7 +83,6 @@ public class FarmServiceImpl implements FarmService {
         Farm _farm = this.findOne(id);
         _farm.setName(farm.getName());
         _farm.setSize(farm.getSize());
-        _farm.setNearestShoppingCenter(farm.getNearestShoppingCenter());
         return farmRepository.save(_farm);
     }
 

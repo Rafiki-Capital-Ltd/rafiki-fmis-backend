@@ -1,8 +1,12 @@
 package ke.co.rafiki.fmis.dto.farm;
 
+import ke.co.rafiki.fmis.domain.Constituency;
+import ke.co.rafiki.fmis.domain.County;
+import ke.co.rafiki.fmis.domain.SubCounty;
+import ke.co.rafiki.fmis.dto.constituency.GetConstituecyDto;
 import ke.co.rafiki.fmis.dto.county.GetCountyDto;
 import ke.co.rafiki.fmis.dto.farmlocation.GetFarmLocationDto;
-import ke.co.rafiki.fmis.dto.ward.GetWardDto;
+import ke.co.rafiki.fmis.dto.subcounty.GetSubCountyDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,9 +20,9 @@ public class GetFarmDto {
     private UUID id;
     private String name;
     private BigDecimal size;
-    private String county;
-    private String ward;
-    private String nearestShoppingCenter;
+    private GetCountyDto county;
+    private GetConstituecyDto constituency;
+    private GetSubCountyDto subCounty;
     private GetFarmLocationDto location;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

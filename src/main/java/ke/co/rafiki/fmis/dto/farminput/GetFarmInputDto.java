@@ -1,4 +1,4 @@
-package ke.co.rafiki.fmis.dto.ward;
+package ke.co.rafiki.fmis.dto.farminput;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class GetWardDto {
-
+public class GetFarmInputDto {
     private UUID id;
-    private String name;
+    private String type;
+    private String description;
+    private Integer quantity;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 }

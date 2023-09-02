@@ -59,6 +59,9 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/auth/refresh").permitAll();
                     auth.requestMatchers("/auth/logout").permitAll();
                     auth.requestMatchers("/users").hasAuthority(RoleType.ADMIN.toString());
+                    auth.requestMatchers("/counties").permitAll();
+                    auth.requestMatchers("/constituencies").permitAll();
+                    auth.requestMatchers("/subcounties").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .userDetailsService(userDetailsService)

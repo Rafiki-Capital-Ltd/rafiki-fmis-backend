@@ -1,30 +1,35 @@
 package ke.co.rafiki.fmis.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import ke.co.rafiki.fmis.domain.entitylisteners.CountyEntityListener;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
-@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "counties")
-@EntityListeners(CountyEntityListener.class)
-public class County extends BaseEntityAudit {
-    @Column(name = "name", nullable = false, unique = true)
+public class County {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "name")
     private String name;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "county", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private List<Ward> wards;
+    private List<Constituency> constituencies;
 
-    @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @OneToMany(mappedBy = "county", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubCounty> subCounties;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
     private List<Farm> farms;
 }

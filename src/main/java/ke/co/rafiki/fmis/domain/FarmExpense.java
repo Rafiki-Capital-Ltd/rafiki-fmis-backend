@@ -1,32 +1,37 @@
 package ke.co.rafiki.fmis.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Table;
-import ke.co.rafiki.fmis.domain.entitylisteners.FarmAssetEntityListener;
+import jakarta.persistence.*;
 import ke.co.rafiki.fmis.domain.entitylisteners.FarmExpenseEntityListener;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 @Table(name = "farm_expenses")
 @EntityListeners(FarmExpenseEntityListener.class)
 public class FarmExpense extends BaseEntityAuditOwned {
-    @Column(name = "type")
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
+    @Column(name = "type", nullable = false)
     private String type;
 
-    @Column(name = "date")
-    private LocalDateTime date;
-
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
+    private Farm farm;
 }

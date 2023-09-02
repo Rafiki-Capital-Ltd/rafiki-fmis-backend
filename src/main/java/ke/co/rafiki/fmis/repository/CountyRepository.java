@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CountyRepository extends JpaRepository<County, UUID> {
+public interface CountyRepository extends JpaRepository<County, Integer> {
     Optional<County> findByName(String name);
 }

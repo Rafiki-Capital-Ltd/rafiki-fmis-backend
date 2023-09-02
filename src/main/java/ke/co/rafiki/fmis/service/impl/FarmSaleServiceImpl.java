@@ -21,8 +21,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import static ke.co.rafiki.fmis.misc.HelperMethods.getAuthentication;
-import static ke.co.rafiki.fmis.misc.HelperMethods.isAuthorized;
+import static ke.co.rafiki.fmis.misc.HelperMethods.*;
 
 @Slf4j
 @Service
@@ -42,23 +41,11 @@ public class FarmSaleServiceImpl implements FarmSaleService {
         this.userService = userService;
     }
 
-
-
-    @Override
-    @PreAuthorize("hasAuthority('FARMER')")
-    public FarmSale save(FarmSale farmSales) throws Exception {
-        Farm farm = farmService.findOne(farmSales.getFarm().getId());
-        User owner = userService.findOne(getAuthentication().getName());
-        farmSales.setFarm(farm);
-        farmSales.setOwner(owner);
-        return farmSaleRepository.save(farmSales);
-    }
-
     @Override
     @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmSale> findAll(int page, int size,
                                   String sort, String sortDirection) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
 
         if (isAuthorized(RoleType.MANAGER))
             return farmSaleRepository.findAll(pageRequest);
@@ -71,7 +58,7 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmSale> findAll(Farm farm, int page, int size,
                                   String sort, String sortDirection) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
 
         if (isAuthorized(RoleType.MANAGER))
             return farmSaleRepository.findAll(pageRequest);
@@ -82,13 +69,23 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
-    @PostAuthorize("hasPermission(returnObject, 'MANAGER')")
+    @PostAuthorize("hasPermission(returnObject, 'FARMER')")
     public FarmSale findOne(UUID id) throws Exception {
         return farmSaleRepository.findById(id).orElseThrow(() -> {
             String message = "Farm asset id " + id + " was not found.";
             log.error(message);
             return new NotFoundException(message);
         });
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('FARMER')")
+    public FarmSale save(FarmSale farmSales) throws Exception {
+        Farm farm = farmService.findOne(farmSales.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
+        farmSales.setFarm(farm);
+        farmSales.setOwner(owner);
+        return farmSaleRepository.save(farmSales);
     }
 
     @Override
@@ -116,7 +113,7 @@ public class FarmSaleServiceImpl implements FarmSaleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('FARMER')")
     public void deleteMany(List<FarmSale> farmSales) {
         farmSaleRepository.deleteAll(farmSales);
     }
@@ -128,7 +125,7 @@ public class FarmSaleServiceImpl implements FarmSaleService {
             String sort, String sortDirection
     ) throws Exception {
         Farm _farm = farmService.findOne(farm.getId());
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
         return farmSaleRepository.findByFarm(_farm, pageRequest);
     }
 

@@ -13,7 +13,19 @@ public class PermissionEvaluatorProvider {
     private FarmRepository farmRepository;
 
     @Autowired
+    private CountyRepository countyRepository;
+
+    @Autowired
+    private ConstituencyRepository constituencyRepository;
+
+    @Autowired
+    private SubCountyRepository subCountyRepository;
+
+    @Autowired
     private FarmAssetRepository farmAssetRepository;
+
+    @Autowired
+    private FarmInputRepository farmInputRepository;
 
     @Autowired
     private FarmAnimalRepository farmAnimalRepository;
@@ -31,6 +43,12 @@ public class PermissionEvaluatorProvider {
     private FarmSaleRepository farmSaleRepository;
 
     @Autowired
+    private FarmPurchaseRepository farmPurchaseRepository;
+
+    @Autowired
+    private FarmExpenseRepository farmExpenseRepository;
+
+    @Autowired
     private FarmVcaRepository farmVcaRepository;
 
     @Autowired
@@ -44,9 +62,29 @@ public class PermissionEvaluatorProvider {
         return new CustomPermissionEvaluator<>(farmRepository);
     }
 
+//    @Bean
+//    public PermissionEvaluator countyPermissionEvaluator() {
+//        return new CustomPermissionEvaluator<>(countyRepository);
+//    }
+//
+//    @Bean
+//    public PermissionEvaluator constituencyPermissionEvaluator() {
+//        return new CustomPermissionEvaluator<>(constituencyRepository);
+//    }
+//
+//    @Bean
+//    public PermissionEvaluator subCountyPermissionEvaluator() {
+//        return new CustomPermissionEvaluator<>(subCountyRepository);
+//    }
+
     @Bean
     public PermissionEvaluator farmAssetPermissionEvaluator() {
         return new CustomPermissionEvaluator<>(farmAssetRepository);
+    }
+
+    @Bean
+    public PermissionEvaluator farmInputPermissionEvaluator() {
+        return new CustomPermissionEvaluator<>(farmInputRepository);
     }
 
     @Bean
@@ -82,6 +120,16 @@ public class PermissionEvaluatorProvider {
     @Bean
     public PermissionEvaluator farmSalePermissionEvaluator() {
         return new CustomPermissionEvaluator<>(farmSaleRepository);
+    }
+
+    @Bean
+    public PermissionEvaluator farmPurchasePermissionEvaluator() {
+        return new CustomPermissionEvaluator<>(farmPurchaseRepository);
+    }
+
+    @Bean
+    public PermissionEvaluator farmExpensePermissionEvaluator() {
+        return new CustomPermissionEvaluator<>(farmExpenseRepository);
     }
 
     @Bean

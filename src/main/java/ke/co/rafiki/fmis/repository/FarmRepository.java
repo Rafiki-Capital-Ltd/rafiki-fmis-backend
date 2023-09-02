@@ -1,10 +1,7 @@
 package ke.co.rafiki.fmis.repository;
 
 import jakarta.transaction.Transactional;
-import ke.co.rafiki.fmis.domain.County;
-import ke.co.rafiki.fmis.domain.Farm;
-import ke.co.rafiki.fmis.domain.User;
-import ke.co.rafiki.fmis.domain.Ward;
+import ke.co.rafiki.fmis.domain.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,13 +19,17 @@ public interface FarmRepository extends JpaRepository<Farm, UUID> {
 
     Page<Farm> findByCounty(County county, Pageable pageable);
 
-    Page<Farm> findByWard(Ward ward, Pageable pageable);
+    Page<Farm> findByConstituency(Constituency constituency, Pageable pageable);
+
+    Page<Farm> findBySubCounty(SubCounty subCounty, Pageable pageable);
 
     List<Farm> findByOwner(User owner);
 
     List<Farm> findByCounty(County county);
 
-    List<Farm> findByWard(Ward ward);
+    List<Farm> findByConstituency(Constituency constituency);
+
+    List<Farm> findBySubCounty(SubCounty subCounty);
 
     @Transactional
     @Modifying

@@ -49,7 +49,9 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
     @PreAuthorize("hasAuthority('FARMER')")
     public FarmConsumption save(FarmConsumption farmConsumption) throws Exception {
         Farm farm = farmService.findOne(farmConsumption.getFarm().getId());
+        User owner = userService.findOne(getAuthentication().getName());
         farmConsumption.setFarm(farm);
+        farmConsumption.setOwner(owner);
         return farmConsumptionRepository.save(farmConsumption);
     }
 
@@ -57,7 +59,7 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
     @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmConsumption> findAll(int page, int size, String sort,
                                          String sortDirection) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
 
         if (isAuthorized(RoleType.MANAGER))
             return farmConsumptionRepository.findAll(pageRequest);
@@ -70,7 +72,7 @@ public class FarmConsumptionServiceImpl implements FarmConsumptionService {
     @PreAuthorize("hasAuthority('FARMER')")
     public Page<FarmConsumption> findAll(Farm farm, int page, int size, String sort,
                                          String sortDirection) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(sortDirection), sort);
+        PageRequest pageRequest = getPageRequest(page, size, sort, sortDirection);
 
         if (isAuthorized(RoleType.MANAGER))
             return farmConsumptionRepository.findAll(pageRequest);
