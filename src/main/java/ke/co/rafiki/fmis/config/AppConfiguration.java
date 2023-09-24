@@ -1,5 +1,6 @@
 package ke.co.rafiki.fmis.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,14 +19,15 @@ public class AppConfiguration {
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry corsRegistry) {
+            public void addCorsMappings(@NotNull CorsRegistry corsRegistry) {
                 corsRegistry.addMapping("/**")
                         .allowedOrigins(
                                 "http://127.0.0.1:5173",
                                 "http://127.0.0.1:3000",
                                 "http://localhost:5173",
                                 "http://localhost:3000",
-                                "http://rafikifmis.co.ke"
+                                "http://rafikifmis.co.ke",
+                                "https://rafiki-fmis.onrender.com"
                         )
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                         .allowedHeaders("*")
