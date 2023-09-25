@@ -26,8 +26,10 @@ public class AppConfiguration {
                                 "http://127.0.0.1:3000",
                                 "http://localhost:5173",
                                 "http://localhost:3000",
-                                "http://rafikifmis.co.ke",
-                                "https://rafiki-fmis.onrender.com"
+                                "https://fmis.rafikicapital.org",
+                                "https://www.fmis.rafikicapital.org",
+                                "https://rafiki-fmis.onrender.com",
+                                "https://master.d3jx4vnyi7291d.amplifyapp.com"
                         )
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                         .allowedHeaders("*")
