@@ -10,11 +10,11 @@
 	</parent>
 	<groupId>ke.co.rafiki</groupId>
 	<artifactId>fmis</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>rafiki-fmis</name>
+	<version>0.0.1</version>
+	<name>fmis</name>
 	<description>Rafiki Farmers Management System</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 	</properties>
 	<dependencies>
@@ -194,4 +194,32 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<profiles>
+		<profile>
+			<id>beanstalk</id>
+			<build>
+				<finalName>${project.name}-${project.version}-beanstalk</finalName>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<exclude>**/cloud/config/*.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<spring.profiles.active>
+					beanstalk,production
+				</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 </project>
