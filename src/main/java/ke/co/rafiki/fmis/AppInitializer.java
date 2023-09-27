@@ -52,7 +52,6 @@ public class AppInitializer implements CommandLineRunner {
     public void initRoles() {
         roleRepository.findAll()
                 .forEach(role -> roleRepository.disassociateRoleFromUser(role.getId()));
-        roleRepository.deleteAll();
         Arrays.stream(RoleType.values())
                         .forEach(role -> {
                             Optional<Role> _role = roleRepository.findByName(role.toString());
