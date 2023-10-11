@@ -3,6 +3,7 @@ package ke.co.rafiki.fmis.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import ke.co.rafiki.fmis.domain.User;
+import ke.co.rafiki.fmis.domain.enums.RoleType;
 import ke.co.rafiki.fmis.dto.user.CreateUserDto;
 import ke.co.rafiki.fmis.dto.user.GetUserDto;
 import ke.co.rafiki.fmis.dto.user.UpdateUserDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
@@ -53,6 +55,12 @@ public class UserController {
                 .map(userMapper::toGetUserDto)
                 .toList();
         return ResponseEntity.ok(new PageImpl<>(getUserDtos));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getUserRolesCount(@RequestParam(name = "role", defaultValue = "FARMER") RoleType role) {
+        Integer count = userService.getUserRoleCount(role);
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping("/{id}")

@@ -350,16 +350,16 @@ public class AppDevInitializer implements CommandLineRunner {
         User owner = userRepository.findByEmail("farmer@fmis.rafiki.co.ke").orElseThrow();
         List<FarmExpense> farmExpenses = List.of(
                 FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CASH.toString())
-                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .description("description").amount(new BigDecimal(100)).farm(farms.get(0))
                         .owner(owner).build(),
                 FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CASH.toString())
-                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .description("description").amount(new BigDecimal(100)).farm(farms.get(0))
                         .owner(owner).build(),
                 FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CREDIT.toString())
-                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .description("description").amount(new BigDecimal(100)).farm(farms.get(0))
                         .owner(owner).build(),
                 FarmExpense.builder().date(LocalDate.now()).type(PurchaseType.CREDIT.toString())
-                        .amount(new BigDecimal(100)).farm(farms.get(0))
+                        .description("description").amount(new BigDecimal(100)).farm(farms.get(0))
                         .owner(owner).build()
         );
         return farmExpenseRepository.saveAll(farmExpenses);

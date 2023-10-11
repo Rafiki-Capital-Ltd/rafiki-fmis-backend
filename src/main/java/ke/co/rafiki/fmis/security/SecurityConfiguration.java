@@ -54,11 +54,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/").permitAll();
                     auth.requestMatchers("/actuator/**").permitAll();
+                    auth.requestMatchers("/users/count").permitAll();
                     auth.requestMatchers("/auth/register").permitAll();
                     auth.requestMatchers("/auth/login").permitAll();
                     auth.requestMatchers("/auth/refresh").permitAll();
                     auth.requestMatchers("/auth/logout").permitAll();
-                    auth.requestMatchers("/users").hasAuthority(RoleType.ADMIN.toString());
+                    auth.requestMatchers("/users/**").hasAuthority(RoleType.ADMIN.toString());
                     auth.requestMatchers("/counties").permitAll();
                     auth.requestMatchers("/constituencies").permitAll();
                     auth.requestMatchers("/subcounties").permitAll();

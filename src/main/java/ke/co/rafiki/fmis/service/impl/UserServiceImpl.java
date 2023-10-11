@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer getUserRoleCount(RoleType roleType) {
+        return userRepository.getUserRoleCount(roleType.toString());
+    }
+
+    @Override
     public User save(User user) throws Exception {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isPresent()) {
